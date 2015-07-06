@@ -1,0 +1,31 @@
+<%= form_for(@case_req) do |f| %>
+  <% if @case_req.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@case_req.errors.count, "error") %> prohibited this case_req from being saved:</h2>
+
+      <ul>
+      <% @case_req.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= f.hidden_field :application_case_id, :value => @application_case.id %>
+    
+  <div class="field">
+    <%= f.label :requirement_id %><br>
+    <%= f.select :requirement_id, Requirement.all.collect { |p| [ p.requirment, p.id ] }  %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.select :status, [ 'pending', 'complete'] %>
+  </div>
+  <div class="field">
+    <%= f.label :date_requested %><br>
+    <%= f.date_select :date_requested %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

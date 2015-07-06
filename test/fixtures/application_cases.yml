@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  valuation: MyString
+  product: MyString
+  expiry: 2015-06-09 11:36:58
+  mortgage: 1
+  term: MyString
+  repayment: MyString
+  status: MyString
+
+two:
+  valuation: MyString
+  product: MyString
+  expiry: 2015-06-09 11:36:58
+  mortgage: 1
+  term: MyString
+  repayment: MyString
+  status: MyString

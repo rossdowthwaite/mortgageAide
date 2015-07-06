@@ -1,0 +1,75 @@
+<%= form_for (@application_case) do |f| %>
+  <% if @application_case.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@application_case.errors.count, "error") %> prohibited this application_case from being saved:</h2>
+
+      <ul>
+      <% @application_case.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<!-- options are Capital & Repayment, Interest Only, Split -->
+  <div class="field">
+    <%= f.label :valuation %><br>
+    <%= f.text_field :valuation %>
+  </div>
+  <div class="field">
+    <%= f.label :product %><br>
+    <%= f.text_field :product %>
+  </div>
+  <div class="field">
+    <%= f.label :expiry %><br>
+    <%= f.date_select :expiry %>
+  </div>
+  <div class="field">
+    <%= f.label :mortgage %><br>
+    <%= f.number_field :mortgage %>
+  </div>
+  <div class="field">
+    <%= f.label :term %><br>
+    <%= f.select :term, ((0..40).map {|i| [i,i] })  %>
+  </div>
+  <div class="field">
+    <%= f.label :repayment %><br>
+    <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br>
+    <%= f.select :status, [ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ], :prompt => 'Select One' %>
+  </div>
+  <div class="field">
+    <%= f.label "Lender" %><br>
+    <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] } %>
+  </div>
+    <%= f.hidden_field :user_id, :value => current_user.id  %>
+  <div class="field">
+    <%= f.label :app_type %><br>
+    <%= f.select :app_type, [ 'buy-to-let', 'let-to-buy', 'residential', 'remortgage', 'product trans', 'further adv', 'secured loan', 'equity rel', ], :prompt => 'Select One' %>
+  </div>
+  <br><br>
+  <h2>Mortgage Address</h2>
+  <div class="field">
+      <%= f.fields_for :mortgage_address do |f| %>
+
+      <%= f.label :address_one %><br>
+      <%= f.text_field :address_one %><br>
+
+      <%= f.label :address_two %><br>
+      <%= f.text_field :address_two %><br>
+
+      <%= f.label :town %><br>
+      <%= f.text_field :town %><br>
+
+      <%= f.label :county %><br>
+      <%= f.text_field :county %><br>
+
+      <%= f.label :pcode %><br>
+      <%= f.text_field :pcode %><br>
+    <% end %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MortgageAideProto</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="header-span">
+  <div class="header">
+    <div class="sign_up_bar">
+      <% if user_signed_in? %>
+        	Signed in as <%= current_user.email %>. Not you?<br><br>
+        	<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+      <% else %>
+        	<%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
+      <% end %>
+      <%= link_to 'admin', admin_root_path %>
+    </div>
+    <h1>mortgage|Aide</h1>
+    <div class="nav">
+      <% if user_signed_in? %> 
+        <%= link_to 'Home', statics_path %>
+        <% if current_user.is_broker? %>
+          <%= link_to 'View Users', users_path %>
+          <%= link_to 'My Clients', my_clients_path %>
+          <%= link_to 'New case', new_user_application_case_path(current_user) %>  
+        <% end %>
+        <%= link_to 'View Cases', user_application_cases_path(current_user) %> 
+      <% end %>
+      </div>
+  </div>
+</div>
+<div class="container">
+  <p id="notice"><%= notice %></p>
+  <%= yield %>
+</div>
+
+
+</body>
+</html>

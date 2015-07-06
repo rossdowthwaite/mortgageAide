@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  requirment: MyString
+  date_needed: 2015-06-10
+
+two:
+  requirment: MyString
+  date_needed: 2015-06-10

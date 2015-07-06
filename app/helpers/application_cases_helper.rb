@@ -1,0 +1,2 @@
+module ApplicationCasesHelper
+end

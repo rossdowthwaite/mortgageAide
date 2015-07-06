@@ -1,0 +1,23 @@
+<%= form_for([@application_case, @applicant]) do |f| %>
+  <% if @applicant.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@applicant.errors.count, "error") %> prohibited this applicant from being saved:</h2>
+
+      <ul>
+      <% @applicant.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :application_case_id, :value => @application_case.id %>
+  
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.select :user_id, current_user.clients.collect { |p| [ p.customer.contact.fname, p.client_id ] } %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

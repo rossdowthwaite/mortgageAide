@@ -1,0 +1,23 @@
+ActiveAdmin.register Requirement do
+
+
+  # See permitted parameters documentation:
+  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
+  #
+  # permit_params :list, :of, :attributes, :on, :model
+  #
+  # or
+  #
+  # permit_params do
+  #   permitted = [:permitted, :attributes]
+  #   permitted << :other if resource.something?
+  #   permitted
+  # end
+
+    # This is related to Rails 4 and the changes it introduced in handling strong parameters. Here we replace :email with :username.
+  controller do
+    def permitted_params
+      params.permit requirement: [:requirment, :date_needed]
+    end
+  end
+end

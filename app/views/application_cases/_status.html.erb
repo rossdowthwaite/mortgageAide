@@ -1,0 +1,5 @@
+  <%= form_for @application_case do |f| %>
+        <%= f.label :status %><br>
+        <%= f.select :status, [ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ], :prompt => 'Select One' %>
+        <%= f.submit %>
+  <% end %>

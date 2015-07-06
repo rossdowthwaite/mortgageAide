@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>My Clients</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Mobile</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Cases</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clients.each do |client| %>
+      <tr>
+        <td><%= client.customer.contact.title %></td> 
+        <td><%= client.customer.contact.fname %></td>
+        <td><%= client.customer.contact.lname %></td> 
+        <td>Phone</td>
+        <td><%= client.customer.email %></td>
+        <td>Address</td>
+        <td><%= link_to 'Cases', client_cases_path(:client => client.customer) %></td>
+        <td><%= link_to 'Show', client.customer %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New client', add_new_client_path %>

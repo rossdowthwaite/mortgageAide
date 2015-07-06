@@ -1,0 +1,165 @@
+<h1>Case Profile</h1>
+
+<div class="notes">
+  <p>
+    <strong>Valuation:</strong>
+    <!-- Set number to currency, use pounds -->
+    <%= number_to_currency_gbp(@application_case.valuation) %>
+  </p>
+
+  <p>
+    <strong>Product:</strong>
+    <%= @application_case.product %>
+  </p>
+
+  <p>
+    <strong>Expiry:</strong>
+    <%= @application_case.expiry.strftime("%d %b %y") %>
+  </p>
+
+  <p>
+    <strong>Mortgage:</strong>
+    <%= number_to_currency_gbp(@application_case.mortgage) %>
+  </p>
+
+  <p>
+    <strong>Term:</strong>
+    <%= @application_case.term %> years
+  </p>
+
+  <p>
+    <strong>Repayment:</strong>
+    <%= @application_case.repayment %>
+  </p>
+
+  <p>
+    <strong>Lender:</strong>
+    <%= @application_case.lender.name %>
+  </p>
+
+
+  <% if @application_case.is_brokered_by?(current_user) %>
+    <%= link_to 'Edit', edit_application_case_path(@application_case) %> |
+    <%= link_to 'Back', application_cases_path %>
+  <% end %>
+</div>
+
+<div class="notes">
+    <h2>Applicants</h2>
+    <% if current_user.is_broker? %>
+      <%= link_to 'Add Applicants', new_application_case_applicant_path(@application_case) %><br><br>
+    <% end %>
+    <table>
+    <thead>
+        <tr>
+          <th>Applicant</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <% @applicants.each do |applicant| %>
+          <tr>
+            <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %> <%= applicant.is_broker %></td>
+            <td>
+              <% if @application_case.is_brokered_by?(current_user) %>
+                <%= link_to 'Remove', [applicant],
+                     method: :delete,
+                     data: { confirm: 'Are you sure?' } %></td>
+              <% end %>
+          </tr>
+      <% end %>
+
+    </table>
+</div>
+
+<div class="notes">
+
+  <h2>Mortgage Address</h2>
+    <%= @m_address.address_one %><br>
+    <%= @m_address.address_two %><br>
+    <%= @m_address.town %><br>
+    <%= @m_address.county %><br>
+    <%= @m_address.pcode %><br>
+
+</div>
+
+<br>
+<div class="notes">
+  <h2>status</h2>
+  <ul class="status">
+      <li><% if @status == 'setup' %><b>setup</b><% else %>setup<% end %></li>
+      <li><% if @status == 'dip' %><b>dip</b><% else %>dip<% end %></li>
+      <li><% if @status == 'full application' %><b>full application</b><% else %>full application<% end %></li>
+      <li><% if @status == 'valuation' %><b>valuation</b><% else %>valuation<% end %></li>
+      <li><% if @status == 'offer' %><b>offer</b><% else %>offer<% end %></li>
+      <li><% if @status == 'exchanged' %><b>exchanged</b><% else %>exchanged<% end %></li>
+      <li><% if @status == 'completed' %><b>completed</b><% else %>completed<% end %></li>
+  </ul>
+
+  <% if @application_case.is_brokered_by?(current_user) %>
+    <%= link_to 'edit status', application_case_edit_status_path(@application_case) %>
+  <% end %>
+</div>
+
+
+
+
+<div class="notes">
+  <h2>Requirements</h2>
+
+  <% if @application_case.is_brokered_by?(current_user) %>
+    <%= link_to 'Add Requirement', new_application_case_case_requirement_path(@application_case) %><br><br>
+  <% end %>
+
+  <table>
+  <thead>
+      <tr>
+        <th>Requirement</th>
+        <th>Date Requested</th>
+        <th>status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @requirements.each do |requirement| %>
+        <tr>
+          <td><%= requirement.requirement.requirment %></td>
+          <td><%= requirement.date_requested.strftime("%d %b %y") %></td>
+          <td><%= fa_icon requirement.is_complete, class: "fa-2x" %></td>
+
+          <td>
+
+            <% if @application_case.is_brokered_by?(current_user) %>
+              <%= link_to 'Edit', edit_application_case_case_requirement_path(@application_case, requirement) %>
+              <%= link_to 'Delete', [requirement],
+                     method: :delete,
+                     data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
+        </tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="notes">
+  <h2>Notes</h2>
+
+  <% @notes.each do |note| %>
+    <div class="note">
+      <%= current_user.contact.full_name %> | <%= note.created_at.to_formatted_s(:short) %><br><br>
+      <%= note.note %><br><br>
+      <%= link_to 'Edit', edit_application_case_note_path(@application_case, note) %>
+      <%= link_to 'Delete', [note.application_case, note],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+    </div>
+  <% end %>
+
+  <%= form_for([@application_case, @application_case.notes.build]) do |f| %>
+    <p>
+      <%= f.label :note %><br>
+      <%= f.text_area :note %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+  <% end %>
+</div>

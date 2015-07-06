@@ -1,0 +1,17 @@
+<h1>Profile</h1>
+<h2>Name: <%= @user.contact.title %> <%= @user.contact.fname %> <%= @user.contact.lname %></h2>
+<h3>Role: <%= @user.role.role %></h3>
+
+<p>
+  <strong>Email:</strong> <%= @user.email %><br>
+  <strong>Role:</strong> <%= @user.role.role %><br>
+</p>
+
+<%= link_to 'Update contact details', edit_contact_path(@user.contact) %>
+
+<br><br>
+<h3>Still to come...</h3>
+<ul>
+	<li>Add Address Functionality</li>
+	<li>Add Phone Functionality</li>
+</ul>

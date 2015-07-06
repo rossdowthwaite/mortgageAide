@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fname: MyString
+  mname: MyString
+  lname: MyString
+  title: MyString
+  dob: 2015-06-10
+  user_id: 
+  role_id: 
+
+two:
+  fname: MyString
+  mname: MyString
+  lname: MyString
+  title: MyString
+  dob: 2015-06-10
+  user_id: 
+  role_id: 

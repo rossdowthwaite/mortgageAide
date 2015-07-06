@@ -1,0 +1,37 @@
+<h1>Clients Cases</h1>
+<h2><%= @client.contact.full_name %></h2>
+<h3><%= @worked %></h2>
+<table>
+  <thead>
+    <tr>
+      <th>Reference</th>
+      <th>Lender</th>
+      <th>Status</th>
+      <th>Mortgage</th>
+      <th>Valuation</th>
+      <th>Type</th>
+      <th>Last update</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @application_cases.each do |application_case| %>
+      <tr>
+        <td><%= application_case.id %></td>
+        <td><%= application_case.lender.name %></td>
+        <td><%= application_case.status %></td>
+        <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
+        <td><%= number_to_currency_gbp(application_case.valuation) %></td>
+        <td><%= application_case.app_type %></td>
+        <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
+        <td><%= link_to 'Show', application_case %>
+            <% if can_edit?(application_case) %>
+              <%= link_to 'Edit', edit_application_case_path(application_case) %>
+              <%= link_to 'Destroy', application_case, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

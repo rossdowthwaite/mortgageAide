@@ -1,0 +1,30 @@
+<h1>Listing Agents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Role</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @agents.each do |agent| %>
+      <tr>
+        <td><%= agent.id %></td>
+        <td><%= agent.email %></td>
+        <td><%= agent.contact.title %> <%= agent.contact.fname %> <%= agent.contact.lname %></td>
+        <td><%= agent.role.role %></td>
+        <td>
+          <%= link_to 'Show', agent %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'New Agent', new_user_path %>
