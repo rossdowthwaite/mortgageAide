@@ -17,7 +17,7 @@
         <td><%= user.id %></td>
         <td><%= user.email %></td>
         <td>
-          <% if @user.has_contact_info? %>
+          <% if user.has_contact_info? %>
             <%= user.contact.title %> <%= user.contact.fname %> <%= user.contact.lname %>
           <% end %>
         </td>
