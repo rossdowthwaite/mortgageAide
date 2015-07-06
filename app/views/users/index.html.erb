@@ -16,7 +16,11 @@
       <tr>
         <td><%= user.id %></td>
         <td><%= user.email %></td>
-        <td><%= user.contact.title %> <%= user.contact.fname %> <%= user.contact.lname %></td>
+        <td>
+          <% if @user.has_contact_info? %>
+            <%= user.contact.title %> <%= user.contact.fname %> <%= user.contact.lname %>
+          <% end %>
+        </td>
         <td><%= user.role.role %></td>
         <td>
           <%= link_to 'Show', user %>
