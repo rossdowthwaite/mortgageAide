@@ -1,5 +1,8 @@
 <h1>Profile</h1>
-<h2>Name: <%= @user.contact.title %> <%= @user.contact.fname %> <%= @user.contact.lname %></h2>
+<h2>Email: <%= @user.email %></h2>
+<% if @user.has_contact_info? %>
+	<h2>Name: <%= @user.contact.title %> <%= @user.contact.fname %> <%= @user.contact.lname %></h2>
+<% end %>
 <h3>Role: <%= @user.role.role %></h3>
 
 <p>

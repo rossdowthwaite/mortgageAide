@@ -16,9 +16,9 @@ class User < ActiveRecord::Base
   has_many :customers, :through => :clients, :source => 'customer'
 
   # scopes
-  scope :clients, -> { where(role_id: '3') }
-  scope :agents, -> { where(role_id: '5') }
-  scope :brokers, -> { where(role_id: '4') }
+  scope :clients, -> { where(role_id: '1') }
+  scope :agents, -> { where(role_id: '3') }
+  scope :brokers, -> { where(role_id: '2') }
 
 
   after_create :build_contact
@@ -26,6 +26,10 @@ class User < ActiveRecord::Base
   # check if Broker
   def is_broker?
     self.role.role == "Broker";
+  end
+
+  def has_contact_info?
+     !!self.contact
   end
 
   # check if Agent
