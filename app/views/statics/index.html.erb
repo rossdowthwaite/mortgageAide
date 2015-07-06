@@ -2,9 +2,9 @@
 
 <% if user_signed_in? %>
 	
-	<% if @user.has_contact_info? %>
-		<h3><%= current_user.contact.fname %> <%= current_user.contact.lname %></h2>
-	<% end  %>
+	<% if @user.has_contact_info? do %>
+		<h3><%= current_user.contact.fname %> <%= current_user.contact.lname %></h3>
+	<% end %>
 	<h4><%= current_user.email %></h4>
 	<h5><%= current_user.role.role %></h4>
 
