@@ -29,6 +29,7 @@ class UsersController < ApplicationController
     # GET /users/1
   # GET /users/1.json
   def add_new_client
+    @role = Role.where(:role => 'Client').pluck(:id);
     @user = User.new
   end
 

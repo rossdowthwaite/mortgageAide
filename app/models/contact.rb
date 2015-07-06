@@ -4,7 +4,6 @@ class Contact < ActiveRecord::Base
 
   validates :fname, presence: true
   validates :lname, presence: true
-  validates :title, presence: true
 
   def full_name
   	([fname, lname] - ['']).compact.join(' ') 

@@ -2,9 +2,7 @@ Rails.application.routes.draw do
   resources :lenders
   resources :clients
   resources :applicants
-  resources :contacts do 
-
-  end
+  resources :contacts
   resources :mortgage_addresses
   resources :case_requirements
   resources :requirements

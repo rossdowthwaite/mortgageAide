@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :contact, :dependent => :destroy
+  belongs_to :contact
   belongs_to :role
 
   has_many :application_cases
@@ -16,9 +16,9 @@ class User < ActiveRecord::Base
   has_many :customers, :through => :clients, :source => 'customer'
 
   # scopes
-  scope :clients, -> { where(role_id: '1') }
-  scope :agents, -> { where(role_id: '3') }
-  scope :brokers, -> { where(role_id: '2') }
+  scope :clients, -> { joins(:roles).where('roles.role = ?', 'Client') }
+  scope :agents, -> { joins(:roles).where('roles.role = ?', 'Agent') }
+  scope :brokers, -> { joins(:roles).where('roles.role = ?', 'Broker') }
 
 
   after_create :build_contact
@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   private
     # Sets default role
     def build_contact
-      @contact = Contact.create(:user_id => self.id, :fname => "Sam", :lname => 'Doe' )
+      @contact = Contact.create(:user_id => self.id, :fname => "Sam", :lname => 'Doe' );
       self.update_attributes(:contact_id => @contact.id)
     end
 end
