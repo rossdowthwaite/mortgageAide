@@ -9,6 +9,7 @@ class ApplicationCase < ActiveRecord::Base
 	has_many :requirements, through: :case_requirements
 	has_many :applicants
   	has_many :application_cases, through: :applicants
+  	
 	has_one :mortgage_address
 	accepts_nested_attributes_for :mortgage_address
 
