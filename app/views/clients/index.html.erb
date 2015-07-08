@@ -1,38 +1,44 @@
-<p id="notice"><%= notice %></p>
-
 <h1>My Clients</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Mobile</th>
-      <th>Email</th>
-      <th>Address</th>
-      <th>Cases</th>
-      <th>Actions</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<% if @clients.empty? %>
 
-  <tbody>
-    <% @clients.each do |client| %>
+  <h3>You don't have any clients yet</h3>
+
+<% else  %>
+
+  <table>
+    <thead>
       <tr>
-        <td><%= client.customer.contact.title %></td> 
-        <td><%= client.customer.contact.fname %></td>
-        <td><%= client.customer.contact.lname %></td> 
-        <td>Phone</td>
-        <td><%= client.customer.email %></td>
-        <td>Address</td>
-        <td><%= link_to 'Cases', cases_client_path(client) %></td>
-        <td><%= link_to 'Show', client.customer %></td>
+        <th>Title</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Mobile</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Cases</th>
+        <th>Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @clients.each do |client| %>
+        <tr>
+          <td><%= client.customer.contact.title %></td> 
+          <td><%= client.customer.contact.fname %></td>
+          <td><%= client.customer.contact.lname %></td> 
+          <td>Phone</td>
+          <td><%= client.customer.email %></td>
+          <td>Address</td>
+          <td><%= link_to 'Cases', cases_client_path(client) %></td>
+          <td>
+              <%= link_to 'Show', client.customer %>
+              <%= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to 'New Client', new_client_path %>
+<% end %>
+
+<%= link_to 'Add Client', new_client_path %>

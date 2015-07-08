@@ -1,50 +1,57 @@
-<h1>Listing Cases</h1>
+<h1>My Cases</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Reference</th>
-      <th>Lender</th>
-      <% if current_user.is_broker? %>
-        <th>Applicant</th>
-      <% end  %>
-      <th>Status</th>
-      <th>Mortgage</th>
-      <th>Valuation</th>
-      <th>Type</th>
-      <th>Last update</th>
-      <th></th>
-    </tr>
-  </thead>
+<% if @application_cases.empty? %>
 
-  <tbody>
-    <% @application_cases.each do |application_case| %>
+  <h3>You don't have any cases yet</h3>
+
+<% else  %>
+
+  <table>
+    <thead>
       <tr>
-        <td><%= application_case.id %></td>
-        <td><%= application_case.lender.name %></td>
+        <th>Reference</th>
+        <th>Lender</th>
         <% if current_user.is_broker? %>
-          <td>
-            <% if application_case.has_applicants?  %>
-              <% application_case.users.clients.each do |applicant| %>
-                <%= applicant.contact.fname %> <%= applicant.contact.lname %>
-              <% end %>
-            <% end %>
-          </td>
-        <% end %>
-        <td><%= application_case.status %></td>
-        <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
-        <td><%= number_to_currency_gbp(application_case.valuation) %></td>
-        <td><%= application_case.app_type %></td>
-        <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
-        <td><%= link_to 'Show', application_case %>
-              <%= link_to 'Edit', edit_application_case_path(application_case) %>
-              <%= link_to 'Destroy', application_case, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </td>
+          <th>Applicant</th>
+        <% end  %>
+        <th>Status</th>
+        <th>Mortgage</th>
+        <th>Valuation</th>
+        <th>Type</th>
+        <th>Last update</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @application_cases.each do |application_case| %>
+        <tr>
+          <td><%= application_case.id %></td>
+          <td><%= application_case.lender.name %></td>
+          <% if current_user.is_broker? %>
+            <td>
+              <% if application_case.has_applicants?  %>
+                <% application_case.users.clients.each do |applicant| %>
+                  <%= applicant.contact.fname %> <%= applicant.contact.lname %>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+          <td><%= application_case.status %></td>
+          <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
+          <td><%= number_to_currency_gbp(application_case.valuation) %></td>
+          <td><%= application_case.app_type %></td>
+          <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
+          <td><%= link_to 'Show', application_case %>
+                <%= link_to 'Edit', edit_application_case_path(application_case) %>
+                <%= link_to 'Destroy', application_case, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+
+<% end %>
 
 <%= link_to 'New Application case', new_user_application_case_path(current_user) %>
