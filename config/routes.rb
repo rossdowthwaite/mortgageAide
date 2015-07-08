@@ -1,90 +1,57 @@
 Rails.application.routes.draw do
-  resources :lenders
-  resources :clients
+  
+  # resources :lenders
+  
+  resources :clients do 
+    get 'cases', on: :member
+  end
+  
   resources :applicants
+  
   resources :contacts
+  
   resources :mortgage_addresses
+  
   resources :case_requirements
+  
   resources :requirements
+  
   resources :notes
+  
   resources :roles
+
   resources :application_cases do 
     resources :notes
     resources :case_requirements
     resources :applicants
 
-    get '/edit_status' => 'application_cases#edit_status'
+    get 'edit_status', as: :edit_status
+    get 'my_cases', as: :my_cases, on: :collection
   end
-  resources :cases
-  resources :cases
+
+  resources :users do
+    resources :application_cases
+    
+    collection do 
+      get 'clients_index',  as: :show_clients
+      get 'agents_index',   as: :show_agents
+    end
+  end
+  
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users, :path_prefix => 'my'
 
-  resources :users do
-    resources :application_cases
-  end
-
-  get '/show_clients' => 'users#clients_index'
-  get '/show_agents' => 'users#agents_index'
-
+  # Additional users Routes
   get '/add_new_client' => 'users#add_new_client'
-  get '/my_clients' => 'users#my_clients'
 
-
+  # Additional Application Routes
   get '/client_cases' => 'application_cases#client_cases'
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  get '/my_cases' => 'application_cases#index'
+  get '/my_cases/:id' => 'application_cases#show'
 
-  # You can have the root of your site routed with "root"
-  root 'statics#index'
+  # Root path
+  root 'statics#index' 
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  resources :statics
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

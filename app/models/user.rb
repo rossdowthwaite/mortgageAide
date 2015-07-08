@@ -16,9 +16,9 @@ class User < ActiveRecord::Base
   has_many :customers, :through => :clients, :source => 'customer'
 
   # scopes
-  scope :clients, -> { joins(:roles).where('roles.role = ?', 'Client') }
-  scope :agents, -> { joins(:roles).where('roles.role = ?', 'Agent') }
-  scope :brokers, -> { joins(:roles).where('roles.role = ?', 'Broker') }
+  scope :clients, -> { joins(:role).where('roles.role = ?', 'Client') }
+  scope :agents, -> { joins(:role).where('roles.role = ?', 'Agent') }
+  scope :brokers, -> { joins(:role).where('roles.role = ?', 'Broker') }
 
 
   after_create :build_contact

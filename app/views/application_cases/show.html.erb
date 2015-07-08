@@ -2,39 +2,13 @@
 
 <div class="notes">
   <p>
-    <strong>Valuation:</strong>
-    <!-- Set number to currency, use pounds -->
-    <%= number_to_currency_gbp(@application_case.valuation) %>
-  </p>
-
-  <p>
-    <strong>Product:</strong>
-    <%= @application_case.product %>
-  </p>
-
-  <p>
-    <strong>Expiry:</strong>
-    <%= @application_case.expiry.strftime("%d %b %y") %>
-  </p>
-
-  <p>
-    <strong>Mortgage:</strong>
-    <%= number_to_currency_gbp(@application_case.mortgage) %>
-  </p>
-
-  <p>
-    <strong>Term:</strong>
-    <%= @application_case.term %> years
-  </p>
-
-  <p>
-    <strong>Repayment:</strong>
-    <%= @application_case.repayment %>
-  </p>
-
-  <p>
-    <strong>Lender:</strong>
-    <%= @application_case.lender.name %>
+    <strong>Valuation:</strong><%= number_to_currency_gbp(@application_case.valuation) %><br>
+    <strong>Product:</strong><%= @application_case.product %><br>
+    <strong>Expiry:</strong><%= @application_case.expiry.strftime("%d %b %y") %><br>
+    <strong>Mortgage:</strong><%= number_to_currency_gbp(@application_case.mortgage) %><br>
+    <strong>Term:</strong><%= @application_case.term %> years<br>
+    <strong>Repayment:</strong><%= @application_case.repayment %><br>
+    <strong>Lender:</strong><%= @application_case.lender.name %>
   </p>
 
 
@@ -59,7 +33,7 @@
 
       <% @applicants.each do |applicant| %>
           <tr>
-            <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %> <%= applicant.is_broker %></td>
+            <td><%= applicant.contact.title %> <%= applicant.contact.fname %> <%= applicant.contact.lname %></td>
             <td>
               <% if @application_case.is_brokered_by?(current_user) %>
                 <%= link_to 'Remove', [applicant],
@@ -120,17 +94,23 @@
         <th></th>
       </tr>
     </thead>
-    <% @requirements.each do |requirement| %>
+    <% @requirements.each do |case_req| %>
         <tr>
-          <td><%= requirement.requirement.requirment %></td>
-          <td><%= requirement.date_requested.strftime("%d %b %y") %></td>
-          <td><%= fa_icon requirement.is_complete, class: "fa-2x" %></td>
+          <td>
+            <% if case_req.requirement.nil? %>
+              <%= case_req.free_requirement %>
+            <% elsif %>
+              <%= case_req.requirement.requirment %>
+            <% end %>
+          </td>
+          <td><%= case_req.date_requested %></td>
+          <td><%= fa_icon case_req.is_complete, class: "fa-2x" %></td>
 
           <td>
 
             <% if @application_case.is_brokered_by?(current_user) %>
-              <%= link_to 'Edit', edit_application_case_case_requirement_path(@application_case, requirement) %>
-              <%= link_to 'Delete', [requirement],
+              <%= link_to 'Edit', edit_application_case_case_requirement_path(@application_case, case_req) %>
+              <%= link_to 'Delete', [case_req],
                      method: :delete,
                      data: { confirm: 'Are you sure?' } %></td>
             <% end %>

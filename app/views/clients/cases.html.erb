@@ -1,13 +1,10 @@
-<h1>Listing Cases</h1>
+<h2><%= @client.contact.full_name %></h2>
 
 <table>
   <thead>
     <tr>
       <th>Reference</th>
       <th>Lender</th>
-      <% if current_user.is_broker? %>
-        <th>Applicant</th>
-      <% end  %>
       <th>Status</th>
       <th>Mortgage</th>
       <th>Valuation</th>
@@ -18,19 +15,10 @@
   </thead>
 
   <tbody>
-    <% @application_cases.each do |application_case| %>
+    <% @cases.each do |application_case| %>
       <tr>
         <td><%= application_case.id %></td>
         <td><%= application_case.lender.name %></td>
-        <% if current_user.is_broker? %>
-          <td>
-            <% if application_case.has_applicants?  %>
-              <% application_case.users.clients.each do |applicant| %>
-                <%= applicant.contact.fname %> <%= applicant.contact.lname %>
-              <% end %>
-            <% end %>
-          </td>
-        <% end %>
         <td><%= application_case.status %></td>
         <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
         <td><%= number_to_currency_gbp(application_case.valuation) %></td>

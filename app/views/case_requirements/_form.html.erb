@@ -15,7 +15,11 @@
     
   <div class="field">
     <%= f.label :requirement_id %><br>
-    <%= f.select :requirement_id, Requirement.all.collect { |p| [ p.requirment, p.id ] }  %>
+    <%= f.select :requirement_id, Requirement.all.collect { |p| [ p.requirment, p.id ] }, {prompt: 'Select Requirement'}  %>
+  </div>
+  <div class="field">
+    <%= f.label "free text requirement" %><br>
+    <%= f.text_field :free_requirement %>
   </div>
   <div class="field">
     <%= f.label :status %><br>

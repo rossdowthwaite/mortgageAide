@@ -72,7 +72,7 @@ before_action :set_case_requirement, only: [:show, :edit, :update, :destroy]
     end
 
     def case_requirement_params
-      params.require(:case_requirement).permit(:application_case_id, :requirement_id, :status, :date_requested)
+      params.require(:case_requirement).permit(:application_case_id, :requirement_id, :status, :date_requested, :free_requirement)
     end
 end
 

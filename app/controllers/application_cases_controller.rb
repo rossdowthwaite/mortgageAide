@@ -1,16 +1,12 @@
 class ApplicationCasesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_application_case, only: [:show, :edit, :update, :destroy]
   before_action :set_user
 
   # GET /application_cases
   # GET /application_cases.json
   def index
-    if current_user.is_client?
-      @application_cases = current_user.application_cases.all
-    end
-    if current_user.is_broker?
-      @application_cases = ApplicationCase.where(:user_id => current_user.id)
-    end
+    @application_cases = current_user.application_cases.all
   end
 
   def client_cases
@@ -35,7 +31,7 @@ class ApplicationCasesController < ApplicationController
     @requirements = @application_case.case_requirements
     @status = @application_case.status
     @m_address = @application_case.mortgage_address
-    @applicants = @application_case.applicants
+    @applicants = @application_case.users.clients
   end
 
   # GET /application_cases/new
@@ -46,7 +42,7 @@ class ApplicationCasesController < ApplicationController
 
   # GET /application_cases/1/edit
   def edit
-    if current_user != @application_case.user
+    if !@application_case.is_brokered_by?(current_user)
       flash[:notice] = "You can't edit this, Sorry";
       redirect_to(application_cases_path);
     end
@@ -60,7 +56,8 @@ class ApplicationCasesController < ApplicationController
   # POST /application_cases
   # POST /application_cases.json
   def create
-    @application_case = current_user.application_cases.new(application_case_params)
+    @application_case = ApplicationCase.new(application_case_params)
+    current_user.application_cases << @application_case
 
     respond_to do |format|
       if @application_case.save
@@ -109,6 +106,6 @@ class ApplicationCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def application_case_params
-      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
+      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
     end
 end

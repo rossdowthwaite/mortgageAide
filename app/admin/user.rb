@@ -1,9 +1,12 @@
 ActiveAdmin.register User do
+  scope :clients
 
   index do 
     column :id
     column :email
-    column :role
+    column :role, :sortable => :role_id do |r|
+      r.role.role
+    end
     column :contact
     actions
   end

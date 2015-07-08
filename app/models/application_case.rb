@@ -1,16 +1,17 @@
 class ApplicationCase < ActiveRecord::Base
 
-	belongs_to :user
 	belongs_to :lender
-	has_many :applicants
-	has_many :applicant, through: :applicants
-	has_many :notes
-	has_many :case_requirements
+	
+	has_many :notes, dependent: :destroy
+	
+	has_many :case_requirements, dependent: :destroy
+	
 	has_many :requirements, through: :case_requirements
-	has_many :applicants
-  	has_many :application_cases, through: :applicants
+	
+	has_many :applicants, dependent: :destroy
+  	has_many :users, :through => :applicants
   	
-	has_one :mortgage_address
+	has_one :mortgage_address, dependent: :destroy
 	accepts_nested_attributes_for :mortgage_address
 
 	def has_applicants?
@@ -18,6 +19,6 @@ class ApplicationCase < ActiveRecord::Base
 	end
 
 	def is_brokered_by? (user)
-		self.user_id == user.id
+		self.users.map(&:id).include? user.id
 	end
 end

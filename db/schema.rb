@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150702162331) do
+ActiveRecord::Schema.define(version: 20150708134023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,18 +60,19 @@ ActiveRecord::Schema.define(version: 20150702162331) do
   add_index "applicants", ["application_case_id"], name: "index_applicants_on_application_case_id", using: :btree
 
   create_table "application_cases", force: :cascade do |t|
-    t.string   "valuation"
     t.string   "product"
     t.datetime "expiry"
-    t.integer  "mortgage"
+    t.decimal  "mortgage",            precision: 10, scale: 2
     t.string   "term"
     t.string   "repayment"
     t.string   "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.string   "app_type"
     t.integer  "user_id"
     t.integer  "lender_id"
+    t.integer  "mortgage_address_id"
+    t.decimal  "valuation",           precision: 10, scale: 2
   end
 
   create_table "case_requirements", force: :cascade do |t|
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 20150702162331) do
     t.datetime "updated_at",          null: false
     t.date     "date_requested"
     t.string   "status"
+    t.text     "free_requirement"
   end
 
   add_index "case_requirements", ["application_case_id"], name: "index_case_requirements_on_application_case_id", using: :btree
