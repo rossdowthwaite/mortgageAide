@@ -9,21 +9,6 @@ class ApplicationCasesController < ApplicationController
     @application_cases = current_user.application_cases.all
   end
 
-  def client_cases
-      @client = User.where(id: params[:client]).first
-      if @client
-        if current_user.clients.where(:client_id => @client.id).present?
-          @application_cases = @client.application_cases.all
-        else
-          flash[:notice] = "You are not authorised to view this page";
-          redirect_to(application_cases_path);
-        end
-      else 
-        flash[:notice] = "No user exists";
-        redirect_to(application_cases_path);
-      end
-  end
-
   # GET /application_cases/1
   # GET /application_cases/1.json
   def show

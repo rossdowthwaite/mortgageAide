@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   get '/client_cases' => 'application_cases#client_cases'
   get '/my_cases' => 'application_cases#index'
   get '/my_cases/:id' => 'application_cases#show'
+  get '/new_case' => 'application_cases#new'
 
   # Root path
   root 'statics#index' 
