@@ -17,9 +17,6 @@ ActiveAdmin.register ApplicationCase do
     column "Broker", :broker do |c|
       c.broker.contact.full_name
     end
-    column :applicants do |c|
-      c.applicants.who_are_clients.map{ |app| app.user.contact.full_name }
-    end
     column :product
     column :expiry
     column :mortgage do |c|
