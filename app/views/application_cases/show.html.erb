@@ -1,24 +1,22 @@
 <h1>Case Profile</h1>
-
-<div class="notes">
+<h3>Broker: <%= @application_case.broker.contact.full_name %></h3>
+<div class="section_break">
   <p>
-    <strong>Valuation:</strong><%= number_to_currency_gbp(@application_case.valuation) %><br>
-    <strong>Product:</strong><%= @application_case.product %><br>
-    <strong>Expiry:</strong><%= @application_case.expiry.strftime("%d %b %y") %><br>
-    <strong>Mortgage:</strong><%= number_to_currency_gbp(@application_case.mortgage) %><br>
-    <strong>Term:</strong><%= @application_case.term %> years<br>
-    <strong>Repayment:</strong><%= @application_case.repayment %><br>
-    <strong>Lender:</strong><%= @application_case.lender.name %>
+    <strong>Valuation: </strong><%= number_to_currency_gbp(@application_case.valuation) %><br>
+    <strong>Product: </strong><%= @application_case.product %><br>
+    <strong>Expiry: </strong><%= @application_case.expiry.strftime("%d %b %y") %><br>
+    <strong>Mortgage: </strong><%= number_to_currency_gbp(@application_case.mortgage) %><br>
+    <strong>Term: </strong><%= @application_case.term %> years<br>
+    <strong>Repayment: </strong><%= @application_case.repayment %><br>
+    <strong>Lender: </strong><%= @application_case.lender.name %>
   </p>
 
-
   <% if @application_case.is_brokered_by?(current_user) %>
-    <%= link_to 'Edit', edit_application_case_path(@application_case) %> |
-    <%= link_to 'Back', application_cases_path %>
+    <%= link_to 'Edit', edit_application_case_path(@application_case) %>
   <% end %>
 </div>
 
-<div class="notes">
+<div class="section_break">
     <h2>Applicants</h2>
     <% if current_user.is_broker? %>
       <%= link_to 'Add Applicants', new_application_case_applicant_path(@application_case) %><br><br>
@@ -34,19 +32,22 @@
       <% @applicants.each do |applicant| %>
           <tr>
             <td><%= applicant.contact.title %> <%= applicant.contact.fname %> <%= applicant.contact.lname %></td>
-            <td>
+            <td class="actions">
               <% if @application_case.is_brokered_by?(current_user) %>
-                <%= link_to 'Remove', [applicant],
+                <%= link_to [applicant],
                      method: :delete,
-                     data: { confirm: 'Are you sure?' } %></td>
+                     data: { confirm: 'Are you sure?' } do %>
+                     <i class="fa fa-times fa-2x"></i>
+                <% end %>
               <% end %>
+            </td>
           </tr>
       <% end %>
 
     </table>
 </div>
 
-<div class="notes">
+<div class="section_break">
 
   <h2>Mortgage Address</h2>
     <%= @m_address.address_one %><br>
@@ -58,16 +59,16 @@
 </div>
 
 <br>
-<div class="notes">
+<div class="section_break">
   <h2>status</h2>
   <ul class="status">
-      <li><% if @status == 'setup' %><b>setup</b><% else %>setup<% end %></li>
-      <li><% if @status == 'dip' %><b>dip</b><% else %>dip<% end %></li>
-      <li><% if @status == 'full application' %><b>full application</b><% else %>full application<% end %></li>
-      <li><% if @status == 'valuation' %><b>valuation</b><% else %>valuation<% end %></li>
-      <li><% if @status == 'offer' %><b>offer</b><% else %>offer<% end %></li>
-      <li><% if @status == 'exchanged' %><b>exchanged</b><% else %>exchanged<% end %></li>
-      <li><% if @status == 'completed' %><b>completed</b><% else %>completed<% end %></li>
+      <li <% if @status == 'setup' %> class="active"<% end %>>setup</li>
+      <li <% if @status == 'dip' %> class="active"<% end %>>dip</li>
+      <li <% if @status == 'full application' %>class="active"<% end %>>full application</li>
+      <li <% if @status == 'valuation' %>class="active"<% end %>>valuation</li>
+      <li <% if @status == 'offer' %>class="active"<% end %>>offer</li>
+      <li <% if @status == 'exchanged' %>class="active"<% end %>>exchanged</li>
+      <li <% if @status == 'completed' %><class="active"<% end %>>completed</li>
   </ul>
 
   <% if @application_case.is_brokered_by?(current_user) %>
@@ -78,45 +79,51 @@
 
 
 
-<div class="notes">
+<div class="section_break">
   <h2>Requirements</h2>
 
   <% if @application_case.is_brokered_by?(current_user) %>
     <%= link_to 'Add Requirement', new_application_case_case_requirement_path(@application_case) %><br><br>
   <% end %>
 
-  <table>
-  <thead>
-      <tr>
-        <th>Requirement</th>
-        <th>Date Requested</th>
-        <th>status</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @requirements.each do |case_req| %>
+  <% if @requirements.empty? %>
+  <% else %>
+    <table>
+    <thead>
         <tr>
-          <td>
-            <% if case_req.requirement.nil? %>
-              <%= case_req.free_requirement %>
-            <% elsif %>
-              <%= case_req.requirement.requirment %>
-            <% end %>
-          </td>
-          <td><%= case_req.date_requested %></td>
-          <td><%= fa_icon case_req.is_complete, class: "fa-2x" %></td>
-
-          <td>
-
-            <% if @application_case.is_brokered_by?(current_user) %>
-              <%= link_to 'Edit', edit_application_case_case_requirement_path(@application_case, case_req) %>
-              <%= link_to 'Delete', [case_req],
-                     method: :delete,
-                     data: { confirm: 'Are you sure?' } %></td>
-            <% end %>
+          <th>Requirement</th>
+          <th>Date Requested</th>
+          <th>status</th>
+          <th></th>
         </tr>
-    <% end %>
-  </table>
+      </thead>
+      <% @requirements.each do |case_req| %>
+          <tr>
+            <td>
+              <% if case_req.requirement.nil? %>
+                <%= case_req.free_requirement %>
+              <% elsif %>
+                <%= case_req.requirement.requirment %>
+              <% end %>
+            </td>
+            <td><%= case_req.date_requested %></td>
+            <td><%= fa_icon case_req.is_complete, class: "fa-2x" %></td>
+
+            <td class="actions">
+
+              <% if @application_case.is_brokered_by?(current_user) %>
+                <%= link_to 'Edit', edit_application_case_case_requirement_path(@application_case, case_req) %>
+                <%= link_to 'Delete', [case_req],
+                       method: :delete,
+                       data: { confirm: 'Are you sure?' } do %>
+                       <i class="fa fa-times fa-2x"></i>
+                  <% end %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  <% end %>
 </div>
 
 <div class="notes">
@@ -135,7 +142,6 @@
 
   <%= form_for([@application_case, @application_case.notes.build]) do |f| %>
     <p>
-      <%= f.label :note %><br>
       <%= f.text_area :note %>
     </p>
     <p>

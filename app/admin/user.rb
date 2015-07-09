@@ -1,5 +1,10 @@
 ActiveAdmin.register User do
   scope :clients
+  scope :brokers
+  scope :agents
+
+  preserve_default_filters!
+  filter :role, :collection => proc {(Role.all).map{|r| [r.role, r.id]}}
 
   index do 
     column :id
@@ -7,7 +12,7 @@ ActiveAdmin.register User do
     column :role, :sortable => :role_id do |r|
       r.role.role
     end
-    column :contact
+    column 'Name', :contact
     actions
   end
 

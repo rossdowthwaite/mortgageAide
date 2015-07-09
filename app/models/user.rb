@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   belongs_to :contact
   belongs_to :role
 
+  has_many :brokered_cases, foreign_key: "user_id", class_name: "ApplicationCase"
+
   has_many :application_cases
 
   has_many :applicants

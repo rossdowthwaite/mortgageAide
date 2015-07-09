@@ -14,10 +14,11 @@
   <%= f.hidden_field :application_case_id, :value => @application_case.id %>
   
   <div class="field">
-    <%= f.label :user_id %><br>
     <%= f.select :user_id, current_user.clients.collect { |p| [ p.customer.contact.full_name, p.client_id ] } %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Add applicant' %>
   </div>
 <% end %>
+
+<%= link_to 'back', @application_case %>

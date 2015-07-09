@@ -6,9 +6,19 @@ ActiveAdmin.register ApplicationCase do
   permit_params :valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id,
     mortgage_address_attributes: [:address_one, :address_two, :town, :county, :pcode]
 
+  preserve_default_filters!
+  filter :broker, :collection => proc {(User.brokers).map{|c| [c.contact.full_name, c.id]}}
+  filter :users, :collection => proc {(User.all).map{|c| [c.contact.full_name, c.id]}}
+
   index do 
     column :valuation  do |c|
       number_to_currency_gbp(c.valuation)
+    end
+    column "Broker", :broker do |c|
+      c.broker.contact.full_name
+    end
+    column :applicants do |c|
+      c.applicants.who_are_clients.map{ |app| app.user.contact.full_name }
     end
     column :product
     column :expiry

@@ -10,6 +10,8 @@ class ApplicationCase < ActiveRecord::Base
 	
 	has_many :applicants, dependent: :destroy
   	has_many :users, :through => :applicants
+
+  	belongs_to :broker, class_name: "User", foreign_key: "user_id"
   	
 	has_one :mortgage_address, dependent: :destroy
 	accepts_nested_attributes_for :mortgage_address

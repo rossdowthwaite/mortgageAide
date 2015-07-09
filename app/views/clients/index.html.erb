@@ -29,10 +29,10 @@
           <td>Phone</td>
           <td><%= client.customer.email %></td>
           <td>Address</td>
-          <td><%= link_to 'Cases', cases_client_path(client) %></td>
-          <td>
-              <%= link_to 'Show', client.customer %>
-              <%= link_to 'Destroy', client, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <td><%= link_to cases_client_path(client) do %><i class="fa fa-archive fa-2x"></i><% end %></td>
+          <td class="actions">
+              <%= link_to client.customer do %><i class="fa fa-eye fa-2x"></i><% end %>
+              <%= link_to client, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
           </td>
         </tr>
       <% end %>
