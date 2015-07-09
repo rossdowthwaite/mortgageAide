@@ -12,23 +12,23 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label :title %>
     <%= f.select :title, [ 'Mr', 'Mrs', 'Miss'], :prompt => 'Select One'  %>
   </div>
   <div class="field">
-    <%= f.label :fname %><br>
+    <%= f.label :fname, 'First Name' %>
     <%= f.text_field :fname %>
   </div>
   <div class="field">
-    <%= f.label :mname %><br>
+    <%= f.label :mname, 'middle name' %>
     <%= f.text_field :mname %>
   </div>
   <div class="field">
-    <%= f.label :lname %><br>
+    <%= f.label :lname, 'surname' %>
     <%= f.text_field :lname %>
   </div>
   <div class="field">
-    <%= f.label :dob %><br>
+    <%= f.label :dob, 'date of birth' %>
     <%= f.date_select :dob %>
   </div>
   <div class="actions">

@@ -4,6 +4,9 @@
   <title>MortgageAideProto</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -11,22 +14,40 @@
   <div class="header">
     <div class="sign_up_bar">
       <% if user_signed_in? %>
-        	Signed in as <%= current_user.email %>. Not you?<br><br>
+        	<%= current_user.email %><br>
         	<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
       <% else %>
         	<%= link_to "sign in", new_user_session_path %>
       <% end %>
-      <%= link_to 'admin', admin_root_path %>
     </div>
-    <h1>mortgage|Aide</h1>
+    <%= link_to root_path do %>
+      <h1>mortgage|Aide</h1>
+    <% end %>
+
     <div class="nav">
       <% if user_signed_in? %> 
-        <%= link_to 'Home', root_path %>
         <% if current_user.is_broker? %>
-          <%= link_to 'My Clients', clients_path %>
-          <%= link_to 'New case', new_case_path %>  
+          <%= link_to clients_path do %>
+            <div class="link">
+              <i class="fa fa-users fa-2x"></i><br>My Clients
+            </div>
+          <% end  %>
+          <%= link_to add_new_client_path do %>
+            <div class="link">
+              <i class="fa fa-user-plus fa-2x"></i><br>New Client
+            </div>
+          <% end  %>
+          <%= link_to new_case_path do %>
+            <div class="link">
+              <i class="fa fa-folder-open fa-2x"></i><br>New case
+            </div>
+          <% end  %>  
         <% end %>
-        <%= link_to 'My Cases', my_cases_path %> 
+          <%= link_to my_cases_path do %>
+            <div class="link">
+              <i class="fa fa-archive fa-2x"></i><br>My Cases
+            </div>
+          <% end  %>  
       <% end %>
       </div>
   </div>
@@ -36,6 +57,12 @@
     <%= yield %>
 </div>
 
+<div class="footer">
 
+  <div class="fixed-width">
+    <%= link_to 'admin', admin_root_path %>
+  </div>
+
+</div>
 </body>
 </html>

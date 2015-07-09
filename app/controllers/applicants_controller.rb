@@ -1,25 +1,11 @@
 class ApplicantsController < ApplicationController
   before_action :set_applicant, only: [:show, :edit, :update, :destroy]
   before_action :set_application, only: [:new, :create]
-  # GET /applicants
-  # GET /applicants.json
-  def index
-    @applicants = Applicant.all
-  end
-
-  # GET /applicants/1
-  # GET /applicants/1.json
-  def show
-  end
 
   # GET /applicants/new
   def new
     @applicant = Applicant.new
     @application_case = ApplicationCase.find(params[:application_case_id])
-  end
-
-  # GET /applicants/1/edit
-  def edit
   end
 
   # POST /applicants

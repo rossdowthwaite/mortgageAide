@@ -3,8 +3,8 @@
 	<% if current_user.has_contact_info? %>
 		<h2>Hi <%= current_user.contact.fname %> <%= current_user.contact.lname %></h2>
 	<% end %>
-	<h4><%= current_user.email %></h4>
-	<h5><%= current_user.role.role %></h4>
+	<h3><%= current_user.email %></h4>
+	<h4><%= current_user.role.role %></h4>
 
 	<% if current_user.has_contact_info? %>
 		<%= link_to 'Edit contact Details', edit_contact_path(current_user.contact) %>

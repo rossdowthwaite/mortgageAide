@@ -2,17 +2,6 @@ class CaseRequirementsController < ApplicationController
 
 before_action :set_case_requirement, only: [:show, :edit, :update, :destroy]
 
-  # GET /roles
-  # GET /roles.json
-  def index
-    @case_reqs = CaseRequirement.all
-  end
-
-  # GET /roles/1
-  # GET /roles/1.json
-  def show
-  end
-
   # GET /roles/new
   def new
   	@application_case = ApplicationCase.find(params[:application_case_id])

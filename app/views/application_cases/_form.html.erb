@@ -11,65 +11,72 @@
     </div>
   <% end %>
 <!-- options are Capital & Repayment, Interest Only, Split -->
-  <div class="field">
-    <%= f.label :valuation %><br>
-    <%= f.text_field :valuation %>
+  <div class="section_break">
+    <div class="field">
+      <%= f.label :valuation %>
+      <%= f.text_field :valuation %>
+    </div>
+    <div class="field">
+      <%= f.label :product %>
+      <%= f.text_field :product %>
+    </div>
+    <div class="field">
+      <%= f.label :expiry %>
+      <%= f.date_select :expiry %>
+    </div>
+    <div class="field">
+      <%= f.label :mortgage %>
+      <%= f.number_field :mortgage %>
+    </div>
+    <div class="field">
+      <%= f.label :term %>
+      <%= f.select :term, ((0..40).map {|i| [i,i] })  %>
+    </div>
+    <div class="field">
+      <%= f.label :repayment %>
+      <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
+    </div>
+    <div class="field">
+      <%= f.label :status %>
+      <%= f.select :status, [ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ], :prompt => 'Select One' %>
+    </div>
+    <div class="field">
+      <%= f.label "Lender" %>
+      <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] } %>
+    </div>
+      <%= f.hidden_field :user_id, :value => current_user.id  %>
+    <div class="field">
+      <%= f.label :app_type %>
+      <%= f.select :app_type, [ 'buy-to-let', 'let-to-buy', 'residential', 'remortgage', 'product trans', 'further adv', 'secured loan', 'equity rel', ], :prompt => 'Select One' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :product %><br>
-    <%= f.text_field :product %>
-  </div>
-  <div class="field">
-    <%= f.label :expiry %><br>
-    <%= f.date_select :expiry %>
-  </div>
-  <div class="field">
-    <%= f.label :mortgage %><br>
-    <%= f.number_field :mortgage %>
-  </div>
-  <div class="field">
-    <%= f.label :term %><br>
-    <%= f.select :term, ((0..40).map {|i| [i,i] })  %>
-  </div>
-  <div class="field">
-    <%= f.label :repayment %><br>
-    <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.select :status, [ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ], :prompt => 'Select One' %>
-  </div>
-  <div class="field">
-    <%= f.label "Lender" %><br>
-    <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] } %>
-  </div>
-    <%= f.hidden_field :user_id, :value => current_user.id  %>
-  <div class="field">
-    <%= f.label :app_type %><br>
-    <%= f.select :app_type, [ 'buy-to-let', 'let-to-buy', 'residential', 'remortgage', 'product trans', 'further adv', 'secured loan', 'equity rel', ], :prompt => 'Select One' %>
-  </div>
-  <br><br>
-  <h2>Mortgage Address</h2>
-  <div class="field">
-      <%= f.fields_for :mortgage_address do |f| %>
 
-      <%= f.label :address_one %><br>
-      <%= f.text_field :address_one %><br>
+  <div class="section_break">
 
-      <%= f.label :address_two %><br>
-      <%= f.text_field :address_two %><br>
+    <h2>Mortgage Address</h2>
+    <div class="field">
+        <%= f.fields_for :mortgage_address do |f| %>
 
-      <%= f.label :town %><br>
-      <%= f.text_field :town %><br>
+        <%= f.label :address_one %>
+        <%= f.text_field :address_one %>
 
-      <%= f.label :county %><br>
-      <%= f.text_field :county %><br>
+        <%= f.label :address_two %>
+        <%= f.text_field :address_two %>
 
-      <%= f.label :pcode %><br>
-      <%= f.text_field :pcode %><br>
-    <% end %>
+        <%= f.label :town %>
+        <%= f.text_field :town %>
+
+        <%= f.label :county %>
+        <%= f.text_field :county %>
+
+        <%= f.label :pcode %>
+        <%= f.text_field :pcode %>
+      <% end %>
+    </div>
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
+
 <% end %>
