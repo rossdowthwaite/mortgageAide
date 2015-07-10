@@ -14,9 +14,9 @@ ActiveAdmin.register ApplicationCase do
     column :valuation  do |c|
       number_to_currency_gbp(c.valuation)
     end
-    # column "Broker", :broker do |c|
-    #   c.broker.contact.full_name
-    # end
+    column "Broker", :broker do |c|
+      c.broker.contact.full_name
+    end
     column :product
     column :expiry
     column :mortgage do |c|
