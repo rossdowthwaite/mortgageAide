@@ -15,6 +15,10 @@ class ApplicationCase < ActiveRecord::Base
 	has_one :mortgage_address, :dependent => :destroy
 	accepts_nested_attributes_for :mortgage_address
 
+	validates :mortgage, :presence => true,
+            :numericality => true,
+            :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ }
+
 	def has_applicants?
 		self.applicants.count != 0;
 	end
