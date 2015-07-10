@@ -7,8 +7,8 @@ ActiveAdmin.register ApplicationCase do
     mortgage_address_attributes: [:address_one, :address_two, :town, :county, :pcode]
 
   preserve_default_filters!
-  filter :broker, :collection => proc {(User.brokers).map{|c| [c.contact.full_name, c.id]}}
-  filter :users, :collection => proc {(User.all).map{|c| [c.contact.full_name, c.id]}}
+  # filter :broker, :collection => proc {(User.brokers).map{|c| [c.contact.full_name, c.id]}}
+  # filter :users, :collection => proc {(User.all).map{|c| [c.contact.full_name, c.id]}}
 
   index do 
     column :valuation  do |c|
