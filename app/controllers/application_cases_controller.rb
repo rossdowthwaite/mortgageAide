@@ -12,11 +12,16 @@ class ApplicationCasesController < ApplicationController
   # GET /application_cases/1
   # GET /application_cases/1.json
   def show
-    @notes = @application_case.notes
-    @requirements = @application_case.case_requirements
-    @status = @application_case.status
-    @m_address = @application_case.mortgage_address
-    @applicants = @application_case.users.clients
+    if @application_case.is_brokered_by?(current_user)
+      @notes = @application_case.notes
+      @requirements = @application_case.case_requirements
+      @status = @application_case.status
+      @m_address = @application_case.mortgage_address
+      @applicants = @application_case.applicants
+    else 
+      flash[:notice] = "You are not authorized to view this";
+      redirect_to(application_cases_path);
+    end
   end
 
   # GET /application_cases/new

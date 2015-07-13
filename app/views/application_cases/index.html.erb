@@ -44,9 +44,14 @@
           <td><%= number_to_currency_gbp(application_case.valuation) %></td>
           <td><%= application_case.app_type %></td>
           <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
-          <td class="actions"><%= link_to application_case do %><i class="fa fa-eye fa-2x"></i><% end %>
-                <%= link_to edit_application_case_path(application_case) do %><i class="fa fa-cog fa-2x"></i><% end %>
-                <%= link_to application_case, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
+          <td class="actions">
+                <%= link_to application_case do %><i class="fa fa-eye fa-2x"></i><% end %>
+                <% if can? :update, application_case %>
+                  <%= link_to edit_application_case_path(application_case) do %><i class="fa fa-cog fa-2x"></i><% end %>
+                <% end %>
+                <% if can? :delete, application_case %>
+                  <%= link_to application_case, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
+                <% end %>
           </td>
         </tr>
       <% end %>
@@ -55,5 +60,6 @@
   <br>
 
 <% end %>
-
-<%= link_to 'New Application case', new_user_application_case_path(current_user) %>
+<% if can? :create, @application_case %>
+  <%= link_to 'New Application case', new_user_application_case_path(current_user) %>
+<% end  %>

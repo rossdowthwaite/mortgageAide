@@ -4,8 +4,13 @@ class ApplicantsController < ApplicationController
 
   # GET /applicants/new
   def new
-    @applicant = Applicant.new
-    @application_case = ApplicationCase.find(params[:application_case_id])
+    if !@application_case.is_brokered_by?(current_user)
+      flash[:notice] = "You can't see this, Sorry";
+      redirect_to(application_cases_path);
+    else
+      @applicant = Applicant.new
+      @application_case = ApplicationCase.find(params[:application_case_id])
+    end
   end
 
   # POST /applicants

@@ -4,6 +4,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   protect_from_forgery with: :null_session
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
+  check_authorization :unless => :do_not_check_authorization?
+  private
+  def do_not_check_authorization?
+    respond_to?(:devise_controller?)
+  end
+
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def number_to_currency_gbp (number)

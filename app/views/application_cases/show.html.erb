@@ -11,7 +11,7 @@
     <strong>Lender: </strong><%= @application_case.lender.name %>
   </p>
 
-  <% if @application_case.is_brokered_by?(current_user) %>
+  <% if can? :update, @application_case %>
     <%= link_to 'Edit', edit_application_case_path(@application_case) %>
   <% end %>
 </div>
@@ -31,16 +31,18 @@
 
       <% @applicants.each do |applicant| %>
           <tr>
-            <td><%= applicant.contact.title %> <%= applicant.contact.fname %> <%= applicant.contact.lname %></td>
-            <td class="actions">
-              <% if @application_case.is_brokered_by?(current_user) %>
-                <%= link_to [applicant],
-                     method: :delete,
-                     data: { confirm: 'Are you sure?' } do %>
-                     <i class="fa fa-times fa-2x"></i>
+            <% if applicant.user.is_client? %>
+              <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %></td>
+              <td class="actions">
+                  <% if can? :delete, applicant %>
+                    <%= link_to applicant,
+                         method: :delete,
+                         data: { confirm: 'Are you sure?' } do %>
+                         <i class="fa fa-times fa-2x"></i>
+                    <% end %>
                 <% end %>
-              <% end %>
-            </td>
+              </td>
+            <% end  %>
           </tr>
       <% end %>
 
@@ -71,7 +73,7 @@
       <li <% if @status == 'completed' %><class="active"<% end %>>completed</li>
   </ul>
 
-  <% if @application_case.is_brokered_by?(current_user) %>
+  <% if can? :update, @application_case %>
     <%= link_to 'edit status', application_case_edit_status_path(@application_case) %>
   <% end %>
 </div>
@@ -83,7 +85,9 @@
   <h2>Requirements</h2>
 
   <% if @application_case.is_brokered_by?(current_user) %>
-    <%= link_to 'Add Requirement', new_application_case_case_requirement_path(@application_case) %><br><br>
+    <% if can? :create, @case_requirement %>
+      <%= link_to 'Add Requirement', new_application_case_case_requirement_path(@application_case) %><br><br>
+    <% end %>
   <% end %>
 
   <% if @requirements.empty? %>
@@ -112,11 +116,17 @@
             <td class="actions">
 
               <% if @application_case.is_brokered_by?(current_user) %>
-                <%= link_to 'Edit', edit_application_case_case_requirement_path(@application_case, case_req) %>
-                <%= link_to 'Delete', [case_req],
-                       method: :delete,
-                       data: { confirm: 'Are you sure?' } do %>
-                       <i class="fa fa-times fa-2x"></i>
+                  <% if can? :update, case_req %>
+                    <%= link_to edit_application_case_case_requirement_path(@application_case, case_req) do %>
+                      <i class="fa fa-cog fa-2x"></i>
+                    <% end %>
+                  <% end %>
+                  <% if can? :delete, case_req %>
+                    <%= link_to [case_req],
+                         method: :delete,
+                         data: { confirm: 'Are you sure?' } do %>
+                         <i class="fa fa-times fa-2x"></i>
+                    <% end %>
                   <% end %>
               <% end %>
             </td>

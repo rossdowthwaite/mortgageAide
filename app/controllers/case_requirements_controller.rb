@@ -1,16 +1,26 @@
 class CaseRequirementsController < ApplicationController
 
 before_action :set_case_requirement, only: [:show, :edit, :update, :destroy]
+before_action :set_application_case, only: [:new, :edit]
 
   # GET /roles/new
-  def new
-  	@application_case = ApplicationCase.find(params[:application_case_id])
-    @case_req = CaseRequirement.new
+  def new 
+    if !@application_case.is_brokered_by?(current_user)
+      flash[:notice] = "You can't see this, Sorry";
+      redirect_to(application_cases_path);
+    else
+      @case_req = CaseRequirement.new
+    end
   end
 
   # GET /roles/1/edit
   def edit
-  	@application_case = ApplicationCase.find(params[:application_case_id])
+    if !@application_case.is_brokered_by?(current_user)
+      flash[:notice] = "You can't see this, Sorry";
+      redirect_to(application_cases_path);
+    else
+  	   @application_case = ApplicationCase.find(params[:application_case_id])
+    end
   end
 
   # POST /roles
@@ -58,6 +68,10 @@ before_action :set_case_requirement, only: [:show, :edit, :update, :destroy]
     # Use callbacks to share common setup or constraints between actions.
     def set_case_requirement
       @case_req = CaseRequirement.find(params[:id])
+    end
+
+    def set_application_case
+      @application_case = ApplicationCase.find(params[:application_case_id])
     end
 
     def case_requirement_params

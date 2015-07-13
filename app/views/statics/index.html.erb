@@ -6,7 +6,7 @@
 	<h3><%= current_user.email %></h4>
 	<h4><%= current_user.role.role %></h4>
 
-	<% if current_user.has_contact_info? %>
+	<% if can? :update, current_user.contact %>
 		<%= link_to 'Edit contact Details', edit_contact_path(current_user.contact) %>
 	<% end %>
 

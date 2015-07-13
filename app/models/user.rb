@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     self.role.role == "Client";
   end
 
+  def is_broker_of? (user)
+    self.customers.include?(user)
+  end
+
   private
     # Sets default role
     def build_contact
