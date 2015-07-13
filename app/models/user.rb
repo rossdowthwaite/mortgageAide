@@ -48,10 +48,22 @@ class User < ActiveRecord::Base
     self.customers.include?(user)
   end
 
+  def self.search(search)
+    if search
+      self.where('email LIKE ?', "#{search}")
+    else
+      # Do nothing
+    end
+  end
+
+  def add_as_client(client, broker)
+    broker.clients << Client.create(:user_id => broker.id, :client_id => @client.id )
+  end
+
   private
     # Sets default role
     def build_contact
-      @contact = Contact.create(:user_id => self.id, :fname => "Sam", :lname => 'Doe' );
+      @contact = Contact.create(:user_id => self.id, :fname => "Firstname", :lname => 'Lastname' );
       self.update_attributes(:contact_id => @contact.id)
     end
 end

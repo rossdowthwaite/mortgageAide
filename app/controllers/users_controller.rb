@@ -30,6 +30,10 @@ class UsersController < ApplicationController
     @clients = User.clients
   end
 
+  def search_users
+    @users = User.search(params[:search])
+  end
+
   def my_clients
     @clients = current_user.clients
   end
@@ -38,6 +42,11 @@ class UsersController < ApplicationController
   def add_new_client
     @role = Role.where(:role => 'Client').pluck(:id);
     @user = User.new
+  end
+
+  def add_as_client
+    current_user.clients << Client.create(:client_id => params[:client_id] )
+    redirect_to(clients_path);
   end
 
   # GET /users/1
