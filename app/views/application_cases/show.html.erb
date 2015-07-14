@@ -30,7 +30,7 @@
       </thead>
 
       <% @applicants.each do |applicant| %>
-          <tr>
+          <tr class="<%= cycle('even', 'odd') -%>">
             <% if applicant.user.is_client? %>
               <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %></td>
               <td class="actions">

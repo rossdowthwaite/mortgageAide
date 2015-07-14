@@ -9,12 +9,8 @@
   <table>
     <thead>
       <tr>
-        <th>Title</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Mobile</th>
+        <th>Name</th>
         <th>Email</th>
-        <th>Address</th>
         <th>Cases</th>
         <th>Actions</th>
       </tr>
@@ -22,14 +18,17 @@
 
     <tbody>
       <% @clients.each do |client| %>
-        <tr>
-          <td><%= client.customer.contact.title %></td> 
-          <td><%= client.customer.contact.fname %></td>
-          <td><%= client.customer.contact.lname %></td> 
-          <td>Phone</td>
+        <tr class="<%= cycle('even', 'odd') -%>">
+          <td><%= client.customer.contact.title %> <%= client.customer.contact.full_name %></td> 
           <td><%= client.customer.email %></td>
-          <td>Address</td>
-          <td><%= link_to cases_client_path(client) do %><i class="fa fa-archive fa-2x"></i><% end %></td>
+          <td>
+            <% if !client.customer.application_cases.empty? %>
+              <%= link_to cases_client_path(client) do %>
+                <i class="fa fa-archive fa-2x <% if client.customer.application_cases.active(true).count == 0 %> closed <% end %>"></i>
+              <% end %>
+            <% end %>
+          </td>
+
           <td class="actions">
               <%= link_to client.customer do %><i class="fa fa-eye fa-2x"></i><% end %>
               <%= link_to client, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>

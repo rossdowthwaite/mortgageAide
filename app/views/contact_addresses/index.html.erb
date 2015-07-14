@@ -8,19 +8,17 @@
       <th>Address two</th>
       <th>Town</th>
       <th>Post code</th>
-      <th>Primary</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @contact_addresses.each do |contact_address| %>
-      <tr>
+      <tr class="<%= cycle('even', 'odd') -%> <% if contact_address.primary %>primary<% end -%>">
         <td><%= contact_address.address_one %></td>
         <td><%= contact_address.address_two %></td>
         <td><%= contact_address.town %></td>
         <td><%= contact_address.post_code %></td>
-        <td><%= contact_address.primary %></td>
         <td>
           <% if can? :update, @contact_address  %>
             <%= link_to [current_user, contact_address] do %><i class="fa fa-eye fa-2x"></i><% end %>

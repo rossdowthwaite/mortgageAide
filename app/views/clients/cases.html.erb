@@ -1,14 +1,14 @@
-<h2><%= @client.contact.full_name %></h2>
+<h2><%= @client.contact.full_name %>'s Cases</h2>
 
 <table>
   <thead>
     <tr>
-      <th>Reference</th>
-      <th>Lender</th>
+      <th>Opened</th>
       <th>Status</th>
+      <th>Type</th>
+      <th>Lender</th>
       <th>Mortgage</th>
       <th>Valuation</th>
-      <th>Type</th>
       <th>Last update</th>
       <th></th>
     </tr>
@@ -16,17 +16,17 @@
 
   <tbody>
     <% @cases.each do |application_case| %>
-      <tr>
-        <td><%= application_case.id %></td>
-        <td><%= application_case.lender.name %></td>
+      <tr class="<%= cycle('even', 'odd') -%>" >
+        <td><%= application_case.created_at.to_formatted_s(:short) %></td>
         <td><%= application_case.status %></td>
+        <td><%= application_case.app_type %></td>
+        <td><%= application_case.lender.name %></td>
         <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
         <td><%= number_to_currency_gbp(application_case.valuation) %></td>
-        <td><%= application_case.app_type %></td>
         <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
-        <td><%= link_to 'Show', application_case %>
-              <%= link_to 'Edit', edit_application_case_path(application_case) %>
-              <%= link_to 'Destroy', application_case, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <td><%= link_to application_case do %>
+              <i class="fa fa-eye fa-2x"></i>
+            <% end -%>
         </td>
       </tr>
     <% end %>

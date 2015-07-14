@@ -5,8 +5,7 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>Name</th>
       <th>Mobile</th>
       <th>Email</th>
       <th>Address</th>
@@ -19,8 +18,7 @@
     <% @clients.each do |client| %>
       <tr>
         <td><%= client.customer.contact.title %></td> 
-        <td><%= client.customer.contact.fname %></td>
-        <td><%= client.customer.contact.lname %></td> 
+        <td><%= client.customer.contact.full_name %></td>
         <td>Phone</td>
         <td><%= client.customer.email %></td>
         <td>Address</td>

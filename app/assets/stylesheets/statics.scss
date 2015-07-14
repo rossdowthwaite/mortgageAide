@@ -304,6 +304,10 @@ p {
 	}
 }
 
+i.closed {
+	color:$grey
+}
+
 // ******************** //
 // 		  Lists 		// 
 
@@ -326,6 +330,11 @@ ul {
 			th {
 				background-color: $red;
 				color: $white;
+				height: 50px;
+				font-size: 18px;
+				font-weight: 100;
+				text-align:center;
+				font-family: 'EB Garamond', serif;
 			}
 		}
 		tbody {
@@ -348,6 +357,7 @@ ul {
 				}
 				td {
 					height:50px;
+					text-align:center;
 					line-height: 50px;
 					a {
 						padding:0px 0px !important;
