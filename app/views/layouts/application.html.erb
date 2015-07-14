@@ -29,27 +29,27 @@
     <div class="nav">
       <% if user_signed_in? %> 
         <% if current_user.is_broker? %>
-          <%= link_to clients_path do %>
-            <div class="link">
+          <div class="link">
+            <%= link_to clients_path do %>
               <i class="fa fa-users fa-2x"></i><br>My Clients
-            </div>
-          <% end  %>
+            <% end  %>
+          </div>
+        <div class="link">
           <%= link_to add_new_client_path do %>
-            <div class="link">
-              <i class="fa fa-user-plus fa-2x"></i><br>New Client
-            </div>
+            <i class="fa fa-user-plus fa-2x"></i><br>New Client
           <% end  %>
+        </div>
+        <div class="link">
           <%= link_to new_case_path do %>
-            <div class="link">
-              <i class="fa fa-folder-open fa-2x"></i><br>New case
-            </div>
-          <% end  %>  
+            <i class="fa fa-folder-open fa-2x"></i><br>New case
+          <% end  %> 
+        </div> 
         <% end %>
+          <div class="link">
           <%= link_to my_cases_path do %>
-            <div class="link">
               <i class="fa fa-archive fa-2x"></i><br>My Cases
-            </div>
-          <% end  %>  
+          <% end %>
+          </div>  
       <% end %>
       </div>
   </div>

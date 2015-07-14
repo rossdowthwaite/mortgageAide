@@ -15,6 +15,9 @@ class Ability
         can :delete, ApplicationCase do |app_case|
           app_case.is_brokered_by?(user) 
         end
+        can :create, ContactAddress do |address|
+          address.user.is_brokered_by?(user) || current_user == user && current_user.is_broker?
+        end
     else 
         # can do nothing
     end

@@ -7,6 +7,10 @@ class User < ActiveRecord::Base
   belongs_to :contact
   belongs_to :role
 
+  has_many :contact_addresses
+  has_many :phone_numbers
+  has_one  :extra_detail
+
   has_many :brokered_cases, foreign_key: "user_id", class_name: "ApplicationCase"
 
   has_many :application_cases
@@ -58,6 +62,10 @@ class User < ActiveRecord::Base
 
   def add_as_client(client, broker)
     broker.clients << Client.create(:user_id => broker.id, :client_id => @client.id )
+  end
+
+  def is_current_user?(user)
+    self == user
   end
 
   private

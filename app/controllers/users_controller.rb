@@ -11,12 +11,22 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
     if current_user != @user 
       if !current_user.is_broker_of?(@user)
         flash[:notice] = "You can't see this, Sorry";
         redirect_to(application_cases_path);
       end
     end
+
+    if current_user.contact_addresses.count == 1
+      @contact_address = @user.contact_addresses.first
+    else
+      @contact_address = @user.contact_addresses.primary.first
+    end
+
+    @extra = @user.extra_detail
+    @numbers = @user.phone_numbers
   end
 
   # GET /users/new

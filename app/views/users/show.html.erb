@@ -1,18 +1,92 @@
-<% if @user.has_contact_info? %>
-	<h1><%= @user.contact.title %> <%= @user.contact.fname %> <%= @user.contact.lname %></h1>
-<% end %>
-<h2><%= @user.email %></h2>
-<h3><%= @user.role.role %></h3>
+<div class='section_break'>
 
-<% if can? :update, @contact %>
-	<% if current_user.is_broker_of? (@user)  %>
-		<%= link_to 'Update contact details', edit_contact_path(@user.contact) %>
+	<% if @user.has_contact_info? %>
+		<h1><%= @user.contact.title %> <%= @user.contact.fname %> <%= @user.contact.lname %></h1>
 	<% end %>
+	<h2><%= @user.email %></h2>
+	<h3><%= @user.role.role %></h3>
+
+	<% if can? :update, @contact %>
+		<% if current_user.is_broker_of?(@user) || @user.is_current_user?(current_user) %>
+			<%= link_to 'Update contact details', edit_contact_path(@user.contact) %><br>
+		<% end %>
+	<% end %>
+
+</div>
+
+<% if @user.is_broker? || @user.is_agent? %>
+	<div class='section_break'>
+
+		<% if !@extra.nil? %>
+			<h2>Branch</h2>
+			<h4><%= @extra.branch %></h4>
+		<% end %>
+	
+		<%= link_to 'Add company details', new_user_extra_detail_path(@user) %>
+
+	</div>
 <% end %>
 
-<br><br>
-<h3>Still to come...</h3>
-<ul>
-	<li>Add Address Functionality</li>
-	<li>Add Phone Functionality</li>
-</ul>
+<div class='section_break'>
+	<h3>Contact Address</h3>
+
+	<% if !@user.contact_addresses.empty? %>
+
+		<%= @contact_address.address_one %><br>
+		<%= @contact_address.address_two %><br>
+		<%= @contact_address.town %><br>
+		<%= @contact_address.post_code %><br>
+
+		<% if @user.contact_addresses.count > 1 %>
+			<%= link_to 'see all', user_contact_addresses_path(@user) %><br>
+		<% end %>
+
+	<% else %>
+
+		<h4>No Addresses stored</h4>
+
+	<% end %>
+
+	<% if can? :update, @contact_address %>
+		<%= link_to 'Add address', new_user_contact_address_path(@user) %><br>
+	<% end %>
+
+</div>
+
+
+<div class="section_break">
+
+	<h3>Contact Numbers</h3>
+
+	<% if !@numbers.empty? %>
+
+		<table>
+			
+			<% @numbers.try(:each) do |number| %>
+				<tr>
+					<td><%= number.phone_type %></td>
+					<td><b><%= number.phone_number %></b></td>
+					<td>
+						<%= link_to edit_user_phone_number_path(@user, number) do %>
+							<i class="fa fa-cog fa-2x"></i>
+						<% end %>
+						<%= link_to [@user, number], method: :delete, data: { confirm: 'Are you sure?' } do %>
+							<i class="fa fa-times fa-2x"></i>
+						<% end %>
+					</td>
+				</tr> 
+			<% end %>
+			
+		</table>
+	<% else  %>
+
+		<h4>No numbers stored</h4>
+
+	<% end %>
+	
+	<% if can? :update, @phone_number %>
+		<%= link_to 'Add number', new_user_phone_number_path(@user) %><br>
+	<% end %>
+
+</div>
+

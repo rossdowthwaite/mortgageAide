@@ -31,6 +31,9 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :application_cases
+    resources :contact_addresses
+    resources :extra_details
+    resources :phone_numbers
     
     collection do 
       get 'clients_index',  as: :show_clients

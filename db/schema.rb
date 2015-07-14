@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708134023) do
+ActiveRecord::Schema.define(version: 20150714101054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,19 @@ ActiveRecord::Schema.define(version: 20150708134023) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "contact_addresses", force: :cascade do |t|
+    t.string   "address_one"
+    t.string   "address_two"
+    t.string   "town"
+    t.string   "post_code"
+    t.boolean  "primary"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "contact_addresses", ["user_id"], name: "index_contact_addresses_on_user_id", using: :btree
+
   create_table "contacts", force: :cascade do |t|
     t.string   "fname"
     t.string   "mname"
@@ -121,6 +134,15 @@ ActiveRecord::Schema.define(version: 20150708134023) do
 
   add_index "contacts", ["role_id"], name: "index_contacts_on_role_id", using: :btree
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
+
+  create_table "extra_details", force: :cascade do |t|
+    t.string   "branch"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "extra_details", ["user_id"], name: "index_extra_details_on_user_id", using: :btree
 
   create_table "lenders", force: :cascade do |t|
     t.string   "name"
@@ -149,6 +171,16 @@ ActiveRecord::Schema.define(version: 20150708134023) do
   end
 
   add_index "notes", ["application_case_id"], name: "index_notes_on_application_case_id", using: :btree
+
+  create_table "phone_numbers", force: :cascade do |t|
+    t.string   "phone_number"
+    t.string   "phone_type"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "phone_numbers", ["user_id"], name: "index_phone_numbers_on_user_id", using: :btree
 
   create_table "requirements", force: :cascade do |t|
     t.string   "requirment"
@@ -187,9 +219,12 @@ ActiveRecord::Schema.define(version: 20150708134023) do
   add_foreign_key "applicants", "application_cases"
   add_foreign_key "case_requirements", "application_cases"
   add_foreign_key "case_requirements", "requirements"
+  add_foreign_key "contact_addresses", "users"
   add_foreign_key "contacts", "roles"
   add_foreign_key "contacts", "users"
+  add_foreign_key "extra_details", "users"
   add_foreign_key "mortgage_addresses", "application_cases"
   add_foreign_key "notes", "application_cases"
+  add_foreign_key "phone_numbers", "users"
   add_foreign_key "users", "roles"
 end
