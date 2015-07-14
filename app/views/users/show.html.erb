@@ -38,7 +38,7 @@
 		<%= @contact_address.post_code %><br>
 
 		<% if @user.contact_addresses.count > 1 %>
-			<%= link_to 'see all', user_contact_addresses_path(@user) %><br>
+			<%= link_to 'see all', user_contact_addresses_path(@user) %>
 		<% end %>
 
 	<% else %>
@@ -48,7 +48,7 @@
 	<% end %>
 
 	<% if can? :update, @contact_address %>
-		<%= link_to 'Add address', new_user_contact_address_path(@user) %><br>
+		<%= link_to 'Add address', new_user_contact_address_path(@user) %>
 	<% end %>
 
 </div>

@@ -1,5 +1,11 @@
   <%= form_for @application_case do |f| %>
-        <%= f.label :status %><br>
+  	<div class="field">
+        <%= f.label :status %>
         <%= f.select :status, [ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ], :prompt => 'Select One' %>
-        <%= f.submit %>
+    </div>
+    <div class="field">
+        <%= f.label :active %>
+        <%= f.select :active, [ ['Open', true],['Closed', false]] %>
+    </div>
+    <%= f.submit %>
   <% end %>

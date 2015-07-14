@@ -1,6 +1,7 @@
 $white: #FFFFFF;
 $black: #000000;
 $grey: #c9c9c9;
+$lightgrey: #F2F2F2;
 $red: #7C1F14;
 
 a, input[type="submit"], a.button, input.button {
@@ -164,6 +165,7 @@ label {
 		display:inline-block;
 		margin-right: 10px;
 		margin-top: 20px;
+		margin-bottom: 20px;
 		color: $red;
 		font-weight: 100;
 		text-shadow: #FFFFFF 0 0 0 !important;
@@ -327,7 +329,11 @@ ul {
 			}
 		}
 		tbody {
+			tr.even {
+				background-color: $lightgrey;
+			}
 			tr {
+				border-bottom: 1px solid $grey;
 				td.links {
 					a{
 						padding:0px 0px !important;
@@ -341,8 +347,8 @@ ul {
 					}
 				}
 				td {
-					height:30px;
-					line-height: 30px;
+					height:50px;
+					line-height: 50px;
 					a {
 						padding:0px 0px !important;
 						margin: 0px;

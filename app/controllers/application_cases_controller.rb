@@ -7,6 +7,14 @@ class ApplicationCasesController < ApplicationController
   # GET /application_cases.json
   def index
     @application_cases = current_user.application_cases.all
+
+    filtering_params(params).each do |key, value|
+      @application_cases = @application_cases.public_send(key, value) if value.present?
+    end
+  end
+
+  def case_archive
+    @application_cases = current_user.application_cases.archived
   end
 
   # GET /application_cases/1
@@ -90,12 +98,16 @@ class ApplicationCasesController < ApplicationController
       @user = current_user
     end
 
+    def filtering_params(params)
+      params.slice(:status, :active)
+    end
+
     def set_application_case
       @application_case = ApplicationCase.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def application_case_params
-      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
+      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
     end
 end

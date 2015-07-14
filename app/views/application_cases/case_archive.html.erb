@@ -1,24 +1,31 @@
-<h1>My Cases</h1>
+<h1>My Archived Cases</h1>
 
-  <%= form_tag '', :method => :get do %>
-    <%= select_tag :active, options_for_select([["Open", true], ["Closed", false]]), :prompt => 'Select One' %>
-    <%= select_tag :status, options_for_select([ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ]), :prompt => 'Select One'  %>
-    <%= submit_tag 'Filter' %>
+<% if @application_cases.empty? %>
+
+  <h3>You don't have any archived cases yet</h3>
+
+<% else  %>
+
+  <% if can? :create, @application_case %>
+    <%= link_to 'New case', new_user_application_case_path(current_user) %>
+  <% end  %>
+
+  <% if current_user.is_broker? %>
+      <%= link_to 'All', applicaton_cases_path %>
   <% end %>
 
   <table>
     <thead>
       <tr>
-        <th>Opened</th>
-        <th>Status</th>
-        <th>Type</th>
+        <th>Reference</th>
         <th>Lender</th>
         <% if current_user.is_broker? %>
           <th>Applicant</th>
         <% end  %>
-        <th>Progress</th>
+        <th>Status</th>
         <th>Mortgage</th>
         <th>Valuation</th>
+        <th>Type</th>
         <th>Last update</th>
         <th></th>
       </tr>
@@ -26,10 +33,8 @@
 
     <tbody>
       <% @application_cases.each do |application_case| %>
-        <tr class="<%= cycle('even', 'odd') -%>">
-          <td><%= application_case.created_at.to_formatted_s(:short) %></td>
-          <td><% if application_case.active %>Open<% else %>closed<% end %></td>
-          <td><%= application_case.app_type %></td>
+        <tr>
+          <td><%= application_case.id %></td>
           <td><%= application_case.lender.name %></td>
           <% if current_user.is_broker? %>
             <td class='links'>
@@ -45,6 +50,7 @@
           <td><%= application_case.status %></td>
           <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
           <td><%= number_to_currency_gbp(application_case.valuation) %></td>
+          <td><%= application_case.app_type %></td>
           <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
           <td class="actions">
                 <%= link_to application_case do %><i class="fa fa-eye fa-2x"></i><% end %>
@@ -60,3 +66,5 @@
     </tbody>
   </table>
   <br>
+
+<% end %>

@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   get '/my_cases' => 'application_cases#index'
   get '/my_cases/:id' => 'application_cases#show'
   get '/new_case' => 'application_cases#new'
+  get '/case_archive' => 'application_cases#case_archive'
 
   get '/search_users' => 'users#search_users'
   post '/add_as_client' => 'users#add_as_client'

@@ -1,7 +1,7 @@
 <h1>Editing Application Case</h1>
 
-<h2>Current Status : <%= @application_case.status %></h2>
-
+<h2>Case Status : <%= @application_case.status %></h2>
+<h3><% if @application_case.active %>Open<% else %>closed<% end %></h3>
 
 <%= render 'status' %>
 

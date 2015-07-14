@@ -19,6 +19,11 @@ class ApplicationCase < ActiveRecord::Base
             :numericality => true,
             :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ }
 
+    scope :archived, -> { where(archived: true) }
+    scope :active, -> (status) { where active: status }
+    scope :status, -> (status) { where status: status }
+
+
 	def has_applicants?
 		self.applicants.count != 0;
 	end
