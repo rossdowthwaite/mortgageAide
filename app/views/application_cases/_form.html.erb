@@ -37,10 +37,6 @@
       <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
     </div>
     <div class="field">
-      <%= f.label :status %>
-      <%= f.select :status, [ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ], :prompt => 'Select One' %>
-    </div>
-    <div class="field">
       <%= f.label "Lender" %>
       <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] } %>
     </div>

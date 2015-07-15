@@ -3,7 +3,7 @@ ActiveAdmin.register User do
   scope :brokers
   scope :agents
 
-  preserve_default_filters!
+  # preserve_default_filters!
   filter :role, :collection => proc {(Role.all).map{|r| [r.role, r.id]}}
 
   index do 
@@ -16,12 +16,26 @@ ActiveAdmin.register User do
     actions
   end
 
+  show do
+    attributes_table do
+      row :email
+      row :contact
+      row :role do |user|
+        user.role.role
+      end
+      row :last_sign_in_at
+      row :last_sign_in_ip
+      row :created_at
+    end
+    active_admin_comments
+  end
+
  form do |f|
     f.inputs "User Details" do
       f.input :email
       f.input :password
       f.input :password_confirmation
-      f.input :role_id
+      f.input :role_id, :as => :select, :collection =>  Role.all.map{|r| [r.role, r.id]}
     end
     f.actions
   end

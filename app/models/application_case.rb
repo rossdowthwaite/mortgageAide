@@ -19,6 +19,8 @@ class ApplicationCase < ActiveRecord::Base
 	has_one :mortgage_address, :dependent => :destroy
 	accepts_nested_attributes_for :mortgage_address
 
+	accepts_nested_attributes_for :application_statuses, allow_destroy: true
+
 	validates :mortgage, :presence => true,
             :numericality => true,
             :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ }
@@ -27,6 +29,8 @@ class ApplicationCase < ActiveRecord::Base
     scope :active, -> (status) { where active: status }
     scope :current_status, -> (status) { joins(:statuses).where('status.id = ?', status) }
 
+	after_create :set_status
+
 	def has_applicants?
 		self.applicants.count != 0;
 	end
@@ -34,4 +38,10 @@ class ApplicationCase < ActiveRecord::Base
 	def is_brokered_by? (user)
 		self.users.map(&:id).include? user.id
 	end
+
+	private
+
+	    def set_status
+	      ApplicationStatus.create(:application_case_id => self.id, :status_id => 1 );
+	    end
 end
