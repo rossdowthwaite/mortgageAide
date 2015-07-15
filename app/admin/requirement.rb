@@ -5,6 +5,19 @@ ActiveAdmin.register Requirement do
     column :requirment
     actions
   end
+
+  form do |f|
+    f.inputs "Requirements" do
+      f.input :requirment
+    end
+    f.actions
+  end
+
+  show do
+    attributes_table do
+      row :requirment
+    end
+  end
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
