@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715132505) do
+ActiveRecord::Schema.define(version: 20150715141732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,12 +139,10 @@ ActiveRecord::Schema.define(version: 20150715132505) do
     t.string   "title"
     t.date     "dob"
     t.integer  "user_id"
-    t.integer  "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "contacts", ["role_id"], name: "index_contacts_on_role_id", using: :btree
   add_index "contacts", ["user_id"], name: "index_contacts_on_user_id", using: :btree
 
   create_table "extra_details", force: :cascade do |t|
@@ -243,7 +241,6 @@ ActiveRecord::Schema.define(version: 20150715132505) do
   add_foreign_key "case_requirements", "application_cases"
   add_foreign_key "case_requirements", "requirements"
   add_foreign_key "contact_addresses", "users"
-  add_foreign_key "contacts", "roles"
   add_foreign_key "contacts", "users"
   add_foreign_key "extra_details", "users"
   add_foreign_key "mortgage_addresses", "application_cases"
