@@ -21,7 +21,7 @@ ActiveAdmin.register Requirement do
     # This is related to Rails 4 and the changes it introduced in handling strong parameters. Here we replace :email with :username.
   controller do
     def permitted_params
-      params.permit requirement: [:requirment, :date_needed]
+      params.permit requirement: [:requirment]
     end
   end
 end
