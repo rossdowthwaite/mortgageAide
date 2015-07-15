@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   belongs_to :contact
   belongs_to :role
 
+  has_many :notes
+
   has_many :contact_addresses
   has_many :phone_numbers
   has_one  :extra_detail

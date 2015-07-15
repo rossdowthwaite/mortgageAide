@@ -1,5 +1,10 @@
 <h1>Case Profile</h1>
-<h3>Broker: <%= @application_case.broker.contact.full_name %></h3>
+<h3>
+  Broker: <%= @application_case.broker.contact.full_name %>
+  <% if !@agent.nil? %>
+    <br>Agent: <%= @agent.user.contact.full_name %>
+  <% end -%>
+</h3>
 <div class="section_break">
   <p>
     <strong>Valuation: </strong><%= number_to_currency_gbp(@application_case.valuation) %><br>
@@ -22,9 +27,11 @@
       <%= link_to 'Add Applicants', new_application_case_applicant_path(@application_case) %><br><br>
     <% end %>
     <table>
-    <thead>
+      <thead>
         <tr>
           <th>Applicant</th>
+          <th>Phone</th>
+          <th>Email</th>
           <th></th>
         </tr>
       </thead>
@@ -33,6 +40,8 @@
           <tr class="<%= cycle('even', 'odd') -%>">
             <% if applicant.user.is_client? %>
               <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %></td>
+              <td><%= applicant.user.phone_numbers.primary.first.phone_number %></td>
+              <td><%= applicant.user.email %></td>
               <td class="actions">
                   <% if can? :delete, applicant %>
                     <%= link_to applicant,
@@ -49,6 +58,42 @@
     </table>
 </div>
 
+<div class="section_break">
+    <h2>Agent</h2>
+
+    <% if !@agent.nil? %>
+      <table>      
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tr class="<%= cycle('even', 'odd') -%>">
+            <td><%= @agent.user.contact.title %> <%= @agent.user.contact.fname %> <%= @agent.user.contact.lname %></td>
+            <td><%= @agent.user.phone_numbers.primary.first.phone_number if !@agent.user.phone_numbers.empty? %></td>
+            <td><%= @agent.user.email %></td>
+              <td class="actions">
+                  <% if can? :delete, @agent %>
+                    <%= link_to @agent,
+                         method: :delete,
+                         data: { confirm: 'Are you sure?' } do %>
+                         <i class="fa fa-times fa-2x"></i>
+                    <% end %>
+                  <% end %>
+              </td>
+          </tr>
+      </table>
+
+    <% else  %>
+
+      <%= link_to 'add agent', application_case_search_agents_path(@application_case) %>
+
+    <% end %>
+
+</div>
 <div class="section_break">
 
   <h2>Mortgage Address</h2>
@@ -70,11 +115,13 @@
       <% end -%>
   </ul>
 
-  <% if @status.nil? %>
-    <%= link_to 'add Status', new_application_case_application_status_path(@application_case) %>
-  <% else %>
-    <%= link_to 'Update Status', edit_application_case_application_status_path(@application_case, @status.first.id) %>
-  <% end %>
+  <% if can? :update, @status %>
+    <% if @status.nil? %>
+      <%= link_to 'add Status', new_application_case_application_status_path(@application_case) %>
+    <% else %>
+      <%= link_to 'Update Status', edit_application_case_application_status_path(@application_case, @status.first.id) %>
+    <% end %>
+  <% end -%>
 
 </div>
 
@@ -139,7 +186,7 @@
 
   <% @notes.each do |note| %>
     <div class="note">
-      <%= current_user.contact.full_name %> | <%= note.created_at.to_formatted_s(:short) %><br><br>
+      <%= note.user.contact.full_name %> | <%= note.user.role.role %> | <%= note.created_at.to_formatted_s(:short) %><br><br>
       <%= note.note %><br><br>
       <%= link_to 'Edit', edit_application_case_note_path(@application_case, note) %>
       <%= link_to 'Delete', [note.application_case, note],
@@ -149,6 +196,7 @@
   <% end %>
 
   <%= form_for([@application_case, @application_case.notes.build]) do |f| %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
     <p>
       <%= f.text_area :note %>
     </p>

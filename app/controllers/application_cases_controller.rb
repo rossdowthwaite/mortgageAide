@@ -7,10 +7,6 @@ class ApplicationCasesController < ApplicationController
   # GET /application_cases.json
   def index
     @application_cases = current_user.application_cases.all
-
-    filtering_params(params).each do |key, value|
-      @application_cases = @application_cases.public_send(key, value) if value.present?
-    end
   end
 
   def case_archive
@@ -26,7 +22,8 @@ class ApplicationCasesController < ApplicationController
       @status = @application_case.application_statuses
       @statuses = Status.all.sort_by(&:created_at)
       @m_address = @application_case.mortgage_address
-      @applicants = @application_case.applicants
+      @applicants = @application_case.applicants.who_are_clients
+      @agent = @application_case.applicants.who_are_agents.first
     else 
       flash[:notice] = "You are not authorized to view this";
       redirect_to(application_cases_path);
@@ -50,6 +47,27 @@ class ApplicationCasesController < ApplicationController
   # GET /application_cases/1/edit
   def edit_status
     @application_case = ApplicationCase.find(params[:application_case_id])
+  end
+
+  def search_agents
+    @application_case = ApplicationCase.find(params[:application_case_id])
+    @users = User.agents.search(params[:search])
+  end
+
+  def add_as_agent
+    @application_case = ApplicationCase.find(params[:application_case_id])
+    @user = User.find(params[:agent_id])
+    @user.application_cases << @application_case
+
+    respond_to do |format|
+      if @application_case.save
+          format.html { redirect_to @application_case, notice: 'Agent was successfully added.' }
+        format.json { render :show, status: :created, location: @application_case }
+      else
+        format.html { render :new }
+        format.json { render json: @application_case.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /application_cases
@@ -100,7 +118,7 @@ class ApplicationCasesController < ApplicationController
     end
 
     def filtering_params(params)
-      params.slice(:status, :active)
+      params.slice(:current_status, :active)
     end
 
     def set_application_case

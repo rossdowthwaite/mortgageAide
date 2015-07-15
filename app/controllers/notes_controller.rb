@@ -26,6 +26,7 @@ class NotesController < ApplicationController
   def create
     @application_case = ApplicationCase.find(params[:application_case_id])
     @note = @application_case.notes.create(note_params)
+    @applicants = @application_case.applicants.not_current(current_user)
 
     respond_to do |format|
       if @note.save
@@ -78,6 +79,6 @@ class NotesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:note, :application_case_id)
+      params.require(:note).permit(:note, :user_id, :application_case_id)
     end
 end

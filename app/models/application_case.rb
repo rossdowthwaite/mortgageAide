@@ -14,6 +14,7 @@ class ApplicationCase < ActiveRecord::Base
   	has_many :users, :through => :applicants
 
   	belongs_to :broker, class_name: "User", foreign_key: "user_id"
+  	belongs_to :agent, class_name: "User", foreign_key: "agent_id"
   	
 	has_one :mortgage_address, :dependent => :destroy
 	accepts_nested_attributes_for :mortgage_address
@@ -24,8 +25,7 @@ class ApplicationCase < ActiveRecord::Base
 
     scope :archived, -> { where(archived: true) }
     scope :active, -> (status) { where active: status }
-    scope :status, -> (status) { where status: status }
-
+    scope :current_status, -> (status) { joins(:statuses).where('status.id = ?', status) }
 
 	def has_applicants?
 		self.applicants.count != 0;

@@ -1,9 +1,9 @@
 <h1>My Cases</h1>
 
   <% if current_user.is_broker? %>
-    <%= form_tag '', :method => :get do %>
+    <% form_tag '', :method => :get do %>
       <%= select_tag :active, options_for_select([["Open", true], ["Closed", false]]), :prompt => 'Select One' %>
-      <%= select_tag :status, options_for_select([ 'setup', 'dip', 'full application', 'valuation', 'offer', 'exchanged', 'completed' ]), :prompt => 'Select One'  %>
+      <%= select_tag :current_status, options_for_select( Status.all.collect { |p| [ p.status, p.id ] } ), :prompt => 'Select One'  %>
       <%= submit_tag 'Filter' %>
     <% end %>
   <% end -%>

@@ -1,3 +1,5 @@
+<h2>Search and add Clients</h2>
+
 <%= form_tag search_users_path, :method => 'get' do %>
   <p>
     <%= text_field_tag :search, params[:search] %><br>
@@ -9,7 +11,7 @@
 	<% @users.try(:each) do |user| %>
 		<tr>
 			<td>
-				<h3><%= user.email %></h3>
+				<%= user.email %>
 			</td>
 			<td><%= button_to "Add as client", add_as_client_path(:client_id => user.id) %></td>
 		</tr>

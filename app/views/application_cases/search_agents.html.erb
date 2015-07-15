@@ -1,0 +1,25 @@
+<h2>Search and add Agent</h2>
+
+<%= form_tag application_case_search_agents_path(@application_case), :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %><br>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+<br>
+<table>
+	<% @users.try(:each) do |user| %>
+		<tr>
+			<td>
+				<%= user.email %>
+			</td>
+			<td><%= button_to "Add as agent", application_case_add_as_agent_path(:agent_id => user.id) %></td>
+		</tr>
+	<% end %>	
+</table>
+
+<% if !@users.nil?  %>
+	<% if @users.empty? %>
+		<h3>None found</h3>
+	<% end %>
+<% end %>

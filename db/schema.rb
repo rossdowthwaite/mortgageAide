@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715093023) do
+ActiveRecord::Schema.define(version: 20150715132505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,9 +180,11 @@ ActiveRecord::Schema.define(version: 20150715093023) do
     t.integer  "application_case_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "user_id"
   end
 
   add_index "notes", ["application_case_id"], name: "index_notes_on_application_case_id", using: :btree
+  add_index "notes", ["user_id"], name: "index_notes_on_user_id", using: :btree
 
   create_table "phone_numbers", force: :cascade do |t|
     t.string   "phone_number"
@@ -190,6 +192,7 @@ ActiveRecord::Schema.define(version: 20150715093023) do
     t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "primary"
   end
 
   add_index "phone_numbers", ["user_id"], name: "index_phone_numbers_on_user_id", using: :btree
@@ -245,6 +248,7 @@ ActiveRecord::Schema.define(version: 20150715093023) do
   add_foreign_key "extra_details", "users"
   add_foreign_key "mortgage_addresses", "application_cases"
   add_foreign_key "notes", "application_cases"
+  add_foreign_key "notes", "users"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "users", "roles"
 end

@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
     get 'edit_status', as: :edit_status
     get 'my_cases', as: :my_cases, on: :collection
+    get '/search_agents' => 'application_cases#search_agents'
+    post '/add_as_agent' => 'application_cases#add_as_agent'
   end
 
   resources :users do
@@ -61,6 +63,7 @@ Rails.application.routes.draw do
 
   get '/search_users' => 'users#search_users'
   post '/add_as_client' => 'users#add_as_client'
+
   # Root path
   root 'statics#index' 
 
