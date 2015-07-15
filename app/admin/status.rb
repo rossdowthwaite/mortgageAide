@@ -21,5 +21,9 @@ ActiveAdmin.register Status do
   #   permitted
   # end
 
-
+  controller do
+    def permitted_params
+      params.permit status: [:status]
+    end
+  end
 end
