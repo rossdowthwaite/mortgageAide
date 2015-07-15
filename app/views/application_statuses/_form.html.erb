@@ -1,0 +1,23 @@
+<%= form_for(@status) do |f| %>
+  <% if @status.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@status.errors.count, "error") %> prohibited this application_status from being saved:</h2>
+
+      <ul>
+      <% @status.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :application_case_id, :value => @application_case.id %>
+  
+  <div class="field">
+    <%= f.label :status_id %>
+    <%= f.select :status_id, Status.all.collect { |p| [ p.status, p.id ] }, {prompt: 'Select Requirement'}  %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

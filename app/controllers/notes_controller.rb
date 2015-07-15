@@ -29,6 +29,12 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.save
+
+        # Loop applicants and send a mail
+        @applicants.each do |applicant|
+            ApplicationCaseMailer.new_note_notification(applicant.user, @note.note, current_user, @application_case).deliver
+        end
+
         format.html { redirect_to @application_case, notice: 'Note was successfully created.' }
         format.json { render :show, status: :created, location: @application_case }
       else

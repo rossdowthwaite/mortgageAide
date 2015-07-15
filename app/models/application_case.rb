@@ -4,6 +4,9 @@ class ApplicationCase < ActiveRecord::Base
 	
 	has_many :notes, :dependent => :destroy
 	
+	has_many :application_statuses, :dependent => :destroy
+	has_many :statuses, through: :application_statuses
+
 	has_many :case_requirements, :dependent => :destroy
 	has_many :requirements, through: :case_requirements
 	

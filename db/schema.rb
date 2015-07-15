@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714135341) do
+ActiveRecord::Schema.define(version: 20150715093023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20150714135341) do
     t.decimal  "mortgage",            precision: 10, scale: 2
     t.string   "term"
     t.string   "repayment"
-    t.string   "status"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
     t.string   "app_type"
@@ -77,6 +76,16 @@ ActiveRecord::Schema.define(version: 20150714135341) do
     t.boolean  "active"
     t.text     "reason"
   end
+
+  create_table "application_statuses", force: :cascade do |t|
+    t.integer  "application_case_id"
+    t.integer  "status_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "application_statuses", ["application_case_id"], name: "index_application_statuses_on_application_case_id", using: :btree
+  add_index "application_statuses", ["status_id"], name: "index_application_statuses_on_status_id", using: :btree
 
   create_table "case_requirements", force: :cascade do |t|
     t.integer  "application_case_id"
@@ -198,6 +207,12 @@ ActiveRecord::Schema.define(version: 20150714135341) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "statuses", force: :cascade do |t|
+    t.string   "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -220,6 +235,8 @@ ActiveRecord::Schema.define(version: 20150714135341) do
   add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
   add_foreign_key "applicants", "application_cases"
+  add_foreign_key "application_statuses", "application_cases"
+  add_foreign_key "application_statuses", "statuses"
   add_foreign_key "case_requirements", "application_cases"
   add_foreign_key "case_requirements", "requirements"
   add_foreign_key "contact_addresses", "users"

@@ -1,0 +1,11 @@
+<h2>Hi, <%= @user %></h2>
+
+<p><b><%= @sender %> has added a requirement to your case</b></p>
+
+<ul>
+	<li>Requirement: <%= @req %></li>
+	<li>Status: <%= @req_status %></li>
+	<li>Date: <%= @date %></li>
+</ul>
+
+<%= link_to 'Go to application', @application %>

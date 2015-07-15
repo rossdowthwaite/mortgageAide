@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  resources :application_statuses
+  resources :application_statuses
+  resources :statuses
   # resources :lenders
   
   resources :clients do 
@@ -24,6 +27,7 @@ Rails.application.routes.draw do
     resources :notes
     resources :case_requirements
     resources :applicants
+    resources :application_statuses
 
     get 'edit_status', as: :edit_status
     get 'my_cases', as: :my_cases, on: :collection

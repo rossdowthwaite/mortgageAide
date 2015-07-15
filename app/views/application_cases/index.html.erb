@@ -44,7 +44,7 @@
               <% end %>
             </td>
           <% end %>
-          <td><%= application_case.status %></td>
+          <td><%= application_case.statuses.first.status %></td>
           <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
           <td><%= number_to_currency_gbp(application_case.valuation) %></td>
           <td><%= application_case.updated_at.to_formatted_s(:short) %></td>

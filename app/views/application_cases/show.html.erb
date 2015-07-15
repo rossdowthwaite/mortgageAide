@@ -63,22 +63,20 @@
 <br>
 <div class="section_break">
   <h2>status</h2>
+
   <ul class="status">
-      <li <% if @status == 'setup' %> class="active"<% end %>>setup</li>
-      <li <% if @status == 'dip' %> class="active"<% end %>>dip</li>
-      <li <% if @status == 'full application' %>class="active"<% end %>>full application</li>
-      <li <% if @status == 'valuation' %>class="active"<% end %>>valuation</li>
-      <li <% if @status == 'offer' %>class="active"<% end %>>offer</li>
-      <li <% if @status == 'exchanged' %>class="active"<% end %>>exchanged</li>
-      <li <% if @status == 'completed' %><class="active"<% end %>>completed</li>
+      <% @statuses.each do |status| %>
+        <li <% if @status.first.status.status == status.status %> class="active"<% end %>><%= status.status %></li>
+      <% end -%>
   </ul>
 
-  <% if can? :update, @application_case %>
-    <%= link_to 'edit status', application_case_edit_status_path(@application_case) %>
+  <% if @status.nil? %>
+    <%= link_to 'add Status', new_application_case_application_status_path(@application_case) %>
+  <% else %>
+    <%= link_to 'Update Status', edit_application_case_application_status_path(@application_case, @status.first.id) %>
   <% end %>
+
 </div>
-
-
 
 
 <div class="section_break">
@@ -102,7 +100,7 @@
         </tr>
       </thead>
       <% @requirements.each do |case_req| %>
-          <tr>
+          <tr class="<%= cycle('even', 'odd') -%>">
             <td>
               <% if case_req.requirement.nil? %>
                 <%= case_req.free_requirement %>

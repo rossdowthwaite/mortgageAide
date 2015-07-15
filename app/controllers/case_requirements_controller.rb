@@ -30,6 +30,15 @@ before_action :set_application_case, only: [:new, :edit]
 
     respond_to do |format|
       if @case_req.save
+
+        @application_case = @case_req.application_case
+        @applicants = @application_case.applicants.not_current(current_user)
+
+        # Loop applicants and send a mail
+        @applicants.each do |applicant|
+            ApplicationCaseMailer.new_requirement_added(applicant.user, @case_req, current_user, @application_case).deliver
+        end
+
         format.html { redirect_to @case_req.application_case, notice: 'Role was successfully created.' }
         format.json { render :show, status: :created, location: @application_case }
       else
@@ -44,6 +53,15 @@ before_action :set_application_case, only: [:new, :edit]
   def update
     respond_to do |format|
       if @case_req.update(case_requirement_params)
+
+        @application_case = @case_req.application_case
+        @applicants = @application_case.applicants.not_current(current_user)
+
+        # Loop applicants and send a mail
+        @applicants.each do |applicant|
+            ApplicationCaseMailer.requirement_update(applicant.user, @case_req, current_user, @application_case).deliver
+        end
+
         format.html { redirect_to @case_req.application_case, notice: 'Role was successfully updated.' }
         format.json { render :show, status: :ok, location: @case_req }
       else

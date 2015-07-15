@@ -23,7 +23,8 @@ class ApplicationCasesController < ApplicationController
     if @application_case.is_brokered_by?(current_user)
       @notes = @application_case.notes
       @requirements = @application_case.case_requirements
-      @status = @application_case.status
+      @status = @application_case.application_statuses
+      @statuses = Status.all.sort_by(&:created_at)
       @m_address = @application_case.mortgage_address
       @applicants = @application_case.applicants
     else 
@@ -108,6 +109,6 @@ class ApplicationCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def application_case_params
-      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
+      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status_id, :lender_id, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
     end
 end
