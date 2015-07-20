@@ -9,6 +9,7 @@ class ContactsController < ApplicationController
   # GET /Contacts/new
   def new
     @contact = Contact.new
+    @extra = ExtraDetail.new
   end
 
   # GET /Contacts/1/edit
@@ -62,7 +63,7 @@ class ContactsController < ApplicationController
     end
 
     def contact_params
-      params.require(:contact).permit(:fname, :mname, :lname, :title, :dob, :user_id)
+      params.require(:contact).permit(:fname, :mname, :lname, :title, :dob, :user_id, phone_number_attributes: [:phone_number, :phone_type, :user_id, :primary], contact_address_attributes: [:address_one, :address_two, :town, :post_code, :primary, :user_id], extra_detail_attributes: [:branch, :user_id, :logo])
     end
 end
 

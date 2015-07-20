@@ -1,4 +1,4 @@
-<h2><%= @user.contact.full_name %></h2>
+<h2><%= @contact.full_name %></h2>
 <h1>Contact Addresses</h1>
 
 <table>
@@ -21,9 +21,8 @@
         <td><%= contact_address.post_code %></td>
         <td>
           <% if can? :update, @contact_address  %>
-            <%= link_to [current_user, contact_address] do %><i class="fa fa-eye fa-2x"></i><% end %>
-            <%= link_to edit_user_contact_address_path(current_user, contact_address) do %><i class="fa fa-cog fa-2x"></i><% end %>
-            <%= link_to [current_user, contact_address], method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
+            <%= link_to edit_contact_contact_address_path(@contact, contact_address) do %><i class="fa fa-cog fa-2x"></i><% end %>
+            <%= link_to [@contact, contact_address], method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
           <% end %>
         </td>
       </tr>
@@ -34,7 +33,7 @@
 <br>
 
 <% if can? :create, @contact_address  %>
-  <%= link_to 'New Contact address', new_user_contact_address_path %>
+  <%= link_to 'New Contact address', new_contact_contact_address_path(@contact) %>
 <% end %>
 
 <%= link_to 'Back', @user %>

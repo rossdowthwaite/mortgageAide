@@ -14,12 +14,14 @@ class ApplicationCase < ActiveRecord::Base
   	has_many :users, :through => :applicants
 
   	belongs_to :broker, class_name: "User", foreign_key: "user_id"
-  	belongs_to :agent, class_name: "User", foreign_key: "agent_id"
   	
 	has_one :mortgage_address, :dependent => :destroy
-	accepts_nested_attributes_for :mortgage_address
-
+	
+	accepts_nested_attributes_for :mortgage_address, allow_destroy: true
 	accepts_nested_attributes_for :application_statuses, allow_destroy: true
+	accepts_nested_attributes_for :notes, allow_destroy: true
+	accepts_nested_attributes_for :case_requirements, allow_destroy: true
+	accepts_nested_attributes_for :applicants, allow_destroy: true
 
 	validates :mortgage, :presence => true,
             :numericality => true,

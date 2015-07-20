@@ -1,6 +1,6 @@
-<h2><%= @user.contact.full_name %></h2>
+<h2><%= @contact.full_name %></h2>
 <h1>Editing Contact Address</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', [current_user, @contact_address] %> |
+<%= link_to 'Show', [@contact, @contact_address] %> |

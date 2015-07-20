@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
 
 
   after_create :build_contact
+  after_create :add_extra_details
 
   # check if Broker
   def is_broker?
@@ -75,5 +76,11 @@ class User < ActiveRecord::Base
     def build_contact
       @contact = Contact.create(:user_id => self.id, :fname => "Firstname", :lname => 'Lastname' );
       self.update_attributes(:contact_id => @contact.id)
+    end
+
+    def add_extra_details 
+      if !self.is_client? 
+        @extra = ExtraDetail.create(:user_id => self.id, :branch => 'Branch', :logo => '')
+      end
     end
 end

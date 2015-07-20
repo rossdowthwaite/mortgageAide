@@ -9,4 +9,8 @@ class Applicant < ActiveRecord::Base
   def names  
   	self
   end
+
+  def is_client?
+    self.user.contact == "Client"
+  end
 end

@@ -1,9 +1,9 @@
 class ContactAddressesController < ApplicationController
   before_action :set_contact_address, only: [:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:new, :index, :show, :create, :edit, :update, :destroy]
+  before_action :set_contact, only: [:new, :index, :show, :create, :edit, :update]
 
   def index
-    @contact_addresses = @user.contact_addresses.all
+    @contact_addresses = @contact.contact_addresses.all
   end
 
   # GET /Contacts/1
@@ -23,11 +23,11 @@ class ContactAddressesController < ApplicationController
   # POST /Contacts
   # POST /Contacts.json
   def create
-    @contact_address = @user.contact_addresses.build(contact_address_params)
+    @contact_address = @contact.contact_addresses.build(contact_address_params)
 
     respond_to do |format|
       if @contact_address.save
-        format.html { redirect_to @user, notice: 'Address was successfully created.' }
+        format.html { redirect_to @contact.user, notice: 'Address was successfully created.' }
         format.json { render :show, status: :created, location: @contact_address }
       else
         format.html { render :new }
@@ -41,7 +41,7 @@ class ContactAddressesController < ApplicationController
   def update
     respond_to do |format|
       if @contact_address.update(contact_address_params)
-        format.html { redirect_to @contact_address.user, notice: 'Address was successfully updated.' }
+        format.html { redirect_to @contact_address.contact.user, notice: 'Address was successfully updated.' }
         format.json { render :show, status: :ok, location: @contact_address }
       else
         format.html { render :edit }
@@ -55,7 +55,7 @@ class ContactAddressesController < ApplicationController
   def destroy
     @contact_address.destroy
     respond_to do |format|
-      format.html { redirect_to @contact_address.user, notice: 'Address was successfully destroyed.' }
+      format.html { redirect_to @contact_address.contact.user, notice: 'Address was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,8 +64,8 @@ class ContactAddressesController < ApplicationController
 
   private
 
-    def set_user
-      @user = User.find(params[:user_id])
+    def set_contact
+      @contact = Contact.find(params[:contact_id])
     end
 
   	def set_contact_address

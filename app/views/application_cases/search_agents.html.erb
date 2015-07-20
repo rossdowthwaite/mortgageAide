@@ -1,5 +1,6 @@
 <h2>Search and add Agent</h2>
 
+<p>Enter email address</p>
 <%= form_tag application_case_search_agents_path(@application_case), :method => 'get' do %>
   <p>
     <%= text_field_tag :search, params[:search] %><br>

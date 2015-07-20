@@ -1,9 +1,9 @@
 class PhoneNumbersController < ApplicationController
   before_action :set_number, only: [:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:new, :index, :show, :create, :edit, :update, :destroy]
+  before_action :set_contact, only: [:new, :index, :show, :create, :edit, :update]
   
   def index
-    @phone_numbers = @user.phone_numbers.all
+    @phone_numbers = @contact.phone_numbers.all
   end
 
   # GET /Contacts/1
@@ -23,11 +23,11 @@ class PhoneNumbersController < ApplicationController
   # POST /Contacts
   # POST /Contacts.json
   def create
-    @phone_number = @user.phone_numbers.build(phone_number_params)
+    @phone_number = @contact.phone_numbers.build(phone_number_params)
 
     respond_to do |format|
       if @phone_number.save
-        format.html { redirect_to @user, notice: 'Contact Number was successfully created.' }
+        format.html { redirect_to @contact.user, notice: 'Contact Number was successfully created.' }
         format.json { render :show, status: :created, location: [@user, @phone_number] }
       else
         format.html { render :new }
@@ -41,7 +41,7 @@ class PhoneNumbersController < ApplicationController
   def update
     respond_to do |format|
       if @phone_number.update(phone_number_params)
-        format.html { redirect_to @phone_number.user, notice: 'Contact Number was successfully updated.' }
+        format.html { redirect_to @phone_number.contact.user, notice: 'Contact Number was successfully updated.' }
         format.json { render :show, status: :ok, location: @phone_number }
       else
         format.html { render :edit }
@@ -55,7 +55,7 @@ class PhoneNumbersController < ApplicationController
   def destroy
     @phone_number.destroy
     respond_to do |format|
-      format.html { redirect_to @phone_number.user, notice: 'Contact Number was successfully destroyed.' }
+      format.html { redirect_to @phone_number.contact.user, notice: 'Contact Number was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -63,8 +63,8 @@ class PhoneNumbersController < ApplicationController
 
   private
 
-    def set_user
-      @user = User.find(params[:user_id])
+    def set_contact
+      @contact = Contact.find(params[:contact_id])
     end
 
    	def set_number

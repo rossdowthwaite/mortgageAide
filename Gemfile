@@ -44,6 +44,9 @@ gem 'jquery-ui-rails'
 # Authorization
 gem 'cancancan', '~> 1.10'
 
+# Image attachment
+gem 'paperclip'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

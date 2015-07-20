@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715163004) do
+ActiveRecord::Schema.define(version: 20150720104301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,8 +128,10 @@ ActiveRecord::Schema.define(version: 20150715163004) do
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "contact_id"
   end
 
+  add_index "contact_addresses", ["contact_id"], name: "index_contact_addresses_on_contact_id", using: :btree
   add_index "contact_addresses", ["user_id"], name: "index_contact_addresses_on_user_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
@@ -148,10 +150,16 @@ ActiveRecord::Schema.define(version: 20150715163004) do
   create_table "extra_details", force: :cascade do |t|
     t.string   "branch"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "contact_id"
   end
 
+  add_index "extra_details", ["contact_id"], name: "index_extra_details_on_contact_id", using: :btree
   add_index "extra_details", ["user_id"], name: "index_extra_details_on_user_id", using: :btree
 
   create_table "lenders", force: :cascade do |t|
@@ -191,8 +199,10 @@ ActiveRecord::Schema.define(version: 20150715163004) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.boolean  "primary"
+    t.integer  "contact_id"
   end
 
+  add_index "phone_numbers", ["contact_id"], name: "index_phone_numbers_on_contact_id", using: :btree
   add_index "phone_numbers", ["user_id"], name: "index_phone_numbers_on_user_id", using: :btree
 
   create_table "requirements", force: :cascade do |t|
@@ -239,12 +249,15 @@ ActiveRecord::Schema.define(version: 20150715163004) do
   add_foreign_key "application_statuses", "statuses"
   add_foreign_key "case_requirements", "application_cases"
   add_foreign_key "case_requirements", "requirements"
+  add_foreign_key "contact_addresses", "contacts"
   add_foreign_key "contact_addresses", "users"
   add_foreign_key "contacts", "users"
+  add_foreign_key "extra_details", "contacts"
   add_foreign_key "extra_details", "users"
   add_foreign_key "mortgage_addresses", "application_cases"
   add_foreign_key "notes", "application_cases"
   add_foreign_key "notes", "users"
+  add_foreign_key "phone_numbers", "contacts"
   add_foreign_key "phone_numbers", "users"
   add_foreign_key "users", "roles"
 end

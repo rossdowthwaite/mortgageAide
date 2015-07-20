@@ -1,5 +1,5 @@
 class PhoneNumber < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :contact
 
   scope :primary, -> { where(primary: true) }
 

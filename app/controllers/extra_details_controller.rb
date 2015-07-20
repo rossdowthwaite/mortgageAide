@@ -66,7 +66,7 @@ class ExtraDetailsController < ApplicationController
   	end
 
     def extra_detail_params
-      params.require(:extra_detail).permit(:branch, :user_id)
+      params.require(:extra_detail).permit(:branch, :user_id, :logo)
     end
 end
 
