@@ -80,7 +80,7 @@
 			<% @numbers.try(:each) do |number| %>
 				
 				<tr <% if number.is_primary? %>class="even"<% end -%> >
-        			<td><% number.is_primary? %><i class="fa fa-caret-right"></i><% end -%></td>
+        			<td><% if number.is_primary? %><i class="fa fa-caret-right"></i><% end -%></td>
 					<td><%= number.phone_type %></td>
 					<td><b><%= number.phone_number %></b></td>
 					<td>
