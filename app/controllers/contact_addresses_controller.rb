@@ -73,7 +73,7 @@ class ContactAddressesController < ApplicationController
   	end
 
     def contact_address_params
-      params.require(:contact_address).permit(:address_one, :address_two, :town, :post_code, :primary, :user_id)
+      params.require(:contact_address).permit(:address_one, :address_two, :town, :county, :post_code, :primary, :user_id)
     end
 end
 

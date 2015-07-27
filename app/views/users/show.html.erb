@@ -20,9 +20,9 @@
 		<% if !@extra.nil? %>
 			<h2>Branch</h2>
 			<h4><%= @extra.branch %></h4>
+
+			<%= link_to 'edit details', edit_user_extra_detail_path(@user, @extra) %>
 		<% end %>
-	
-		<%= link_to 'edit details', edit_user_extra_detail_path(@user, @extra) %>
 
 	</div>
 <% end %>
