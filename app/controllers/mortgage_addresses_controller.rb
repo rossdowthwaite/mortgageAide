@@ -1,26 +1,6 @@
 class MortgageAddressesController < ApplicationController
   before_action :set_mortgage_address, only: [:show, :edit, :update, :destroy]
 
-  # GET /mortgage_addresses
-  # GET /mortgage_addresses.json
-  def index
-    @mortgage_addresses = MortgageAddress.all
-  end
-
-  # GET /mortgage_addresses/1
-  # GET /mortgage_addresses/1.json
-  def show
-  end
-
-  # GET /mortgage_addresses/new
-  def new
-    @mortgage_address = MortgageAddress.new
-  end
-
-  # GET /mortgage_addresses/1/edit
-  def edit
-  end
-
   # POST /mortgage_addresses
   # POST /mortgage_addresses.json
   def create

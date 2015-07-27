@@ -4,12 +4,15 @@ class ApplicationCase < ActiveRecord::Base
 	
 	has_many :notes, :dependent => :destroy
 	
+	# Only has one status but utilizes the :through helpers and extre table columns. 
+	# Control methods ensure only one join table entry per case.
 	has_many :application_statuses, :dependent => :destroy
 	has_many :statuses, through: :application_statuses
 
 	has_many :case_requirements, :dependent => :destroy
 	has_many :requirements, through: :case_requirements
 	
+	# Users can be the broker, agent or client.
 	has_many :applicants, :dependent => :destroy
   	has_many :users, :through => :applicants
 
@@ -25,7 +28,7 @@ class ApplicationCase < ActiveRecord::Base
 
 	validates :mortgage, :presence => true,
             :numericality => true,
-            :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ }
+            :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ } #currency
 
     scope :archived, -> { where(archived: true) }
     scope :active, -> (status) { where active: status }

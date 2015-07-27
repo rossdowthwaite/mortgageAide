@@ -27,7 +27,7 @@
   </div>
   <div class="field">
     <%= f.label :date_requested %><br>
-    <%= f.date_select :date_requested %>
+    <%= f.date_select :date_requested, :end_year=> Date.today.year + 10 %>
   </div>
   <div class="actions">
     <%= f.submit %>

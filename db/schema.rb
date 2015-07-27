@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720104301) do
+ActiveRecord::Schema.define(version: 20150727091139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,16 +62,16 @@ ActiveRecord::Schema.define(version: 20150720104301) do
   create_table "application_cases", force: :cascade do |t|
     t.string   "product"
     t.datetime "expiry"
-    t.decimal  "mortgage",            precision: 10, scale: 2
+    t.integer  "mortgage"
     t.string   "term"
     t.string   "repayment"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "app_type"
     t.integer  "user_id"
     t.integer  "lender_id"
     t.integer  "mortgage_address_id"
-    t.decimal  "valuation",           precision: 10, scale: 2
+    t.integer  "valuation"
     t.boolean  "archived"
     t.boolean  "active"
     t.text     "reason"

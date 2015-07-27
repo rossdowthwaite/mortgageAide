@@ -1,6 +1,6 @@
 class ApplicationCasesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_application_case, only: [:show, :edit, :update, :destroy]
+  before_action :set_application_case, only: [:show, :edit, :update, :destroy, :find_client]
   before_action :set_user
 
   # GET /application_cases
@@ -44,6 +44,16 @@ class ApplicationCasesController < ApplicationController
     end
   end
 
+  def add_as_applicant
+    @application_case = ApplicationCase.find(params[:application_case_id] )
+    @application_case.applicants << Applicant.create(:user_id => params[:applicant_id] )
+    redirect_to(@application_case);
+  end
+
+  def find_client
+    @contacts = Contact.search(params[:search])
+  end
+
   # GET /application_cases/1/edit
   def edit_status
     @application_case = ApplicationCase.find(params[:application_case_id])
@@ -74,6 +84,7 @@ class ApplicationCasesController < ApplicationController
   # POST /application_cases.json
   def create
     @application_case = ApplicationCase.new(application_case_params)
+    @application_case.active = true
     current_user.application_cases << @application_case
 
     respond_to do |format|

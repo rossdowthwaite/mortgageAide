@@ -36,7 +36,11 @@ Rails.application.routes.draw do
     get 'edit_status', as: :edit_status
     get 'my_cases', as: :my_cases, on: :collection
     get '/search_agents' => 'application_cases#search_agents'
-    post '/add_as_agent' => 'application_cases#add_as_agent'
+    post '/add_as_agent' => 'application_cases#add_as_agent' 
+    
+    get 'find_client', as: :find_client, on: :member
+    post 'add_as_applicant' => 'application_cases#add_as_applicant'
+
   end
 
   resources :users do

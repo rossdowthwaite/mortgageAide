@@ -14,4 +14,13 @@ class Contact < ActiveRecord::Base
   def full_name
   	([fname, lname] - ['']).compact.join(' ') 
   end
+
+  def self.search(search)
+    if search
+      self.where('lname LIKE ?', "#{search}")
+    else
+      # Do nothing
+    end
+  end
+
 end

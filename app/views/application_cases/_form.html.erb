@@ -13,8 +13,28 @@
 <!-- options are Capital & Repayment, Interest Only, Split -->
   <div class="section_break">
     <div class="field">
-      <%= f.label :valuation %>
-      <%= f.number_field :valuation, max: 99999999.99, :step => 0.99, :value => 0.00 %>
+      <%= f.label :app_type, 'Application Type' %>
+      <%= f.select :app_type, [ 'buy-to-let', 'let-to-buy', 'residential', 'remortgage', 'product trans', 'further adv', 'secured loan', 'equity rel', ], :prompt => 'Select One' %>
+    </div>
+    <div class="field">
+      <%= f.label :mortgage, 'Mortgage Amount' %>
+      <%= f.number_field :mortgage %>
+    </div>
+    <div class="field">
+      <%= f.label :valuation, 'Purchase price / Valuation' %>
+      <%= f.number_field :valuation %>
+    </div>
+    <div class="field">
+      <%= f.label :term %>
+      <%= f.select :term, ((0..40).map {|i| [i,i] })  %>
+    </div>
+    <div class="field">
+      <%= f.label :repayment, 'Repayment Type' %>
+      <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
+    </div>
+    <div class="field">
+      <%= f.label "Lender" %>
+      <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] }, :prompt => 'Select One' %>
     </div>
     <div class="field">
       <%= f.label :product %>
@@ -22,29 +42,9 @@
     </div>
     <div class="field">
       <%= f.label :expiry %>
-      <%= f.date_select :expiry %>
+      <%= f.date_select :expiry, :end_year=> Date.today.year + 100  %>
     </div>
-    <div class="field">
-      <%= f.label :mortgage %>
-      <%= f.number_field :mortgage, max: 99999999.99, :step => 0.99, :value => 0.00 %>
-    </div>
-    <div class="field">
-      <%= f.label :term %>
-      <%= f.select :term, ((0..40).map {|i| [i,i] })  %>
-    </div>
-    <div class="field">
-      <%= f.label :repayment %>
-      <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
-    </div>
-    <div class="field">
-      <%= f.label "Lender" %>
-      <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] } %>
-    </div>
-      <%= f.hidden_field :user_id, :value => current_user.id  %>
-    <div class="field">
-      <%= f.label :app_type %>
-      <%= f.select :app_type, [ 'buy-to-let', 'let-to-buy', 'residential', 'remortgage', 'product trans', 'further adv', 'secured loan', 'equity rel', ], :prompt => 'Select One' %>
-    </div>
+    <%= f.hidden_field :user_id, :value => current_user.id  %>
   </div>
 
   <div class="section_break">

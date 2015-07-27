@@ -2,20 +2,6 @@ class ExtraDetailsController < ApplicationController
   before_action :set_extra_detail, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :index, :show, :create, :edit, :update, :destroy]
 
-  # GET /Contacts/1
-  # GET /Contacts/1.json
-  def show
-  end
-
-  # GET /Contacts/new
-  def new
-    @extra_detail = ExtraDetail.new
-  end 
-
-  # GET /Contacts/1/edit
-  def edit
-  end
-
   # POST /Contacts
   # POST /Contacts.json
   def create
@@ -55,6 +41,7 @@ class ExtraDetailsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
   private
 
     def set_user

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def number_to_currency_gbp (number)
-    number_to_currency(number, { :unit => "£"})
+    number_to_currency(number, { :unit => "£", precision: 0})
   end
 
   def can_edit? (model)

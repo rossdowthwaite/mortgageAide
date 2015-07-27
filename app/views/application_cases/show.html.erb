@@ -24,7 +24,7 @@
 <div class="section_break">
     <h2>Applicants</h2>
     <% if current_user.is_broker? %>
-      <%= link_to 'Add Applicants', new_application_case_applicant_path(@application_case) %><br><br>
+      <%= link_to 'Add Applicant', find_client_application_case_path(@application_case) %><br>
     <% end %>
     <table>
       <thead>

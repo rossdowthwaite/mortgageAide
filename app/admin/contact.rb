@@ -1,24 +1,12 @@
 ActiveAdmin.register Contact do
 
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if resource.something?
-  #   permitted
-  # end
-
   permit_params :fname, :mname, :lname, :title, :dob, :user_id,
     phone_number_attributes: [:phone_number, :phone_type, :user_id, :primary],
     contact_address_attributes: [:address_one, :address_two, :town, :post_code, :primary, :user_id],
     extra_detail_attributes: [:branch, :user_id, :logo]
 
+
+  # Index view
   index do 
     column :title
     column :fname
@@ -30,6 +18,7 @@ ActiveAdmin.register Contact do
     actions
   end
 
+# Show view
  show do
     attributes_table do
       row :title
@@ -37,6 +26,7 @@ ActiveAdmin.register Contact do
       row :lname
       row :dob
       row :user
+      
       panel "Phone Numbers" do
         table_for contact.phone_numbers do
           column do |number|
@@ -44,14 +34,17 @@ ActiveAdmin.register Contact do
           end
         end
       end
-     panel "Addresses" do
-      table_for contact.contact_addresses do
+
+      panel "Addresses" do
+        table_for contact.contact_addresses do
           column do |address|
             address.address_one + ', ' + address.address_two + ', ' + address.town + ', ' + address.post_code
           end
         end
       end
-     if !contact.user.is_client?
+
+      # disable this for clients 
+      if !contact.user.is_client?
         panel "Company Details" do
           table_for contact.extra_details do
             column do |detail|
@@ -60,11 +53,13 @@ ActiveAdmin.register Contact do
           end
         end
       end
+
     end
     active_admin_comments
   end
 
- form do |f|
+  # form view 
+  form do |f|
     f.inputs "Contact details" do
       
       f.input :title, :as => :select, :collection => [ 'Mr', 'Mrs', 'Miss']
@@ -85,6 +80,7 @@ ActiveAdmin.register Contact do
         b.input :primary
       end
       
+      # disable this for clients 
       if !f.object.user.nil?
         @user = f.object.user
         if !@user.is_client?
@@ -99,6 +95,7 @@ ActiveAdmin.register Contact do
     f.actions
   end
 
+  # Controller
   controller do 
     def permitted_params 
       params.permit! 

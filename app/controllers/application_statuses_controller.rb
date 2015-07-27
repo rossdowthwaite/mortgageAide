@@ -3,16 +3,6 @@ class ApplicationStatusesController < InheritedResources::Base
   before_action :set_status, only: [:show, :edit, :update, :destroy]
   before_action :set_application_case, only: [:new, :edit, :index]	
 
-  # GET /roles/new
-  def new 
-    if !@application_case.is_brokered_by?(current_user)
-      flash[:notice] = "You can't see this, Sorry";
-      redirect_to(application_cases_path);
-    else
-      @status = ApplicationStatus.new
-    end
-  end
-
   # GET /roles/1/edit
   def edit
     if !@application_case.is_brokered_by?(current_user)

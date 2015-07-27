@@ -1,8 +1,4 @@
 ActiveAdmin.register ApplicationCase do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
   permit_params :valuation, :product, :expiry, :mortgage, :term, :repayment, :status, :lender_id, :app_type, :user_id,
     mortgage_address_attributes: [:address_one, :address_two, :town, :county, :pcode],
     note_attributes: [:note, :user_id, :application_case_id],
@@ -17,6 +13,7 @@ ActiveAdmin.register ApplicationCase do
   filter :statuses, :collection => proc {(Status.all).map{|c| [c.status, c.id]}} 
   filter :active, :as => :select
 
+  # Show view
   show do
     attributes_table do
       row :app_type
@@ -29,6 +26,7 @@ ActiveAdmin.register ApplicationCase do
       row :mortgage do |c|
         number_to_currency_gbp(c.mortgage) 
       end
+
       panel "Applicants" do
         table_for application_case.applicants.who_are_clients do
           column do |applcant|
@@ -36,6 +34,7 @@ ActiveAdmin.register ApplicationCase do
           end
         end
       end
+      
       panel "Agent" do
         table_for application_case.applicants.who_are_agents do
           column do |applicant|
@@ -43,11 +42,13 @@ ActiveAdmin.register ApplicationCase do
           end
         end
       end
+      
+      # Get requierments
       panel "Requirements" do
         table_for application_case.case_requirements do
           column do |req|
-            if !req.requirement.nil?
-              req.requirement.requirment
+            if !req.requirement.nil?          # if the association use free text requirment
+              req.requirement.requirment 
             else
               req.free_requirement
             end
@@ -60,6 +61,7 @@ ActiveAdmin.register ApplicationCase do
           end
         end
       end
+      
       panel "Notes" do
         table_for application_case.notes do
           column do |note|
@@ -73,6 +75,7 @@ ActiveAdmin.register ApplicationCase do
           end
         end
       end
+      
       row :term 
       row :repayment
       row :status do |c|
@@ -84,6 +87,7 @@ ActiveAdmin.register ApplicationCase do
     end
   end
 
+  # Index View
   index do 
     column :app_type
     column :product
@@ -105,6 +109,7 @@ ActiveAdmin.register ApplicationCase do
     actions
   end
 
+  # Form view
   form do |f|
     f.inputs 'Details' do
       f.input :valuation
@@ -124,6 +129,8 @@ ActiveAdmin.register ApplicationCase do
         address.input :pcode
       end
 
+      # Agent - disable new record button if one already exists
+      # A bit hacky but works
       if f.object.applicants.who_are_agents.count == 0 
 
         f.has_many :applicants, heading: 'Agent', new_record: 'Add Agent' do |b|
@@ -157,11 +164,11 @@ ActiveAdmin.register ApplicationCase do
       end
 
       f.has_many :case_requirements, allow_destroy: true, new_record: false do |b|
-          if !b.object.requirement.nil?
-            b.input :requirement, :as => :select, :collection =>  Requirement.all.map{|l| [l.requirment, l.id]}
-          else
-            b.input :free_requirement, :as => :string 
-          end
+        if !b.object.requirement.nil?
+          b.input :requirement, :as => :select, :collection =>  Requirement.all.map{|l| [l.requirment, l.id]}
+        else
+          b.input :free_requirement, :as => :string 
+        end
       end
 
       f.has_many :notes, allow_destroy: true, new_record: 'Add Note' do |b|

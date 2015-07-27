@@ -1,14 +1,9 @@
 class PhoneNumbersController < ApplicationController
-  before_action :set_number, only: [:show, :edit, :update, :destroy]
-  before_action :set_contact, only: [:new, :index, :show, :create, :edit, :update]
+  before_action :set_number, only: [:edit, :update, :destroy]
+  before_action :set_contact, only: [:new, :index, :create, :edit, :update]
   
   def index
     @phone_numbers = @contact.phone_numbers.all
-  end
-
-  # GET /Contacts/1
-  # GET /Contacts/1.json
-  def show
   end
 
   # GET /Contacts/new

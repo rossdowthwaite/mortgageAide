@@ -1,0 +1,23 @@
+
+<h2>Search and add Applicant</h2>
+<p>Enter Client Surname</p>
+<%= form_tag find_client_application_case_path(@application_case), :method => 'get' do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %><br>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% end %>
+<br>
+<table>
+	<% @contacts.try(:each) do |contact| %>
+		<tr>
+			<td>
+				<%= contact.full_name %>
+			</td>
+			<td>
+				<%= contact.user.email %>
+			</td>
+			<td><%= button_to "Add as Applicant", application_case_add_as_applicant_path(:applicant_id => contact.user.id, :application_case_id => @application_case.id ) %></td>
+		</tr>
+	<% end %>	
+</table>
