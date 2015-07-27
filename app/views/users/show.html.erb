@@ -44,7 +44,7 @@
 			<% end -%>
 		<% end -%>
 
-		<% if @user.contact_addresses.count > 1 %>
+		<% if @user.contact.contact_addresses.count > 1 %>
 			<%= link_to 'see all', contact_contact_addresses_path(@user.contact) %>
 		<% end -%>
 
