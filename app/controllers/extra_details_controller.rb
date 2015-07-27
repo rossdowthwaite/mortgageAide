@@ -2,6 +2,9 @@ class ExtraDetailsController < ApplicationController
   before_action :set_extra_detail, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :index, :show, :create, :edit, :update, :destroy]
 
+  def edit
+  end
+
   # POST /Contacts
   # POST /Contacts.json
   def create
@@ -22,7 +25,7 @@ class ExtraDetailsController < ApplicationController
   # PATCH/PUT /roles/1.json
   def update
     respond_to do |format|
-      if @extra_detail.update(contact_address_params)
+      if @extra_detail.update(extra_detail_params)
         format.html { redirect_to @extra_detail.user, notice: 'Detail was successfully updated.' }
         format.json { render :show, status: :ok, location: @extra_detail }
       else
@@ -49,7 +52,7 @@ class ExtraDetailsController < ApplicationController
     end
 
   	def set_extra_detail
-  		@contact_address = ExtraDetail.find(params[:id])
+  		@extra_detail = ExtraDetail.find(params[:id])
   	end
 
     def extra_detail_params

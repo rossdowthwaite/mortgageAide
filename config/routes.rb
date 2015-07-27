@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   
   resources :application_statuses
-  resources :application_statuses
   resources :statuses
   # resources :lenders
   
@@ -14,7 +13,6 @@ Rails.application.routes.draw do
   resources :contacts do 
     resources :contact_addresses
     resources :phone_numbers
-    resources :extra_details
   end
   
   resources :mortgage_addresses
@@ -45,6 +43,7 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :application_cases
+    resources :extra_details
     
     collection do 
       get 'clients_index',  as: :show_clients

@@ -22,7 +22,7 @@
 			<h4><%= @extra.branch %></h4>
 		<% end %>
 	
-		<%= link_to 'Add company details', new_contact_extra_detail_path(@user) %>
+		<%= link_to 'edit details', edit_user_extra_detail_path(@user, @extra) %>
 
 	</div>
 <% end %>
