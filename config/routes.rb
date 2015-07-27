@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     post '/add_as_agent' => 'application_cases#add_as_agent' 
     
     get 'find_client', as: :find_client, on: :member
-    post 'add_as_applicant' => 'application_cases#add_as_applicant'
+    post '/add_as_applicant' => 'application_cases#add_as_applicant'
 
   end
 

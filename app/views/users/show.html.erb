@@ -32,14 +32,21 @@
 
 	<% if !@user.contact.contact_addresses.empty? %>
 
-		<%= @contact_address.address_one %><br>
-		<%= @contact_address.address_two %><br>
-		<%= @contact_address.town %><br>
-		<%= @contact_address.post_code %><br>
+		<% @contact_addresses.each do |add|  %>
+			<% if add.primary?  %>
+				<div class="note">
+					<%= add.address_one %><br>
+					<%= add.address_two %><br>
+					<%= add.town %><br>
+					<%= add.post_code %><br>
+					<%= link_to 'Edit', edit_contact_contact_address_path(@user.contact, add) %>
+				</div>
+			<% end -%>
+		<% end -%>
 
 		<% if @user.contact_addresses.count > 1 %>
 			<%= link_to 'see all', contact_contact_addresses_path(@user.contact) %>
-		<% end %>
+		<% end -%>
 
 	<% else %>
 

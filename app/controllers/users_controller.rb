@@ -19,12 +19,7 @@ class UsersController < ApplicationController
       end
     end
 
-    if current_user.contact.contact_addresses.count == 1
-      @contact_address = @user.contact.contact_addresses.first
-    else
-      @contact_address = @user.contact.contact_addresses.primary.first
-    end
-
+    @contact_addresses = @user.contact.contact_addresses
     @extra = @user.extra_detail
     @numbers = @user.contact.phone_numbers
   end
