@@ -14,7 +14,7 @@
 
   <tbody>
     <% @contact_addresses.each do |contact_address| %>
-      <tr class="<%= cycle('even', 'odd') -%> <% if contact_address.primary %>primary<% end -%>">
+      <tr class="<% if contact_address.primary %>primary<% end -%>">
         <td><%= contact_address.address_one %></td>
         <td><%= contact_address.address_two %></td>
         <td><%= contact_address.town %></td>

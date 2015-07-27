@@ -18,7 +18,7 @@
     <% @cases.each do |application_case| %>
       <tr class="<%= cycle('even', 'odd') -%>" >
         <td><%= application_case.created_at.to_formatted_s(:short) %></td>
-        <td><%= application_case.status %></td>
+        <td><%= application_case.statuses.first.status %></td>
         <td><%= application_case.app_type %></td>
         <td><%= application_case.lender.name %></td>
         <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
