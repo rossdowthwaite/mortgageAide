@@ -159,7 +159,7 @@ ActiveAdmin.register ApplicationCase do
 
       end
 
-      f.has_many :application_statuses, new_record: false do |b|
+      f.has_many :application_statuses, new_record: true do |b|
           b.input :status, :as => :select, :collection =>  Status.all.map{|l| [l.status, l.id]}
       end
 
