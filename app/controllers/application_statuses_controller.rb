@@ -41,7 +41,7 @@ class ApplicationStatusesController < InheritedResources::Base
 
         # Loop applicants and send a mail
         @applicants.each do |applicant|
-            ApplicationCaseMailer.status_change(applicant.user, @status.status.status, @application_case).deliver
+          # ApplicationCaseMailer.status_change(applicant.user, @status.status.status, @application_case).deliver
         end
 
         format.html { redirect_to @status.application_case, notice: 'Role was successfully updated.' }

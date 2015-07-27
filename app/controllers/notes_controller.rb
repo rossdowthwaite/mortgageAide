@@ -17,7 +17,7 @@ class NotesController < ApplicationController
 
         # Loop applicants and send a mail
         @applicants.each do |applicant|
-            ApplicationCaseMailer.new_note_notification(applicant.user, @note.note, current_user, @application_case).deliver
+          # ApplicationCaseMailer.new_note_notification(applicant.user, @note.note, current_user, @application_case).deliver
         end
 
         format.html { redirect_to @application_case, notice: 'Note was successfully created.' }
