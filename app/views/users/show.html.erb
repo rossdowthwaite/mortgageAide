@@ -33,7 +33,15 @@
 	<% if !@user.contact.contact_addresses.empty? %>
 
 		<% @contact_addresses.each do |add|  %>
-			<% if add.primary?  %>
+			<% if @contact_addresses.count == 1 %>
+				<div class="note">
+					<%= add.address_one %><br>
+					<%= add.address_two %><br>
+					<%= add.town %><br>
+					<%= add.post_code %><br>
+					<%= link_to 'Edit', edit_contact_contact_address_path(@user.contact, add) %>
+				</div>
+			<% elsif add.primary? %>
 				<div class="note">
 					<%= add.address_one %><br>
 					<%= add.address_two %><br>
