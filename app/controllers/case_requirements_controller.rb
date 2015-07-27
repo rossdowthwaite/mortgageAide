@@ -36,7 +36,7 @@ before_action :set_application_case, only: [:new, :edit]
 
         # Loop applicants and send a mail
         @applicants.each do |applicant|
-            ApplicationCaseMailer.new_requirement_added(applicant.user, @case_req, current_user, @application_case).deliver
+            # ApplicationCaseMailer.new_requirement_added(applicant.user, @case_req, current_user, @application_case).deliver
         end
 
         format.html { redirect_to @case_req.application_case, notice: 'Role was successfully created.' }
@@ -59,7 +59,7 @@ before_action :set_application_case, only: [:new, :edit]
 
         # Loop applicants and send a mail
         @applicants.each do |applicant|
-            ApplicationCaseMailer.requirement_update(applicant.user, @case_req, current_user, @application_case).deliver
+            # ApplicationCaseMailer.requirement_update(applicant.user, @case_req, current_user, @application_case).deliver
         end
 
         format.html { redirect_to @case_req.application_case, notice: 'Role was successfully updated.' }
