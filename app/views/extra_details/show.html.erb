@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Branch:</strong>
+  <%= @extra_detail.branch %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @extra_detail.user %>
+</p>
+
+<%= link_to 'Edit', edit_extra_detail_path(@extra_detail) %> |
+<%= link_to 'Back', extra_details_path %>
