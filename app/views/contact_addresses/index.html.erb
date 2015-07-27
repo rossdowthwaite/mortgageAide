@@ -4,6 +4,7 @@
 <table>
   <thead>
     <tr>
+      <th></th>
       <th>Address one</th>
       <th>Address two</th>
       <th>Town</th>
@@ -14,7 +15,8 @@
 
   <tbody>
     <% @contact_addresses.each do |contact_address| %>
-      <tr class="<% if contact_address.primary %>primary<% end -%>">
+      <tr class="<% if contact_address.primary? %>primary<% end -%>">
+        <td><% contact_address.primary? %><i class="fa fa-caret-right"></i><% end -%></td>
         <td><%= contact_address.address_one %></td>
         <td><%= contact_address.address_two %></td>
         <td><%= contact_address.town %></td>
