@@ -6,55 +6,5 @@
       <%= submit_tag 'Filter' %>
     <% end %>
   <% end -%>
-  <table>
-    <thead>
-      <tr>
-        <th>Reference</th>
-        <th>Application Type</th>
-        <th>Mortgage Amount</th>
-        <th>Valuation</th>
-        <% if current_user.is_broker? %>
-          <th>Applicant</th>
-        <% end  %>
-        <th>Status</th>
-        <th>Opened</th>
-        <th>Last update</th>
-        <th></th>
-      </tr>
-    </thead>
 
-    <tbody>
-      <% @application_cases.each do |application_case| %>
-        <tr class="<%= cycle('even', 'odd') -%>">
-          <td><%= "%05d" % application_case.id %></td>
-          <td><%= application_case.app_type %></td>
-          <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
-          <td><%= number_to_currency_gbp(application_case.valuation) %></td>
-          <% if current_user.is_broker? %>
-            <td class='links'>
-              <% if application_case.has_applicants?  %>
-                <% application_case.users.clients.each do |applicant| %>
-                  <%= link_to applicant do %>
-                    <%= applicant.contact.fname %> <%= applicant.contact.lname %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            </td>
-          <% end %>
-          <td><%= application_case.statuses.first.status %></td>
-          <td><%= application_case.created_at.to_formatted_s(:short) %></td>
-          <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
-          <td class="actions">
-                <%= link_to application_case do %><i class="fa fa-eye fa-2x"></i><% end %>
-                <% if can? :update, application_case %>
-                  <%= link_to edit_application_case_path(application_case) do %><i class="fa fa-cog fa-2x"></i><% end %>
-                <% end %>
-                <% if can? :delete, application_case %>
-                  <%= link_to application_case, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
-                <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <br>
+<%= render 'case_list' %>

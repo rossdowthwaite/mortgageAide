@@ -24,7 +24,7 @@
           <td>
             <% if !client.customer.application_cases.empty? %>
               <%= link_to cases_client_path(client) do %>
-                <i class="fa fa-archive fa-2x <% if client.customer.application_cases.active(true).count == 0 %> closed <% end %>"></i>
+                <i class="fa fa-archive fa-2x"></i>
               <% end %>
             <% end %>
           </td>
@@ -40,4 +40,6 @@
 
 <% end %>
 
-<%= link_to 'Add Client', add_new_client_path %>
+<% if current_user.is_broker?  %>
+  <%= link_to 'Add Client', add_new_client_path %>
+<% end -%>

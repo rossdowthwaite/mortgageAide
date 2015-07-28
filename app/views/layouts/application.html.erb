@@ -15,44 +15,63 @@
     <div class="sign_up_bar">
       <% if user_signed_in? %>
           <%= link_to current_user do %>
-        	 <%= current_user.email %><br>
+        	  <%= current_user.email %><br>
           <% end  %>
         	<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
       <% else %>
         	<%= link_to "sign in", new_user_session_path %>
       <% end %>
     </div>
-    <%= link_to root_path do %>
-      <h1>mortgage|Aide</h1>
-    <% end %>
+    <div class="title">
 
-    <div class="nav">
-      <% if user_signed_in? %> 
-        <% if current_user.is_broker? %>
-          <div class="link">
-            <%= link_to clients_path do %>
-              <i class="fa fa-users fa-2x"></i><br>My Clients
-            <% end  %>
-          </div>
-        <div class="link">
-          <%= link_to add_new_client_path do %>
-            <i class="fa fa-user-plus fa-2x"></i><br>New Client
-          <% end  %>
-        </div>
-        <div class="link">
-          <%= link_to new_case_path do %>
-            <i class="fa fa-folder-open fa-2x"></i><br>New case
-          <% end  %> 
-        </div> 
-        <% end %>
-          <div class="link">
-          <%= link_to my_cases_path do %>
-              <i class="fa fa-archive fa-2x"></i><br>My Cases
-          <% end %>
-          </div>  
+      <% if !current_user.contact.extra_details.empty?  %>
+        
+        <%= image_tag current_user.extra_detail.logo.url(:med) %>
+        <h2><%= current_user.extra_detail.branch %></h2><br>
+
       <% end %>
-      </div>
+
+      <%= link_to root_path do %>
+        <h1>mortgage|Aide</h1>
+      <% end %>
+
+    </div>
   </div>
+  <div class="nav_bar">
+      <% if user_signed_in? %>
+        <ul class="nav">
+
+          <% if current_user.is_broker? || current_user.is_agent? %>
+            <li>
+              <%= link_to clients_path do %>
+                <i class="fa fa-users fa-2x"></i><br>My Clients
+              <% end  %>
+            </li>
+          <% end -%>
+
+          <% if current_user.is_broker? %>
+            <li>
+              <%= link_to add_new_client_path do %>
+                <i class="fa fa-user-plus fa-2x"></i><br>New Client
+              <% end  %>
+            </li>
+
+            <li>
+              <%= link_to new_case_path do %>
+                <i class="fa fa-folder-open fa-2x"></i><br>New case
+              <% end  %> 
+            </li>
+          <% end -%>
+
+          <li>
+            <%= link_to my_cases_path do %>
+                <i class="fa fa-archive fa-2x"></i><br>My Cases
+            <% end %>
+          </li>
+        </ul> 
+      <% end %>
+    </div>
+
 </div>
 <div class="container">
   <p id="notice"><%= notice %></p>

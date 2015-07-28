@@ -37,10 +37,16 @@ class UsersController < ApplicationController
 
   def search_users
     @users = User.search(params[:search])
+    @clients = current_user.clients
   end
 
   def my_clients
-    @clients = current_user.clients
+    if current_user.is_broker?
+      @clients = current_user.clients
+    end
+    if current_user.is_agent?
+      @clients = current_user.clients
+    end
   end
     # GET /users/1
   # GET /users/1.json

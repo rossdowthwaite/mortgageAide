@@ -1,7 +1,15 @@
 class ClientsController < InheritedResources::Base
 
   def index 
-  	 @clients = current_user.clients
+
+  	if current_user.is_broker?
+      @clients = current_user.clients
+    end
+    
+    if current_user.is_agent?
+      @clients = current_user.clients
+    end
+
   end	
 
   def cases

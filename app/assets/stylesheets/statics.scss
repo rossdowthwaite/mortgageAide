@@ -15,7 +15,8 @@ a, input[type="submit"], a.button, input.button {
 .header-span {
 	background-color: $red;
 	padding-top: 40px;
-	height:180px;
+	min-height:180px;
+	position: relative;
 	.header {
 		width:90%;
 		margin-left: 5%;
@@ -51,12 +52,25 @@ a, input[type="submit"], a.button, input.button {
 			color: $white;
 			display: block;
 			margin-right: 30%;
-			padding-bottom: 30px;
+			padding-bottom: 80px;
 		}
 		a {
 			color:$white;
 			&:hover {
 				color: $grey;
+			}
+		}
+		.title {
+			img {
+				float:left;
+				margin-right: 40px;
+			}
+			h2 {
+				color:$white;
+				display: inline;
+			}
+			h1 {
+				display: inline-block;
 			}
 		}
 	}
@@ -129,12 +143,21 @@ ul.status {
 	}
 }
 
-.nav {
-	.link {
-		float:left;
-		height:70px;
-		text-align: center;
-		margin-right: 30px;
+.nav_bar {
+	clear:both;
+	position: absolute;
+	bottom: 0px;
+	width:100%;
+	ul.nav {
+		display: table;
+		max-width: 500px;
+		min-width: 500px;
+		margin: auto;
+		li {
+			display: table-cell;
+			height:70px;
+			text-align: center;
+		}
 	}
 	a {
 		text-decoration: none;

@@ -17,7 +17,13 @@
 			<td>
 				<%= contact.user.email %>
 			</td>
-			<td><%= button_to "Add as Applicant", application_case_add_as_applicant_path(:applicant_id => contact.user.id, :application_case_id => @application_case.id ) %></td>
+			<td>
+				<% if !@application_case.applicants.map(&:user).include?(contact.user) %>
+					<%= button_to "Add as Applicant", application_case_add_as_applicant_path(:applicant_id => contact.user.id, :application_case_id => @application_case.id ) %>
+				<% else %>
+					Already an applicant
+				<% end -%>
+			</td>
 		</tr>
 	<% end %>	
 </table>

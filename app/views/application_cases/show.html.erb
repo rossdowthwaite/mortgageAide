@@ -14,9 +14,15 @@
       <tr><td>Term: </td><td class="input"><%= @application_case.term %> years</td></tr>
       <tr><td>Repayment: </td><td class="input"><%= @application_case.repayment %></td></tr>
       <tr><td>Product: </td><td class="input"><%= @application_case.product %></td></tr>
-      <tr><td>Expiry: </td><td class="input"><%= @application_case.expiry.strftime("%d %b %y") %></td></tr>
+      <tr><td>Expiry: </td><td class="input">
+
+        <% if !@application_case.lifetime?  %>
+          <%= @application_case.expiry.strftime("%d %b %y") %>
+        <% else %>
+          lifetime
+        <% end -%>
+      </td></tr>
       <tr><td>Case Ref: </td><td class="input"><%= "%05d" % @application_case.id %></td></tr>
-      <tr><td>Active: </td><td class="input"><%= @application_case.active %></td></tr>
     </table>
 
   <% if can? :update, @application_case %>

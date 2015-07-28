@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728113413) do
+ActiveRecord::Schema.define(version: 20150728124700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20150728113413) do
     t.text     "reason"
     t.string   "lender_ref"
     t.string   "split_amount"
+    t.boolean  "lifetime"
   end
 
   create_table "application_statuses", force: :cascade do |t|

@@ -12,6 +12,7 @@
   <% end %>
 <!-- options are Capital & Repayment, Interest Only, Split -->
   <div class="section_break">
+    <h2></h2>
     <div class="field">
       <%= f.label :app_type, 'Application Type' %>
       <%= f.select :app_type, [ 'buy-to-let', 'let-to-buy', 'residential', 'remortgage', 'product trans', 'further adv', 'secured loan', 'equity rel', ], :prompt => 'Select One' %>
@@ -37,11 +38,17 @@
       <%= f.label :split_amount, 'Interest only amount' %>
       <%= f.text_field :split_amount %>
     </div>
+  
+  </div>
+
+  <div class="section_break">
+    <h2>Lender</h2>
 
     <div class="field">
       <%= f.label "Lender" %>
       <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] }, :prompt => 'Select One' %>
     </div>
+
     <div class="field">
       <%= f.label :lender_ref %>
       <%= f.text_field :lender_ref %>
@@ -50,9 +57,16 @@
       <%= f.label :product %>
       <%= f.text_field :product %>
     </div>
+  </div> 
+
+  <div class="section_break">
+    <h2>Expiry</h2>
     <div class="field">
       <%= f.label :expiry %>
-      <%= f.date_select :expiry, :end_year=> Date.today.year + 100  %>
+      <%= f.date_select :expiry, :end_year=> Date.today.year + 40  %>
+
+      <%= f.label :lifetime %>
+      <%= f.check_box :lifetime %>
     </div>
     <%= f.hidden_field :user_id, :value => current_user.id  %>
   </div>
