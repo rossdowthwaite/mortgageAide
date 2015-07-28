@@ -11,16 +11,15 @@
   <table>
     <thead>
       <tr>
-        <th>Opened</th>
-        <th>Status</th>
-        <th>Type</th>
-        <th>Lender</th>
+        <th>Reference</th>
+        <th>Application Type</th>
+        <th>Mortgage Amount</th>
+        <th>Valuation</th>
         <% if current_user.is_broker? %>
           <th>Applicant</th>
         <% end  %>
-        <th>Progress</th>
-        <th>Mortgage</th>
-        <th>Valuation</th>
+        <th>Status</th>
+        <th>Opened</th>
         <th>Last update</th>
         <th></th>
       </tr>
@@ -29,10 +28,10 @@
     <tbody>
       <% @application_cases.each do |application_case| %>
         <tr class="<%= cycle('even', 'odd') -%>">
-          <td><%= application_case.created_at.to_formatted_s(:short) %></td>
-          <td><% if application_case.active %>Open<% else %>closed<% end %></td>
+          <td><%= "%05d" % application_case.id %></td>
           <td><%= application_case.app_type %></td>
-          <td><%= application_case.lender.name %></td>
+          <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
+          <td><%= number_to_currency_gbp(application_case.valuation) %></td>
           <% if current_user.is_broker? %>
             <td class='links'>
               <% if application_case.has_applicants?  %>
@@ -45,8 +44,7 @@
             </td>
           <% end %>
           <td><%= application_case.statuses.first.status %></td>
-          <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
-          <td><%= number_to_currency_gbp(application_case.valuation) %></td>
+          <td><%= application_case.created_at.to_formatted_s(:short) %></td>
           <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
           <td class="actions">
                 <%= link_to application_case do %><i class="fa fa-eye fa-2x"></i><% end %>

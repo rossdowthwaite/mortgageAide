@@ -6,15 +6,17 @@
   <% end -%>
 </h3>
 <div class="section_break">
-  <p>
-    <strong>Valuation: </strong><%= number_to_currency_gbp(@application_case.valuation) %><br>
-    <strong>Product: </strong><%= @application_case.product %><br>
-    <strong>Expiry: </strong><%= @application_case.expiry.strftime("%d %b %y") %><br>
-    <strong>Mortgage: </strong><%= number_to_currency_gbp(@application_case.mortgage) %><br>
-    <strong>Term: </strong><%= @application_case.term %> years<br>
-    <strong>Repayment: </strong><%= @application_case.repayment %><br>
-    <strong>Lender: </strong><%= @application_case.lender.name %>
-  </p>
+
+    <table class="case-table">
+      <tr><td>Application Type: </td><td class="input"><%= @application_case.app_type %></td></tr>
+      <tr><td>Mortgage Amount: </td><td class="input"><%= number_to_currency_gbp(@application_case.mortgage) %></td></tr>
+      <tr><td>Valuation:</td><td class="input"><%= number_to_currency_gbp(@application_case.valuation) %></td></tr>
+      <tr><td>Term: </td><td class="input"><%= @application_case.term %> years</td></tr>
+      <tr><td>Repayment: </td><td class="input"><%= @application_case.repayment %></td></tr>
+      <tr><td>Lender: </td><td class="input"><%= @application_case.lender.name %></td></tr>
+      <tr><td>Product: </td><td class="input"><%= @application_case.product %></td></tr>
+      <tr><td>Expiry: </td><td class="input"><%= @application_case.expiry.strftime("%d %b %y") %></td></tr>
+    </table>
 
   <% if can? :update, @application_case %>
     <%= link_to 'Edit', edit_application_case_path(@application_case) %>

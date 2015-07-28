@@ -388,3 +388,22 @@ ul {
 	}
 }
 
+table.case-table {
+	max-width: 400px;
+	text-align: left !important;
+	tr {
+		text-align: left !important;
+		td {
+			text-align: left !important;
+			font-family: 'EB Garamond', serif;
+			font-size: 18px;
+			height:30px !important;
+			line-height: 30px !important;
+		}
+		td.input {
+			font-family: verdana, arial, helvetica, sans-serif;
+			font-size: 14px;
+		}
+	}
+}
+
