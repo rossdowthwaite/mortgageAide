@@ -6,7 +6,14 @@ class ApplicationCasesController < ApplicationController
   # GET /application_cases
   # GET /application_cases.json
   def index
-    @application_cases = current_user.application_cases.all
+    # @application_cases = current_user.application_cases.all
+    if params[:active].present?
+      @application_cases = current_user.application_cases.where(nil) # creates an anonymous scope
+      @application_cases = @application_cases.active_status(params[:active]) if params[:active].present?
+    else 
+      @application_cases = current_user.application_cases.active_status('Active')
+    end
+
   end
 
   def case_archive
@@ -138,6 +145,6 @@ class ApplicationCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def application_case_params
-      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :status_id, :lender_id, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
+      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :split_amount,  :status_id, :lender_id, :lender_ref, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
     end
 end

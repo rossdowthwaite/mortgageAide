@@ -32,9 +32,19 @@
       <%= f.label :repayment, 'Repayment Type' %>
       <%= f.select :repayment, [ 'Capital & Repayment', 'Interest Only', 'Split'], :prompt => 'Select One' %>
     </div>
+
+    <div class="field split-amount">
+      <%= f.label :split_amount, 'Interest only amount' %>
+      <%= f.text_field :split_amount %>
+    </div>
+
     <div class="field">
       <%= f.label "Lender" %>
       <%= f.select :lender_id, Lender.all.collect { |p| [ p.name, p.id ] }, :prompt => 'Select One' %>
+    </div>
+    <div class="field">
+      <%= f.label :lender_ref %>
+      <%= f.text_field :lender_ref %>
     </div>
     <div class="field">
       <%= f.label :product %>

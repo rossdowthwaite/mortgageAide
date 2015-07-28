@@ -30,9 +30,7 @@ class ApplicationCase < ActiveRecord::Base
             :numericality => true,
             :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ } #currency
 
-    scope :archived, -> { where(archived: true) }
-    scope :active, -> (status) { where active: status }
-    scope :current_status, -> (status) { joins(:statuses).where('status.id = ?', status) }
+    scope :active_status, -> (status) { where active: status }
 
 	after_create :set_status
 

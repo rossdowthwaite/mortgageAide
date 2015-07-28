@@ -4,6 +4,12 @@ class CaseRequirement < ActiveRecord::Base
 
   scope :complete, -> { where(requirement_id: '1') }
 
+  before_update :update_date_satisfied
+
+  def update_date_satisfied
+    self.date_satisfied = Date.today if self.status_changed? && self.status != 'pending'
+  end
+
   # Set the icon
   def is_complete
   	if self.status == 'pending'

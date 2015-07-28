@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727145414) do
+ActiveRecord::Schema.define(version: 20150728113413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,8 +73,10 @@ ActiveRecord::Schema.define(version: 20150727145414) do
     t.integer  "mortgage_address_id"
     t.integer  "valuation"
     t.boolean  "archived"
-    t.boolean  "active"
+    t.string   "active"
     t.text     "reason"
+    t.string   "lender_ref"
+    t.string   "split_amount"
   end
 
   create_table "application_statuses", force: :cascade do |t|
@@ -95,6 +97,7 @@ ActiveRecord::Schema.define(version: 20150727145414) do
     t.date     "date_requested"
     t.string   "status"
     t.text     "free_requirement"
+    t.datetime "date_satisfied"
   end
 
   add_index "case_requirements", ["application_case_id"], name: "index_case_requirements_on_application_case_id", using: :btree
@@ -165,8 +168,12 @@ ActiveRecord::Schema.define(version: 20150727145414) do
 
   create_table "lenders", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "admin_phone"
+    t.string   "sales_phone"
+    t.text     "hq_address"
+    t.string   "email"
   end
 
   create_table "mortgage_addresses", force: :cascade do |t|
