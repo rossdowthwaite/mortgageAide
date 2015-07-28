@@ -29,8 +29,8 @@ class ApplicationCasesController < ApplicationController
       @status = @application_case.application_statuses
       @statuses = Status.all.sort_by(&:created_at)
       @m_address = @application_case.mortgage_address
-      @applicants = @application_case.applicants.who_are_clients
-      @agent = @application_case.applicants.who_are_agents.first
+      @applicants = @application_case.applicants.as_applicants
+      @agent = @application_case.applicants.as_agents.first
     else 
       flash[:notice] = "You are not authorized to view this";
       redirect_to(application_cases_path);
@@ -53,7 +53,7 @@ class ApplicationCasesController < ApplicationController
 
   def add_as_applicant
     @application_case = ApplicationCase.find(params[:application_case_id] )
-    @application_case.applicants << Applicant.create(:user_id => params[:applicant_id] )
+    @application_case.applicants << Applicant.create(:user_id => params[:applicant_id], :as_role => params[:as_role])
     redirect_to(@application_case);
   end
 
@@ -73,8 +73,7 @@ class ApplicationCasesController < ApplicationController
 
   def add_as_agent
     @application_case = ApplicationCase.find(params[:application_case_id])
-    @user = User.find(params[:agent_id])
-    @user.application_cases << @application_case
+    @application_case.applicants << Applicant.create(:user_id => params[:agent_id], :as_role => params[:as_role])
 
     respond_to do |format|
       if @application_case.save

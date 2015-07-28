@@ -8,6 +8,18 @@ class ClientsController < InheritedResources::Base
     
     if current_user.is_agent?
       @clients = current_user.clients
+
+      # Set empty clients array. 
+      @clients ||= []
+      
+      cases.each do |app_case|
+        app_case.applicants.try(:each) do |applicant|
+          unless @clients.include?(applicant.user)
+            @clients << applicant.user
+          end
+        end
+      end
+
     end
 
   end	

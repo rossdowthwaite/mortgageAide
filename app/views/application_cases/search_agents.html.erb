@@ -14,7 +14,7 @@
 			<td>
 				<%= user.email %>
 			</td>
-			<td><%= button_to "Add as agent", application_case_add_as_agent_path(:agent_id => user.id) %></td>
+			<td><%= button_to "Add as agents", application_case_add_as_agent_path(:agent_id => user.id, :as_role => 'Agent' ) %></td>
 		</tr>
 	<% end %>	
 </table>

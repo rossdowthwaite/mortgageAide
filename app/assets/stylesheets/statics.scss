@@ -381,7 +381,7 @@ ul {
 				td {
 					height:50px;
 					text-align:center;
-					line-height: 50px;
+    				vertical-align: middle !important;
 					a {
 						padding:0px 0px !important;
 						margin: 0px;
@@ -421,8 +421,8 @@ table.case-table {
 			font-family: 'EB Garamond', serif;
 			font-size: 18px;
 			height:30px !important;
-			line-height: 30px !important;
 			min-width:200px;
+    		vertical-align: middle !important;
 		}
 		td.input {
 			font-family: verdana, arial, helvetica, sans-serif;

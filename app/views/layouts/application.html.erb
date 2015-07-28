@@ -38,9 +38,9 @@
     </div>
   </div>
   <div class="nav_bar">
+
       <% if user_signed_in? %>
         <ul class="nav">
-
           <% if current_user.is_broker? || current_user.is_agent? %>
             <li>
               <%= link_to clients_path do %>
@@ -48,21 +48,18 @@
               <% end  %>
             </li>
           <% end -%>
-
           <% if current_user.is_broker? %>
             <li>
               <%= link_to add_new_client_path do %>
                 <i class="fa fa-user-plus fa-2x"></i><br>New Client
               <% end  %>
             </li>
-
             <li>
               <%= link_to new_case_path do %>
                 <i class="fa fa-folder-open fa-2x"></i><br>New case
               <% end  %> 
             </li>
           <% end -%>
-
           <li>
             <%= link_to my_cases_path do %>
                 <i class="fa fa-archive fa-2x"></i><br>My Cases

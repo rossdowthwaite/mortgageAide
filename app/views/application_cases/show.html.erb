@@ -47,20 +47,18 @@
 
       <% @applicants.each do |applicant| %>
           <tr class="<%= cycle('even', 'odd') -%>">
-            <% if applicant.user.is_client? %>
-              <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %></td>
-              <td><%= applicant.user.phone_numbers.primary.first.phone_number if !applicant.user.phone_numbers.empty? %></td>
-              <td><%= applicant.user.email %></td>
-              <td class="actions">
-                  <% if can? :delete, applicant %>
-                    <%= link_to applicant,
-                         method: :delete,
-                         data: { confirm: 'Are you sure?' } do %>
-                         <i class="fa fa-times fa-2x"></i>
-                    <% end %>
-                <% end %>
-              </td>
-            <% end  %>
+            <td><%= applicant.user.contact.title %> <%= applicant.user.contact.fname %> <%= applicant.user.contact.lname %></td>
+            <td><%= applicant.user.phone_numbers.primary.first.phone_number if !applicant.user.phone_numbers.empty? %></td>
+            <td><%= applicant.user.email %></td>
+            <td class="actions">
+                <% if can? :delete, applicant %>
+                  <%= link_to applicant,
+                       method: :delete,
+                       data: { confirm: 'Are you sure?' } do %>
+                       <i class="fa fa-times fa-2x"></i>
+                  <% end %>
+              <% end %>
+            </td>
           </tr>
       <% end %>
 

@@ -18,8 +18,10 @@
 				<%= contact.user.email %>
 			</td>
 			<td>
-				<% if !@application_case.applicants.map(&:user).include?(contact.user) && user != current_user  %>
-					<%= button_to "Add as Applicant", application_case_add_as_applicant_path(:applicant_id => contact.user.id, :application_case_id => @application_case.id ) %>
+				<% if !@application_case.applicants.map(&:user).include?(contact.user) && contact.user != current_user  %>
+					<%= button_to "Add as Applicant", application_case_add_as_applicant_path(:applicant_id => contact.user.id, :application_case_id => @application_case.id, :as_role => 'Applicant' ) %>
+				<% elsif @application_case.applicants.map(&:user).include?(contact.user) && contact.user.role.role == 'Agent' %>
+					<%= button_to "Add as Applicant", application_case_add_as_applicant_path(:applicant_id => contact.user.id, :application_case_id => @application_case.id, :as_role => 'Applicant' ) %>
 				<% else %>
 					Already an applicant
 				<% end -%>
