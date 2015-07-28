@@ -18,7 +18,7 @@
 				<%= user.email %>
 			</td>
 			<td>
-				<% if !@clients.map(&:client_id).include?(user.id) %>	
+				<% if !@clients.map(&:client_id).include?(user.id) && user != current_user %>	
 					<%= button_to "Add as client", add_as_client_path(:client_id => user.id) %>
 				<% else %>
 					Already a client
