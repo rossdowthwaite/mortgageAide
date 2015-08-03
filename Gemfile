@@ -53,6 +53,13 @@ gem 'paperclip'
 # Amazon s3
 gem 'aws-sdk', '< 2.0'
 
+# --------------------------------------
+# Mail
+
+gem 'mailgunner', '~> 1.3.0'
+
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

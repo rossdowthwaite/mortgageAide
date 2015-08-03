@@ -109,7 +109,7 @@ class ApplicationCasesController < ApplicationController
   # POST /application_cases.json
   def create
     @application_case = ApplicationCase.new(application_case_params)
-    @application_case.active = true
+    @application_case.active = 'Active'
     current_user.application_cases << @application_case
 
     respond_to do |format|
