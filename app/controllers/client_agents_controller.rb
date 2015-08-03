@@ -22,9 +22,9 @@ class ClientAgentsController < InheritedResources::Base
     respond_to do |format|
       if @client_agent.save
 
-	    ApplicationCaseMailer.added_as_agent(@client_agent.agent, @client_agent.client).deliver
+	      ApplicationCaseMailer.added_as_agent(@client_agent.agent, @client_agent.client).deliver
 
-        format.html { redirect_to @client_agent.client, notice: 'Address was successfully created.' }
+        format.html { redirect_to @client_agent.client, notice: 'Agent was successfully added.' }
         format.json { render :show, status: :created, location: @contact_address }
       else
         format.html { render :new }
@@ -38,7 +38,7 @@ class ClientAgentsController < InheritedResources::Base
   def update
     respond_to do |format|
       if @client_agent.update(client_agent_params)
-        format.html { redirect_to @client_agent.client, notice: 'Address was successfully updated.' }
+        format.html { redirect_to @client_agent.client, notice: 'Agent was successfully updated.' }
         format.json { render :show, status: :ok, location: @contact_address }
       else
         format.html { render :edit }
@@ -53,7 +53,7 @@ class ClientAgentsController < InheritedResources::Base
   def destroy
     @client_agent.destroy
     respond_to do |format|
-      format.html { redirect_to @client_agent.client, notice: 'Note was successfully destroyed.' }
+      format.html { redirect_to @client_agent.client, notice: 'Agent was successfully removed.' }
       format.json { head :no_content }
     end
   end
