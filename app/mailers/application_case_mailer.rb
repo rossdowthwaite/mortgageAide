@@ -117,7 +117,4 @@ class ApplicationCaseMailer < ApplicationMailer
 
 		mail( :to => "ross@pixeldotcreative.com", :subject => "New user registration" )
 	end
-
-	added_as_agent
-
 end

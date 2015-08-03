@@ -89,5 +89,6 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :mailgun
 
+  config.action_mailer.default_url_options = { :host => "http://hidden-springs-5321.herokuapp.com/" }
 
 end
