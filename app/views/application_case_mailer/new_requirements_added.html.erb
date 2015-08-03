@@ -1,0 +1,23 @@
+<h2>Hi, <%= @user %></h2>
+
+<p><b><%= @sender %> has added a requirement to your case</b></p>
+
+<% @requirements.each do |req| %>
+
+	<%  
+		if req.requirement.nil? 
+	     	@req = req.free_requirement 
+	    elsif 
+	      	@req = req.requirement.requirment 
+	    end 
+	%>
+
+	<ul>
+		<li>Requirement: <%= @req %></li>
+		<li>Status: <%= req.status %></li>
+		<li>Date: <%= req.date_requested %></li>
+	</ul>
+
+<% end -%>
+
+<%= link_to 'Go to application', @application %>		

@@ -1,0 +1,15 @@
+<h2>Hi, <%= @user %></h2>
+
+<p><b><%= @sender %> has added the following notes to your case.</b></p>
+
+<h4>note:</h4>
+
+<% @messages.each do |note| %>
+	
+	<p><%= note.note %></p>
+	<p>----------------</p>
+
+<% end -%>
+
+<%= link_to 'Go to application', @application %>
+

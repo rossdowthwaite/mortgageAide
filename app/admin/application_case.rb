@@ -6,9 +6,7 @@ ActiveAdmin.register ApplicationCase do
     applicants_attributes: [:application_case_id, :user_id]
 
   # preserve_default_filters!
-  filter :broker, :collection => proc {(User.brokers).map{|c| [c.contact.full_name, c.id]}}
-  filter :agent, :collection => proc {(User.agents).map{|c| [c.contact.full_name, c.id]}}
-  filter :users, :collection => proc {(User.all).map{|c| [c.contact.full_name, c.id]}}
+  filter :case_ref_cont, label: 'Case Reference:'
   filter :lender, :collection => proc {(Lender.all).map{|c| [c.name, c.id]}}
   filter :statuses, :collection => proc {(Status.all).map{|c| [c.status, c.id]}} 
   filter :active, :as => :select
@@ -89,6 +87,7 @@ ActiveAdmin.register ApplicationCase do
 
   # Index View
   index do 
+    column :case_ref
     column :app_type
     column :product
     column :broker

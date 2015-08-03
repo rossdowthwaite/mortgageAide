@@ -27,6 +27,7 @@ class ApplicationStatusesController < InheritedResources::Base
         format.json { render json: @status.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PATCH/PUT /roles/1
@@ -41,7 +42,9 @@ class ApplicationStatusesController < InheritedResources::Base
 
         # Loop applicants and send a mail
         @applicants.each do |applicant|
-          # ApplicationCaseMailer.status_change(applicant.user, @status.status.status, @application_case).deliver
+          if !applicant.user.mail_notification_setting.nil? && !applicant.user.has_opted_out_of?(:status_update)
+            ApplicationCaseMailer.status_change(applicant.user, @status.status.status, @application_case).deliver
+          end
         end
 
         format.html { redirect_to @status.application_case, notice: 'Role was successfully updated.' }

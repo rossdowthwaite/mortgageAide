@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728161027) do
+ActiveRecord::Schema.define(version: 20150731104457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20150728161027) do
     t.string   "lender_ref"
     t.string   "split_amount"
     t.boolean  "lifetime"
+    t.string   "case_ref"
   end
 
   create_table "application_statuses", force: :cascade do |t|
@@ -113,6 +114,13 @@ ActiveRecord::Schema.define(version: 20150728161027) do
     t.string   "term"
     t.string   "repayment"
     t.string   "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_agents", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "agent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -177,6 +185,19 @@ ActiveRecord::Schema.define(version: 20150728161027) do
     t.text     "hq_address"
     t.string   "email"
   end
+
+  create_table "mail_notification_settings", force: :cascade do |t|
+    t.boolean  "notes"
+    t.boolean  "all_emails"
+    t.boolean  "daily_digest"
+    t.boolean  "status_update"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.boolean  "requirement_alerts"
+  end
+
+  add_index "mail_notification_settings", ["user_id"], name: "index_mail_notification_settings_on_user_id", using: :btree
 
   create_table "mortgage_addresses", force: :cascade do |t|
     t.string   "address_one"
@@ -264,6 +285,7 @@ ActiveRecord::Schema.define(version: 20150728161027) do
   add_foreign_key "contacts", "users"
   add_foreign_key "extra_details", "contacts"
   add_foreign_key "extra_details", "users"
+  add_foreign_key "mail_notification_settings", "users"
   add_foreign_key "mortgage_addresses", "application_cases"
   add_foreign_key "notes", "application_cases"
   add_foreign_key "notes", "users"

@@ -4,23 +4,27 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :contact
+  has_one :contact, :dependent => :destroy
   belongs_to :role
 
   has_many :notes
 
-  has_many :contact_addresses
-  has_many :phone_numbers
-  has_one  :extra_detail
+  has_one :client_agent, :dependent => :destroy, :foreign_key => "client_id"
+
+  has_many :contact_addresses, :dependent => :destroy
+  has_many :phone_numbers, :dependent => :destroy
+  has_one  :extra_detail, :dependent => :destroy
+
+  has_one  :mail_notification_setting, :dependent => :destroy
 
   has_many :brokered_cases, foreign_key: "user_id", class_name: "ApplicationCase"
 
   has_many :application_cases
 
-  has_many :applicants
+  has_many :applicants, :dependent => :destroy
   has_many :application_cases, :through => :applicants
 
-  has_many :clients
+  has_many :clients, :dependent => :destroy
   has_many :customers, :through => :clients, :source => 'customer'
 
   # scopes
@@ -31,6 +35,9 @@ class User < ActiveRecord::Base
 
   after_create :build_contact
   after_create :add_extra_details
+  after_create :create_mail_setting
+
+  after_destroy :remove_as_client
 
   # check if Broker
   def is_broker?
@@ -55,6 +62,15 @@ class User < ActiveRecord::Base
     self.customers.include?(user)
   end
 
+  def has_opted_out_of? (notifcation_type)
+    @mail_setting = self.mail_notification_setting
+    if @mail_setting.all_emails == true
+      return true
+    else
+      @mail_setting.public_send(notifcation_type) == true
+    end
+  end
+
   def self.search(search)
     if search
       self.where('email LIKE ?', "#{search}")
@@ -71,7 +87,23 @@ class User < ActiveRecord::Base
     self == user
   end
 
+  def has_agent_and_is?(user)
+    @agents = ClientAgent.agents(self)
+    if @agents.any?
+      @agent = ClientAgent.agents(self).first
+      @agent.agent != user
+    else
+      return false
+    end
+  end
+
   private
+
+    def remove_as_client
+      @clients = Client.where_client_is(self)
+      @clients.destroy_all
+    end
+
     # Sets default role
     def build_contact
       @contact = Contact.create(:user_id => self.id, :fname => "Firstname", :lname => 'Lastname' );
@@ -82,5 +114,9 @@ class User < ActiveRecord::Base
       if !self.is_client? 
         @extra = ExtraDetail.create(:user_id => self.id, :branch => 'Branch', :logo => '')
       end
+    end
+
+    def create_mail_setting
+        MailNotificationSetting.create(:user_id => self.id, :notes => true, :all_emails => true, :daily_digest => true, :status_update => true)
     end
 end

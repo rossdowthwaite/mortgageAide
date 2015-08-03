@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :client_agents
+  resources :mail_notification_settings
   resources :application_statuses
   resources :statuses
   # resources :lenders
@@ -43,7 +45,9 @@ Rails.application.routes.draw do
 
   resources :users do
     resources :application_cases
-    resources :extra_details
+    resources :extra_details  
+    resources :mail_notification_settings
+    resources :client_agents
     
     collection do 
       get 'clients_index',  as: :show_clients
@@ -67,6 +71,12 @@ Rails.application.routes.draw do
 
   get '/search_users' => 'users#search_users'
   post '/add_as_client' => 'users#add_as_client'
+
+  post '/send_email_notification' => 'notes#send_email_notification'
+  post '/send_email_requirements_notification' => 'case_requirements#send_email_requirements_notification'
+
+
+  get '/my_clients' => 'client_agents#index'
 
   # Root path
   root 'statics#index' 

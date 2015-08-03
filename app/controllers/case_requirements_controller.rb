@@ -23,6 +23,28 @@ before_action :set_application_case, only: [:new, :edit]
     end
   end
 
+
+
+  def send_email_requirements_notification
+
+      @application_case = ApplicationCase.find(params[:application_case_id])
+      @applicants = @application_case.applicants.not_current(current_user)
+
+      @requirements = CaseRequirement.find(params[:requirements])
+
+      @applicants.each do |applicant|
+        if applicant.is_client?
+
+          if !applicant.user.mail_notification_setting.nil? && !applicant.user.has_opted_out_of?(:requirement_alerts)
+            ApplicationCaseMailer.new_requirements_added(applicant.user, @requirements, current_user, @application_case).deliver
+          end
+        end
+      end
+
+      redirect_to @application_case
+
+  end
+
   # POST /roles
   # POST /roles.json
   def create
@@ -33,11 +55,6 @@ before_action :set_application_case, only: [:new, :edit]
 
         @application_case = @case_req.application_case
         @applicants = @application_case.applicants.not_current(current_user)
-
-        # Loop applicants and send a mail
-        @applicants.each do |applicant|
-            # ApplicationCaseMailer.new_requirement_added(applicant.user, @case_req, current_user, @application_case).deliver
-        end
 
         format.html { redirect_to @case_req.application_case, notice: 'Role was successfully created.' }
         format.json { render :show, status: :created, location: @application_case }
@@ -59,7 +76,7 @@ before_action :set_application_case, only: [:new, :edit]
 
         # Loop applicants and send a mail
         @applicants.each do |applicant|
-            # ApplicationCaseMailer.requirement_update(applicant.user, @case_req, current_user, @application_case).deliver
+           ApplicationCaseMailer.requirement_update(applicant.user, @case_req, current_user, @application_case).deliver
         end
 
         format.html { redirect_to @case_req.application_case, notice: 'Role was successfully updated.' }

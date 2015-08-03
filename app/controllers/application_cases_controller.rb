@@ -23,7 +23,8 @@ class ApplicationCasesController < ApplicationController
   # GET /application_cases/1
   # GET /application_cases/1.json
   def show
-    if @application_case.is_brokered_by?(current_user)
+    if @application_case.has_user?(current_user)
+
       @notes = @application_case.notes
       @requirements = @application_case.case_requirements
       @status = @application_case.application_statuses
@@ -31,6 +32,12 @@ class ApplicationCasesController < ApplicationController
       @m_address = @application_case.mortgage_address
       @applicants = @application_case.applicants.as_applicants
       @agent = @application_case.applicants.as_agents.first
+
+      @agents ||= []
+      @applicants.each do |applicant|
+        @agents << ClientAgent.agents(applicant.user).first
+      end
+
     else 
       flash[:notice] = "You are not authorized to view this";
       redirect_to(application_cases_path);
@@ -52,8 +59,16 @@ class ApplicationCasesController < ApplicationController
   end
 
   def add_as_applicant
-    @application_case = ApplicationCase.find(params[:application_case_id] )
+    @application_case = ApplicationCase.find(params[:application_case_id])
+    @user = User.find(params[:applicant_id])
+    @agent = @user.client_agent.agent
+
     @application_case.applicants << Applicant.create(:user_id => params[:applicant_id], :as_role => params[:as_role])
+    @application_case.applicants << Applicant.create(:user_id => @agent.id, :as_role => 'Agent')
+
+    ApplicationCaseMailer.notify_new_applicant(@user, current_user, @application_case).deliver
+    ApplicationCaseMailer.notify_new_applicant(@agent, current_user, @application_case).deliver
+
     redirect_to(@application_case);
   end
 
@@ -73,12 +88,16 @@ class ApplicationCasesController < ApplicationController
 
   def add_as_agent
     @application_case = ApplicationCase.find(params[:application_case_id])
+    @agent = User.find(params[:agent_id])
     @application_case.applicants << Applicant.create(:user_id => params[:agent_id], :as_role => params[:as_role])
 
     respond_to do |format|
       if @application_case.save
           format.html { redirect_to @application_case, notice: 'Agent was successfully added.' }
-        format.json { render :show, status: :created, location: @application_case }
+          format.json { render :show, status: :created, location: @application_case }
+
+          ApplicationCaseMailer.notify_new_agent(@agent, current_user, @application_case).deliver
+
       else
         format.html { render :new }
         format.json { render json: @application_case.errors, status: :unprocessable_entity }
@@ -144,6 +163,6 @@ class ApplicationCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def application_case_params
-      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :term, :repayment, :lifetime, :split_amount,  :status_id, :lender_id, :lender_ref, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
+      params.require(:application_case).permit(:valuation, :product, :expiry, :mortgage, :case_ref, :term, :repayment, :lifetime, :split_amount,  :status_id, :lender_id, :lender_ref, :app_type, :user_id, :archived, :active, :mortgage_address_id, mortgage_address_attributes: [ :address_one, :address_two, :town, :county, :pcode])
     end
 end

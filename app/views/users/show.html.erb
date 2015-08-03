@@ -41,7 +41,11 @@
 					<%= add.address_two %><br>
 					<%= add.town %><br>
 					<%= add.post_code %><br>
-					<%= link_to 'Edit', edit_contact_contact_address_path(@user.contact, add) %>
+
+					<% if current_user.is_broker_of?(@user) %>
+						<%= link_to 'Edit', edit_contact_contact_address_path(@user.contact, add) %>
+					<% end -%>
+
 				</div>
 			<% elsif add.primary? %>
 				<div class="note">
@@ -49,7 +53,11 @@
 					<%= add.address_two %><br>
 					<%= add.town %><br>
 					<%= add.post_code %><br>
-					<%= link_to 'Edit', edit_contact_contact_address_path(@user.contact, add) %>
+
+					<% if current_user.is_broker_of?(@user) %>
+						<%= link_to 'Edit', edit_contact_contact_address_path(@user.contact, add) %>
+					<% end -%>
+
 				</div>
 			<% end -%>
 		<% end -%>
@@ -108,4 +116,36 @@
 	<% end %>
 
 </div>
+
+<% if @user.is_client? %>
+	<div class="section_break">
+
+		<h3>Agent</h3>
+
+		<h4><%= @agent.agent.contact.full_name if !@agent.nil? %></h4>
+
+		<% if @user != current_user %>
+			<% if @agent.nil? %>
+				<%= link_to "Assign agent", new_user_client_agent_path(@user) %>
+			<% else %>
+				<%= link_to "Edit agent", edit_user_client_agent_path(@user, @agent) %>
+				<%= link_to 'Remove', @agent, method: :delete, data: { confirm: 'Are you sure?' } %>
+			<% end -%>
+		<% end -%>
+	</div>
+<% end -%>
+
+<% if @user == current_user %>
+	<div class="section_break">
+
+		<h3>Notification Settings</h3>
+
+		<% if @user.mail_notification_setting.nil? %>
+			<%= link_to 'New', new_user_mail_notification_setting_path( @user ) %>
+		<% else %>
+			<%= link_to 'Edit settings', edit_user_mail_notification_setting_path( @user, @user.mail_notification_setting) %>
+		<% end -%>
+
+	</div>
+<% end -%>
 

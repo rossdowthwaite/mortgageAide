@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Client Agents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @client_agents.each do |client_agent| %>
+      <tr>
+        <td><%= client_agent.client.contact.full_name %></td>
+        <td class="actions">
+          <%= link_to client_agent.client do %><i class="fa fa-eye fa-2x"></i><% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Client agent', new_client_agent_path %>

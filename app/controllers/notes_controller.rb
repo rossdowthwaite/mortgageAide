@@ -29,6 +29,23 @@ class NotesController < ApplicationController
     end
   end
 
+  def send_email_notification
+
+      @application_case = ApplicationCase.find(params[:application_case_id])
+      @applicants = @application_case.applicants.not_current(current_user)
+
+      @notes = Note.find(params[:notes])
+
+      @applicants.each do |applicant|
+        if !applicant.user.mail_notification_setting.nil? && !applicant.user.has_opted_out_of?(:notes)
+          ApplicationCaseMailer.multiple_note_notification(applicant.user, @notes, current_user, @application_case).deliver
+        end
+      end
+
+      redirect_to @application_case
+
+  end
+
   # PATCH/PUT /notes/1
   # PATCH/PUT /notes/1.json
   def update

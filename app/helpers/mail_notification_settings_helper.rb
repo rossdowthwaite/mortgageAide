@@ -1,0 +1,2 @@
+module MailNotificationSettingsHelper
+end

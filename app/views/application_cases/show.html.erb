@@ -22,7 +22,7 @@
           lifetime
         <% end -%>
       </td></tr>
-      <tr><td>Case Ref: </td><td class="input"><%= "%05d" % @application_case.id %></td></tr>
+      <tr><td>Case Ref: </td><td class="input"><%= @application_case.case_ref %></td></tr>
     </table>
 
   <% if can? :update, @application_case %>
@@ -69,7 +69,7 @@
     <h2>Lender</h2>
 
   <table class="case-table">
-      <tr><td>lender </td><td class="input"><%= @application_case.lender.name %></td></tr>
+      <tr><td>Name </td><td class="input"><%= @application_case.lender.name %></td></tr>
       <% if !current_user.is_agent? %>
         <tr><td>Lender Ref: </td><td class="input"><%= @application_case.lender_ref  %></td></tr>
       <% end -%>
@@ -84,41 +84,27 @@
 </div>
 
 <div class="section_break">
-    <h2>Agent</h2>
+  <h2>Agent</h2>
+  <table>      
+    <thead>
+      <tr>
+        <th>Agent</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
 
-    <% if !@agent.nil? %>
-      <table>      
-          <thead>
-            <tr>
-              <th>Agent</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tr class="<%= cycle('even', 'odd') -%>">
-            <td><%= @agent.user.contact.title %> <%= @agent.user.contact.fname %> <%= @agent.user.contact.lname %></td>
-            <td><%= @agent.user.phone_numbers.primary.first.phone_number if !@agent.user.phone_numbers.empty? %></td>
-            <td><%= @agent.user.email %></td>
-              <td class="actions">
-                  <% if can? :delete, @agent %>
-                    <%= link_to @agent,
-                         method: :delete,
-                         data: { confirm: 'Are you sure?' } do %>
-                         <i class="fa fa-times fa-2x"></i>
-                    <% end %>
-                  <% end %>
-              </td>
-          </tr>
-      </table>
-
-    <% else  %>
-
-      <%= link_to 'add agent', application_case_search_agents_path(@application_case) %>
-
-    <% end %>
-
+    <% @agents.each do |agent| %>
+      <tr class="<%= cycle('even', 'odd') -%>">
+        <td><%= agent.agent.contact.title %> <%= agent.agent.contact.fname %> <%= agent.agent.contact.lname %></td>
+        <td><%= agent.agent.phone_numbers.primary.first.phone_number if !agent.agent.phone_numbers.empty? %></td>
+        <td><%= agent.agent.email %></td>
+      </tr>
+    <% end -%>
+  </table>
 </div>
+
 <div class="section_break">
 
   <h2>Mortgage Address</h2>
@@ -160,67 +146,108 @@
     <% end %>
   <% end %>
 
-  <% if @requirements.empty? %>
-  <% else %>
-    <table>
-    <thead>
-        <tr>
-          <th>Requirement</th>
-          <th>Date Requested</th>
-          <th>Date Satisfied</th>
-          <th>status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <% @requirements.each do |case_req| %>
-          <tr class="<%= cycle('even', 'odd') -%>">
-            <td>
-              <% if case_req.requirement.nil? %>
-                <%= case_req.free_requirement %>
-              <% elsif %>
-                <%= case_req.requirement.requirment %>
-              <% end %>
-            </td>
-            <td><%= case_req.date_requested %></td>
-            <td><%= case_req.date_satisfied %></td>
-            <td><%= fa_icon case_req.is_complete, class: "fa-2x" %></td>
+  <% if @requirements.any? %>
 
-            <td class="actions">
+    <%= form_tag send_email_requirements_notification_path, :method => :post do %> 
 
-              <% if @application_case.is_brokered_by?(current_user) %>
-                  <% if can? :update, case_req %>
-                    <%= link_to edit_application_case_case_requirement_path(@application_case, case_req) do %>
-                      <i class="fa fa-cog fa-2x"></i>
-                    <% end %>
-                  <% end %>
-                  <% if can? :delete, case_req %>
-                    <%= link_to [case_req],
-                         method: :delete,
-                         data: { confirm: 'Are you sure?' } do %>
-                         <i class="fa fa-times fa-2x"></i>
-                    <% end %>
-                  <% end %>
-              <% end %>
-            </td>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Requirement</th>
+            <th>Date Requested</th>
+            <th>Date Satisfied</th>
+            <th>status</th>
+            <th></th>
           </tr>
-      <% end %>
-    </table>
+        </thead>
+        <% @requirements.each do |case_req| %>
+            <tr class="<%= cycle('even', 'odd') -%>">
+              <td>
+                <% if @application_case.is_brokered_by?(current_user) %>
+                  <%= check_box_tag "requirements[]", case_req.id %>
+                  <%= hidden_field_tag 'application_case_id', @application_case.id  %>
+                <% end -%>
+              </td>
+              <td>
+                <% if case_req.requirement.nil? %>
+                  <%= case_req.free_requirement %>
+                <% elsif %>
+                  <%= case_req.requirement.requirment %>
+                <% end %>
+              </td>
+              <td><%= case_req.date_requested %></td>
+              <td><%= case_req.date_satisfied %></td>
+              <td><%= fa_icon case_req.is_complete, class: "fa-2x" %></td>
+
+              <td class="actions">
+
+                <% if @application_case.is_brokered_by?(current_user) %>
+                    <% if can? :update, case_req %>
+                      <%= link_to edit_application_case_case_requirement_path(@application_case, case_req) do %>
+                        <i class="fa fa-cog fa-2x"></i>
+                      <% end %>
+                    <% end %>
+                    <% if can? :delete, case_req %>
+                      <%= link_to [case_req],
+                           method: :delete,
+                           data: { confirm: 'Are you sure?' } do %>
+                           <i class="fa fa-times fa-2x"></i>
+                      <% end %>
+                    <% end %>
+                <% end %>
+              </td>
+            </tr>
+        <% end %>
+      </table>
+
+      <% if @application_case.is_brokered_by?(current_user) %>
+
+        <%= submit_tag "Make client aware" %>
+
+      <% end -%>
+
+    <% end %> 
+
   <% end %>
 </div>
 
 <div class="notes">
   <h2>Notes</h2>
 
-  <% @notes.each do |note| %>
-    <div class="note">
-      <%= note.user.contact.full_name %> | <%= note.user.role.role %> | <%= note.created_at.to_formatted_s(:short) %><br><br>
-      <%= note.note %><br><br>
-      <%= link_to 'Edit', edit_application_case_note_path(@application_case, note) %>
-      <%= link_to 'Delete', [note.application_case, note],
-               method: :delete,
-               data: { confirm: 'Are you sure?' } %>
-    </div>
+
+<% if @notes.any? %>
+
+    <%= form_tag send_email_notification_path, :method => :post do %> 
+
+      <table>
+          <% @notes.each do |note| %>
+            <tr class="note_header">
+              
+                <td class="checkbox">
+                  <% if @application_case.is_brokered_by?(current_user) %>
+                    <%= check_box_tag "notes[]", note.id %><%= hidden_field_tag 'application_case_id', @application_case.id  %>
+                  <% end -%>
+                </td>
+
+                <td><%= note.user.contact.full_name %> | <%= note.user.role.role %> | <%= note.created_at.to_formatted_s(:short) %></td>
+            </tr>
+            <tr class="note_content">
+              <td></td>
+              <td><%= note.note %></td>
+            </tr>
+          <% end -%>
+      </table>
+      
+      <% if @application_case.is_brokered_by?(current_user) %>
+
+        <%= submit_tag "Make client aware" %>
+
+      <% end -%>
+      
   <% end %>
+
+<% end %>
 
   <%= form_for([@application_case, @application_case.notes.build]) do |f| %>
     <%= f.hidden_field :user_id, :value => current_user.id %>

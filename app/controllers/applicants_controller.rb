@@ -47,8 +47,17 @@ class ApplicantsController < ApplicationController
   # DELETE /applicants/1.json
   def destroy
     @application_case = @applicant.application_case
+    @user_applicant = @applicant
+
+    @user = @user_applicant.user
+    @agent = @user.client_agent.agent
+
+    ApplicationCaseMailer.notify_removed_agent(@agent, current_user, @application_case).deliver
+    ApplicationCaseMailer.notify_removed_applicant(@user_applicant.user, current_user, @application_case).deliver
+
     @applicant.destroy
     respond_to do |format|
+
       format.html { redirect_to @application_case, notice: 'Applicant was successfully destroyed.' }
       format.json { head :no_content }
     end
@@ -66,6 +75,6 @@ class ApplicantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def applicant_params
-      params.require(:applicant).permit(:application_case_id, :user_id)
+      params.require(:applicant).permit(:application_case_id, :user_id, :as_role)
     end
 end

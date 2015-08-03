@@ -12,16 +12,18 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
 
+    @contact_addresses = @user.contact.contact_addresses
+    @extra = @user.extra_detail
+    @numbers = @user.contact.phone_numbers
+    @agent = ClientAgent.agents(@user).first
+
     if current_user != @user 
-      if !current_user.is_broker_of?(@user)
+      if !current_user.is_broker_of?(@user) && @user.has_agent_and_is?(current_user)
         flash[:notice] = "You can't see this, Sorry";
         redirect_to(application_cases_path);
       end
     end
 
-    @contact_addresses = @user.contact.contact_addresses
-    @extra = @user.extra_detail
-    @numbers = @user.contact.phone_numbers
   end
 
   # GET /users/new
@@ -78,11 +80,16 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    @user.password = Devise.friendly_token.first(8)
+    @password = @user.password
     respond_to do |format|
       if @user.save
         if current_user.is_broker?
           current_user.clients << Client.create(:user_id => current_user.id, :client_id => @user.id )
+          
+          # send password to user 
+          ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
+
         end  
         format.html { redirect_to @user, notice: 'user was successfully created.' }
         format.json { render :show, status: :created, location: @user }

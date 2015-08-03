@@ -44,8 +44,14 @@ gem 'jquery-ui-rails'
 # Authorization
 gem 'cancancan', '~> 1.10'
 
+# --------------------------------------
+# Images and uploads
+
 # Image attachment
 gem 'paperclip'
+
+# Amazon s3
+gem 'aws-sdk', '< 2.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

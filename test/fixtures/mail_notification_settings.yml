@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  notes: false
+  all_emails: false
+  daily_digest: false
+  status_update: false
+  user_id: 
+
+two:
+  notes: false
+  all_emails: false
+  daily_digest: false
+  status_update: false
+  user_id: 

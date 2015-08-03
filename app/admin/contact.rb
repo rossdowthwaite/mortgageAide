@@ -5,6 +5,8 @@ ActiveAdmin.register Contact do
     contact_address_attributes: [:address_one, :address_two, :town, :post_code, :primary, :user_id],
     extra_detail_attributes: [:branch, :user_id, :logo]
 
+  filter :fname_cont, label: 'First name:'
+  filter :lname_cont, label: 'Last name:'
 
   # Index view
   index do 

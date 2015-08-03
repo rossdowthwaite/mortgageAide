@@ -3,7 +3,8 @@ ActiveAdmin.register User do
   scope :brokers
   scope :agents
 
-  # preserve_default_filters!
+  # preserve_default_filters! 
+  filter :email_cont, label: 'Email:'
   filter :role, :collection => proc {(Role.all).map{|r| [r.role, r.id]}}
 
   index do 
@@ -23,6 +24,7 @@ ActiveAdmin.register User do
       row :role do |user|
         user.role.role
       end
+      row :encrypted_password
       row :last_sign_in_at
       row :last_sign_in_ip
       row :created_at
@@ -33,8 +35,8 @@ ActiveAdmin.register User do
  form do |f|
     f.inputs "User Details" do
       f.input :email
-      f.input :password
-      f.input :password_confirmation
+      # f.input :password
+      # f.input :password_confirmation
       f.input :role_id, :as => :select, :collection =>  Role.all.map{|r| [r.role, r.id]}
     end
     f.actions
@@ -52,6 +54,17 @@ ActiveAdmin.register User do
         params[:user].delete("password_confirmation")
       end
       super
+    end
+
+    def create
+
+      @email = params[:user][:email]
+      @role_id = params[:user][:role_id]
+      @password = Devise.friendly_token.first(8)
+      @user = User.create!(:email => @email, :password => @password, :role_id => @role_id)
+
+      ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
+
     end
     
   end

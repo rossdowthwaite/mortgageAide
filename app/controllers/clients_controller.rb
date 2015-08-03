@@ -1,4 +1,5 @@
 class ClientsController < InheritedResources::Base
+  before_action :set_client, only: [:destroy]
 
   def index 
 
@@ -28,9 +29,25 @@ class ClientsController < InheritedResources::Base
   	@client = Client.find(params[:id])
   	@client = User.find(@client.client_id)
   	@cases = @client.application_cases.all
+    
   end
 
+    # DELETE /roles/1
+  # DELETE /roles/1.json
+  def destroy
+    @client.destroy
+    respond_to do |format|
+      format.html { redirect_to clients_path, notice: 'Contact Number was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+
   private
+
+    def set_client 
+      @client = Client.find(params[:id])
+    end
 
     def client_params
       params.require(:client).permit(:user_id, :client_id)

@@ -1,0 +1,43 @@
+<%= form_for([@user, @mail_notification_setting]) do |f| %>
+
+  <% if @mail_notification_setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mail_notification_setting.errors.count, "error") %> prohibited this mail_notification_setting from being saved:</h2>
+
+      <ul>
+      <% @mail_notification_setting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>Click the the checkbox to opt out fo the following:</p>
+
+  <div class="field">
+    <%= f.label :all_emails, "All Email notifications" %>
+    <%= f.check_box :all_emails %>
+  </div>
+
+  <% if current_user.is_broker? %>
+    <div class="field">
+      <%= f.label :notes, 'Note notifications' %>
+      <%= f.check_box :notes %>
+    </div>
+  <% end -%>
+  <div class="field">
+    <%= f.label :requirement_alerts, 'Case requirement notifications' %>
+    <%= f.check_box :requirement_alerts %>
+  </div>
+  <div class="field">
+    <%= f.label :daily_digest, 'Daily Digest emails' %>
+    <%= f.check_box :daily_digest %>
+  </div>
+  <div class="field">
+    <%= f.label :status_update, 'Status update notifications' %>
+    <%= f.check_box :status_update %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

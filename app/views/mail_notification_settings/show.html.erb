@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @mail_notification_setting.notes %>
+</p>
+
+<p>
+  <strong>All emails:</strong>
+  <%= @mail_notification_setting.all_emails %>
+</p>
+
+<p>
+  <strong>Daily digest:</strong>
+  <%= @mail_notification_setting.daily_digest %>
+</p>
+
+<p>
+  <strong>Status update:</strong>
+  <%= @mail_notification_setting.status_update %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @mail_notification_setting.user %>
+</p>
+
+<%= link_to 'Edit', edit_mail_notification_setting_path(@mail_notification_setting) %> |
+<%= link_to 'Back', mail_notification_settings_path %>

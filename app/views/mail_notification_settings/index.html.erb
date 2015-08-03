@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Mail Notification Settings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Notes</th>
+      <th>All emails</th>
+      <th>Daily digest</th>
+      <th>Status update</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mail_notification_settings.each do |mail_notification_setting| %>
+      <tr>
+        <td><%= mail_notification_setting.notes %></td>
+        <td><%= mail_notification_setting.all_emails %></td>
+        <td><%= mail_notification_setting.daily_digest %></td>
+        <td><%= mail_notification_setting.status_update %></td>
+        <td><%= mail_notification_setting.user %></td>
+        <td><%= link_to 'Show', mail_notification_setting %></td>
+        <td><%= link_to 'Edit', edit_mail_notification_setting_path(mail_notification_setting) %></td>
+        <td><%= link_to 'Destroy', mail_notification_setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mail notification setting', new_mail_notification_setting_path %>

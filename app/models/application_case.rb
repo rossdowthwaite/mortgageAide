@@ -33,16 +33,32 @@ class ApplicationCase < ActiveRecord::Base
     scope :active_status, -> (status) { where active: status }
 
 	after_create :set_status
+	after_save :set_reference
 
 	def has_applicants?
 		self.applicants.count != 0;
 	end
 
 	def is_brokered_by? (user)
-		self.users.map(&:id).include? user.id
+		self.users.brokers.map(&:id).include? user.id
+	end
+
+	def has_user? (user)
+		self.users.all.map(&:id).include? user.id
+	end
+
+	def has_agent? (user)
+		self.applicants.as_agents.map(&:user_id).include? user.id
 	end
 
 	private
+
+		def set_reference
+			if self.case_ref.nil?
+				case_ref = "%05d" % self.id 
+				self.update_attributes(:case_ref => case_ref)
+			end
+		end
 
 	    def set_status
 	      ApplicationStatus.create(:application_case_id => self.id, :status_id => 1 );

@@ -16,19 +16,21 @@
 
   <tbody>
     <% @cases.each do |application_case| %>
-      <tr class="<%= cycle('even', 'odd') -%>" >
-        <td><%= application_case.created_at.to_formatted_s(:short) %></td>
-        <td><%= application_case.statuses.first.status %></td>
-        <td><%= application_case.app_type %></td>
-        <td><%= application_case.lender.name %></td>
-        <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
-        <td><%= number_to_currency_gbp(application_case.valuation) %></td>
-        <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
-        <td><%= link_to application_case do %>
-              <i class="fa fa-eye fa-2x"></i>
-            <% end -%>
-        </td>
-      </tr>
+        <% if !application_case.has_agent?(@client) && application_case.is_brokered_by?(current_user) %>
+          <tr class="<%= cycle('even', 'odd') -%>" >
+            <td><%= application_case.created_at.to_formatted_s(:short) %></td>
+            <td><%= application_case.statuses.first.status %></td>
+            <td><%= application_case.app_type %></td>
+            <td><%= application_case.lender.name %></td>
+            <td><%= number_to_currency_gbp(application_case.mortgage) %></td>
+            <td><%= number_to_currency_gbp(application_case.valuation) %></td>
+            <td><%= application_case.updated_at.to_formatted_s(:short) %></td>
+            <td><%= link_to application_case do %>
+                  <i class="fa fa-eye fa-2x"></i>
+                <% end -%>
+            </td>
+          </tr>
+        <% end -%>
     <% end %>
   </tbody>
 </table>
