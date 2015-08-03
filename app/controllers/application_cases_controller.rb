@@ -35,7 +35,7 @@ class ApplicationCasesController < ApplicationController
 
       @agents ||= []
       @applicants.each do |applicant|
-        if !@agents.inlcude?(applicant.user)
+        if !@agents.include?(applicant.user)
           @agents << ClientAgent.agents(applicant.user).first
         end 
       end
