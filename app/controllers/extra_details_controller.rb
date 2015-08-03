@@ -2,6 +2,10 @@ class ExtraDetailsController < ApplicationController
   before_action :set_extra_detail, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :index, :show, :create, :edit, :update, :destroy]
 
+  def new
+    extra_detail = ExtraDetail.new
+  end
+
   def edit
   end
 

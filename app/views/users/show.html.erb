@@ -18,14 +18,19 @@
 	<div class='section_break'>
 
 		<% if !@extra.nil? %>
+		
 			<h2>Branch</h2>
 			<h4><%= @extra.branch %></h4>
 
 			<%= image_tag @extra.logo.url(:med) %><br>
 
 			<%= link_to 'edit details', edit_user_extra_detail_path(@user, @extra) %>
-		<% end %>
 
+		<% else %>
+
+			<%= link_to 'Add Brancg Details', add_user_extra_detail_path(@user) %>
+
+		<% end %>
 	</div>
 <% end %>
 

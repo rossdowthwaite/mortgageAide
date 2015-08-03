@@ -6,7 +6,6 @@ class Applicant < ActiveRecord::Base
   scope :who_are_agents, -> { joins(user: :role).where('roles.role = ?', "Agent") } 
   scope :not_current, -> (user) { where.not(:user => user) }
 
-
   scope :agents, -> (user) { joins(user: :client_agent).where('client_agents.client_id = ?', user.id ) } 
 
   scope :as_applicants, -> { where('as_role = ?', 'Applicant') }
