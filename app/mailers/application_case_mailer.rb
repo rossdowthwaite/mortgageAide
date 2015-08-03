@@ -9,7 +9,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@sender = sender.contact.full_name
 		@application = application
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "New Note" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "New Note" )
 	end
 
 	def multiple_note_notification(user, messages, sender, application)
@@ -18,7 +18,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@sender = sender.contact.full_name
 		@application = application
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "New Note" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "New Note" )
 	end
 
 
@@ -29,7 +29,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@status = status
 		@application = application
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "Status Change" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Status Change" )
 	end
 
 
@@ -41,7 +41,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@requirements = requirements
 		@sender = sender.contact.full_name		
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "New Requirement" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "New Requirement" )
 	end
 
 	def requirement_update(user, requirement, sender, application)
@@ -58,7 +58,7 @@ class ApplicationCaseMailer < ApplicationMailer
           	@req = requirement.requirement.requirment 
         end 
 		
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "Requirement Updated" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Requirement Updated" )
 	end
 
 	
@@ -69,7 +69,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@application = application_case
 		@sender = sender.contact.full_name
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "Added to Case" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Added to Case" )
 		
 	end
 
@@ -78,7 +78,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@application = application_case.case_ref
 		@sender = sender.contact.full_name
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "Removed from Case" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Removed from Case" )
 
 	end
 
@@ -89,7 +89,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@application = application_case
 		@sender = sender.contact.full_name
 		
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "Added to Case" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Added to Case" )
 	end
 
 	def notify_removed_agent(user, sender, application_case) 
@@ -97,7 +97,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@application = application_case.case_ref
 		@sender = sender.contact.full_name
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "Removed from Case" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Removed from Case" )
 	end
 
 
@@ -108,14 +108,14 @@ class ApplicationCaseMailer < ApplicationMailer
 		@password = password
 		@sender = current_user
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "New user registration" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "New user registration" )
 	end
 
 	def added_as_agent(user, client)
 		@user = user
 		@client = client
 
-		mail( :to => "#{user.contact.full_name} <#{user.email}>", :subject => "New user registration" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "New user registration" )
 	end
 
 	added_as_agent
