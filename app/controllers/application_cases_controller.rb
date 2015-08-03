@@ -62,13 +62,14 @@ class ApplicationCasesController < ApplicationController
     @application_case = ApplicationCase.find(params[:application_case_id])
     @user = User.find(params[:applicant_id])
     @client_case = @user.client_agent
-    @agent = @client_case.agent
+    @agent = @client_case.agent_id
+    @agent_user = User.find(@agent)
 
     @application_case.applicants << Applicant.create(:user_id => params[:applicant_id], :as_role => params[:as_role])
-    @application_case.applicants << Applicant.create(:user_id => @agent.id, :as_role => 'Agent')
+    @application_case.applicants << Applicant.create(:user_id => @agent, :as_role => 'Agent')
 
     ApplicationCaseMailer.notify_new_applicant(@user, current_user, @application_case).deliver
-    ApplicationCaseMailer.notify_new_applicant(@agent, current_user, @application_case).deliver
+    ApplicationCaseMailer.notify_new_applicant(@agent_user, current_user, @application_case).deliver
 
     redirect_to(@application_case);
   end
