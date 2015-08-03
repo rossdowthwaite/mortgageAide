@@ -7,21 +7,6 @@
     <%= f.email_field :email, autofocus: true %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :role_id %>
-    <%= f.collection_select(:role_id, Role.all, :id, :role, {:prompt => true}) %>
-  </div>
-
   <div class="actions">
     <%= f.submit "Sign me up!" %>
   </div>
