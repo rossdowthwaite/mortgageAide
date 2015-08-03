@@ -35,7 +35,9 @@ class ApplicationCasesController < ApplicationController
 
       @agents ||= []
       @applicants.each do |applicant|
-        @agents << ClientAgent.agents(applicant.user).first
+        if !@agents.inlcude?(applicant.user)
+          @agents << ClientAgent.agents(applicant.user).first
+        end 
       end
 
     else 
