@@ -61,8 +61,8 @@ class ApplicationCasesController < ApplicationController
   def add_as_applicant
     @application_case = ApplicationCase.find(params[:application_case_id])
     @user = User.find(params[:applicant_id])
-    @client_case = @user.client_agent
-    @agent = @client_case.agent_id
+    @client_agent = ClientAgent.clients(@user).first
+    @agent = @client_agent.agent_id
     @agent_user = User.find(@agent)
 
     @application_case.applicants << Applicant.create(:user_id => params[:applicant_id], :as_role => params[:as_role])
