@@ -7,12 +7,17 @@ task :send_digest => :environment do
 
   @agents.try(:each) do |agent|
   	@cases = agent.application_cases.active_and_offered
-    ApplicationCaseMailer.digest(agent, @cases).deliver
+  	if @cases.count != 0 
+    	ApplicationCaseMailer.digest(agent, @cases).deliver
+    end
   end
 
   @brokers.try(:each) do |broker|
   	@cases = broker.application_cases.active_and_offered
-    ApplicationCaseMailer.digest(broker, @cases).deliver
+  	if @cases.count != 0 
+  		ApplicationCaseMailer.digest(broker, @cases).deliver
+  	end
+    
   end
 
 end

@@ -11,6 +11,7 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
+        <th>Broker</th>
         <th>Cases</th>
         <th>Actions</th>
       </tr>
@@ -21,6 +22,7 @@
         <tr class="<%= cycle('even', 'odd') -%>">
           <td><%= client.customer.contact.title %> <%= client.customer.contact.full_name %></td> 
           <td><%= client.customer.email %></td>
+          <td><%= client.agent %></td>
           <td>
             <% if !client.customer.application_cases.empty? %>
               <%= link_to cases_client_path(client) do %>

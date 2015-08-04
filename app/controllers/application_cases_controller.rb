@@ -67,7 +67,10 @@ class ApplicationCasesController < ApplicationController
     @agent = @client_case.agent
 
     @application_case.applicants << Applicant.create(:user_id => params[:applicant_id], :as_role => params[:as_role])
-    @application_case.applicants << Applicant.create(:user_id => @agent.id, :as_role => 'Agent')
+
+    if !@application_case.applicants.map(&:user_id).include?(@agent.id) 
+      @application_case.applicants << Applicant.create(:user_id => @agent.id, :as_role => 'Agent')
+    end
 
     ApplicationCaseMailer.notify_new_applicant(@user, current_user, @application_case).deliver
     ApplicationCaseMailer.notify_new_applicant(@agent, current_user, @application_case).deliver
