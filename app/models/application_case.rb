@@ -31,6 +31,7 @@ class ApplicationCase < ActiveRecord::Base
             :format => { :with => /\A\d{1,8}(\.\d{0,2})?\z/ } #currency
 
     scope :active_status, -> (status) { where active: status }
+    scope :active_and_offered, -> { where('active != ?', 'Archive') }
 
 	after_create :set_status
 	after_save :set_reference

@@ -117,4 +117,14 @@ class ApplicationCaseMailer < ApplicationMailer
 
 		mail( :to => "ross@pixeldotcreative.com", :subject => "New user registration" )
 	end
+
+
+	# Digest emails. 
+
+	def digest(user, cases)
+		@user = user
+		@cases = cases
+
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Mortgage|aide Digest" )
+	end
 end
