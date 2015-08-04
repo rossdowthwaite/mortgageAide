@@ -1,6 +1,4 @@
 class ApplicationCaseMailer < ApplicationMailer
-
-
 	#  Note mailers 
 
 	def new_note_notification(user, message, sender, application)

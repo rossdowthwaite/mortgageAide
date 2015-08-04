@@ -11,6 +11,8 @@ class Contact < ActiveRecord::Base
   accepts_nested_attributes_for :contact_addresses
   accepts_nested_attributes_for :extra_details
 
+  scope :who_are_not, -> (user) { where('user_id != ?', user.id) }
+
   def full_name
   	([fname, lname] - ['']).compact.join(' ') 
   end
