@@ -2,6 +2,7 @@ class ClientsController < InheritedResources::Base
   before_action :set_client, only: [:destroy]
 
   def index 
+    @contacts = Contact.search(params[:search])
 
   	if current_user.is_broker?
       @clients = current_user.clients

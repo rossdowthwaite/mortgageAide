@@ -4,10 +4,6 @@ class Client < ActiveRecord::Base
 
 	scope :unique_client, -> (user) { where client_id: user.id }
 	scope :where_client_is, -> (user) { where client_id: user.id  }
-
-	def get_agent
-		@agent = ClientAgent.agents(self).first
-		return @agent.agent.contact.full_name
-	end
+	scope :where_broker_is, -> (user) { where user_id: user.id  }
 
 end

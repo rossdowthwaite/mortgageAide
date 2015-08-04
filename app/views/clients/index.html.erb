@@ -6,6 +6,45 @@
 
 <% else  %>
 
+  <h3>Search for client</h3>
+  <p>Enter Client Surname</p>
+  <%= form_tag clients_path(), :method => 'get' do %>
+    <p>
+      <%= text_field_tag :search, params[:search] %><br>
+      <%= submit_tag "Search", :name => nil %>
+    </p>
+  <% end %>
+  <br>
+  <table>
+    <% @contacts.try(:each) do |contact| %>
+      <% @client = Client.where_client_is(contact.user).where_broker_is(current_user).first %>
+      <tr class="<%= cycle('even', 'odd') -%>">
+        <td>
+          <%= contact.full_name %>
+        </td>
+        <td>
+          <%= contact.user.email %>
+        </td>
+        <td>
+          <% if !@client.customer.application_cases.empty? %>
+            <%= link_to cases_client_path(@client) do %>
+              <i class="fa fa-archive fa-2x"></i>
+            <% end %>
+          <% end -%>
+        </td>
+        <td class="actions">
+          <%= link_to contact.user do %><i class="fa fa-eye fa-2x"></i><% end %>
+          <%= link_to @client, method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-times fa-2x"></i><% end %>
+        </td>
+      </tr>
+    <% end %> 
+  </table>
+
+
+<% if current_user.is_broker?  %>
+  <%= link_to 'Add Client', add_new_client_path %>
+<% end -%>
+
   <table>
     <thead>
       <tr>
@@ -23,6 +62,7 @@
           <td><%= client.customer.contact.title %> <%= client.customer.contact.full_name %></td> 
           <td><%= client.customer.email %></td>
           <td><%= client.customer.get_agent(client.customer) %></td>
+          
           <td>
             <% if !client.customer.application_cases.empty? %>
               <%= link_to cases_client_path(client) do %>
@@ -42,6 +82,3 @@
 
 <% end %>
 
-<% if current_user.is_broker?  %>
-  <%= link_to 'Add Client', add_new_client_path %>
-<% end -%>
