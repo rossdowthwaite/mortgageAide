@@ -122,7 +122,6 @@
 
 </div>
 
-<% if @user.is_client? %>
 	<div class="section_break">
 
 		<h3>Agent</h3>
@@ -138,7 +137,7 @@
 			<% end -%>
 		<% end -%>
 	</div>
-<% end -%>
+	
 
 <% if @user == current_user %>
 	<div class="section_break">

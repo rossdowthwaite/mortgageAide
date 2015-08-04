@@ -25,12 +25,7 @@
     <div class="title">
 
     <% if user_signed_in? %>
-      <% if !current_user.extra_detail.nil?  %>
-        
-        <%= image_tag current_user.extra_detail.logo.url(:med) %>
-        <h2><%= current_user.extra_detail.branch %></h2><br>
 
-      <% end %>
     <% end -%>
 
       <%= link_to root_path do %>

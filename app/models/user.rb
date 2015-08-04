@@ -48,6 +48,13 @@ class User < ActiveRecord::Base
      !!self.contact
   end
 
+    def get_agent(user)
+    @agent = ClientAgent.agents(user).first
+    if !@agent.nil?
+      return @agent.agent.contact.full_name 
+    end
+  end
+
   # check if Agent
   def is_agent?
     self.role.role == "Agent";
