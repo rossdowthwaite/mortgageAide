@@ -101,7 +101,7 @@
 				<td>
 					<h2>Hi, <%= @user.contact.full_name %></h2>
 
-					<table>
+					<table width="100%">
 						<thead>
 							<tr>
 						        <th>Reference</th>
@@ -112,9 +112,9 @@
 						        <th></th>
 							</tr>
 						</thead>
-						<% @case.try(:each) do |app_case| %>
+						<% @cases.try(:each) do |app_case| %>
 							<tr>
-								<td><%= "%05d" % app_case.id %></td>
+								<td><%= app_case.case_ref %></td>
 					            <td><%= app_case.app_type %></td>
 					            <td><%= app_case.statuses.first.status %></td>
 					            <td><%= app_case.created_at.to_formatted_s(:short) %></td>
