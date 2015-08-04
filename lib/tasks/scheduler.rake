@@ -1,6 +1,6 @@
 desc "Sends a daily digest to users"
 
-task :send_digest => :production do
+task :send_digest => :environment do
   
   @agents = User.agents
   @brokers = User.brokers
