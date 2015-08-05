@@ -4,21 +4,22 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_one :contact, :dependent => :destroy
+  # -------------------------------------------
+  # Associations
+
   belongs_to :role
 
   has_many :notes
-
-  has_one :client_agent, :dependent => :destroy, :foreign_key => "client_id"
-
   has_many :contact_addresses, :dependent => :destroy
   has_many :phone_numbers, :dependent => :destroy
-  has_one  :extra_detail, :dependent => :destroy
 
+  has_one  :extra_detail, :dependent => :destroy
   has_one  :mail_notification_setting, :dependent => :destroy
+  has_one  :global_setting, :dependent => :destroy
+  has_one  :client_agent, :dependent => :destroy, :foreign_key => "client_id"
+  has_one  :contact, :dependent => :destroy
 
   has_many :brokered_cases, foreign_key: "user_id", class_name: "ApplicationCase"
-
   has_many :application_cases
 
   has_many :applicants, :dependent => :destroy
@@ -27,17 +28,25 @@ class User < ActiveRecord::Base
   has_many :clients, :dependent => :destroy
   has_many :customers, :through => :clients, :source => 'customer'
 
+  # -------------------------------------------
   # scopes
+
   scope :clients, -> { joins(:role).where('roles.role = ?', 'Client') }
   scope :agents, -> { joins(:role).where('roles.role = ?', 'Agent') }
   scope :brokers, -> { joins(:role).where('roles.role = ?', 'Broker') }
 
+  # -------------------------------------------
+  # Callbacks
 
   after_create :build_contact
   after_create :add_extra_details
   after_create :create_mail_setting
 
   after_destroy :remove_as_client
+
+  
+  # -------------------------------------------
+  #  User functions
 
   # check if Broker
   def is_broker?
@@ -48,11 +57,16 @@ class User < ActiveRecord::Base
      !!self.contact
   end
 
-    def get_agent(user)
+  def get_agent(user)
     @agent = ClientAgent.agents(user).first
     if !@agent.nil?
       return @agent.agent.contact.full_name 
     end
+  end
+
+  def get_broker
+    client = Client.where_client_is(self).first
+    @broker = User.find(client.user_id)
   end
 
   # check if Agent

@@ -38,7 +38,7 @@ class ClientsController < InheritedResources::Base
   def destroy
     @client.destroy
     respond_to do |format|
-      format.html { redirect_to clients_path, notice: 'Contact Number was successfully destroyed.' }
+      format.html { redirect_to clients_path, notice: 'Client was successfully removed.' }
       format.json { head :no_content }
     end
   end

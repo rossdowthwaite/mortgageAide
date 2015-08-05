@@ -12,6 +12,10 @@ a, input[type="submit"], a.button, input.button {
 	transition: all 200ms ease-in-out;
 }
 
+body {
+	background-color: #424242;
+} 
+
 .header-span {
 	background-color: $red;
 	padding-top: 40px;
@@ -78,6 +82,10 @@ a, input[type="submit"], a.button, input.button {
 
 .footer {
 	height:200px;
+
+	a {
+		color:$white;
+	}
 }
 
 .fixed-width {
@@ -91,11 +99,16 @@ a, input[type="submit"], a.button, input.button {
 
 .container {
 	width:90%;
-	max-width: 1200px;
-	margin: auto;
 	padding-top: 50px;	
 	padding-left: 5%;
 	padding-right: 5%;
+	background-color: #FFFFFF;
+	.main_content{
+		width:90%;
+		max-width: 1200px;
+		margin:auto;
+		padding-bottom: 70px;
+	}
 }
 
 .section_break {
@@ -454,3 +467,6 @@ table {
 	}
 }
 
+.color-block {
+	height:40px;
+}

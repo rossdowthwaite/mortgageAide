@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     @extra = @user.extra_detail
     @numbers = @user.contact.phone_numbers
     @agent = ClientAgent.agents(@user).first
+    @global_setting = @user.global_setting
 
     if current_user != @user 
       if !current_user.is_broker_of?(@user) && @user.has_agent_and_is?(current_user)

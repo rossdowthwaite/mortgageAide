@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731104457) do
+ActiveRecord::Schema.define(version: 20150805082108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,17 @@ ActiveRecord::Schema.define(version: 20150731104457) do
   add_index "extra_details", ["contact_id"], name: "index_extra_details_on_contact_id", using: :btree
   add_index "extra_details", ["user_id"], name: "index_extra_details_on_user_id", using: :btree
 
+  create_table "global_settings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "color_one"
+    t.string   "color_two"
+    t.string   "color_three"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "global_settings", ["user_id"], name: "index_global_settings_on_user_id", using: :btree
+
   create_table "lenders", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",  null: false
@@ -285,6 +296,7 @@ ActiveRecord::Schema.define(version: 20150731104457) do
   add_foreign_key "contacts", "users"
   add_foreign_key "extra_details", "contacts"
   add_foreign_key "extra_details", "users"
+  add_foreign_key "global_settings", "users"
   add_foreign_key "mail_notification_settings", "users"
   add_foreign_key "mortgage_addresses", "application_cases"
   add_foreign_key "notes", "application_cases"

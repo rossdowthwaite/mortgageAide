@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<h2>My Color Pallette</h2>
+
+<div class="color-block" style="background-color:<%= @global_setting.color_one %>">
+	color one
+</div>
+<div class="color-block" style="background-color:<%= @global_setting.color_two %>">
+	color two
+</div>
+<div class="color-block" style="background-color:<%= @global_setting.color_three %>">
+	color three
+</div>
+
+
+<%= link_to 'Edit', edit_global_setting_path(@global_setting) %> |
+<%= link_to 'Back', global_settings_path %>

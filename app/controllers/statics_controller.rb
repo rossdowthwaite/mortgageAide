@@ -5,6 +5,7 @@ class StaticsController < ApplicationController
   # GET /statics.json
   def index
   	if user_signed_in? 
+  		@user = current_user
   		@application_cases = current_user.application_cases.active_status('Active')
   	end
   end

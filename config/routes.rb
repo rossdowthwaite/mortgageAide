@@ -37,7 +37,6 @@ Rails.application.routes.draw do
     get 'my_cases', as: :my_cases, on: :collection
     get '/search_agents' => 'application_cases#search_agents'
     post '/add_as_agent' => 'application_cases#add_as_agent' 
-    
     get 'find_client', as: :find_client, on: :member
     post '/add_as_applicant' => 'application_cases#add_as_applicant'
 
@@ -48,6 +47,7 @@ Rails.application.routes.draw do
     resources :extra_details  
     resources :mail_notification_settings
     resources :client_agents
+    resources :global_settings
     
     collection do 
       get 'clients_index',  as: :show_clients

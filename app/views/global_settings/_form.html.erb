@@ -1,0 +1,34 @@
+<%= form_for([@user, @global_setting]) do |f| %>
+  <% if @global_setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@global_setting.errors.count, "error") %> prohibited this global_setting from being saved:</h2>
+
+      <ul>
+      <% @global_setting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3>Colour Pallette</h3>
+  <p>Enter color hex code. e.g #FFFFF</p>
+  <div class="field">
+    <%= f.label :color_one %>
+    <ul>
+      <li>Header</li>
+    </ul>
+    <%= f.text_field :color_one %>
+  </div>
+  <div class="field">
+    <%= f.label :color_two %>
+    <%= f.text_field :color_two %>
+  </div>
+  <div class="field">
+    <%= f.label :color_three %>
+    <%= f.text_field :color_three %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -16,7 +16,6 @@
 
 <% if @user.is_broker? || @user.is_agent? %>
 	<div class='section_break'>
-
 		<% if !@extra.nil? %>
 		
 			<h2>Branch</h2>
@@ -128,7 +127,7 @@
 
 		<h4><%= @agent.agent.contact.full_name if !@agent.nil? %></h4>
 
-		<% if @user != current_user %>
+		<% if @user != current_user || @user.is_broker? %>
 			<% if @agent.nil? %>
 				<%= link_to "Assign agent", new_user_client_agent_path(@user) %>
 			<% else %>
@@ -148,6 +147,38 @@
 			<%= link_to 'New', new_user_mail_notification_setting_path( @user ) %>
 		<% else %>
 			<%= link_to 'Edit settings', edit_user_mail_notification_setting_path( @user, @user.mail_notification_setting) %>
+		<% end -%>
+
+	</div>
+<% end -%>
+
+<% if @user == current_user && current_user.is_broker? %>
+	<div class="section_break">
+
+		<h3>Color Pallete</h3>
+
+		<% if !@user.global_setting.color_one == '' %>
+			<div class="color-block" style="background-color:<%= @global_setting.color_one %>">
+				color one
+			</div>
+		<% end -%>
+
+		<% if !@user.global_setting.color_two == '' %>
+			<div class="color-block" style="background-color:<%= @global_setting.color_two %>">
+				color two
+			</div>
+		<% end -%>
+
+		<% if !@user.global_setting.color_three == '' %>
+			<div class="color-block" style="background-color:<%= @global_setting.color_three %>">
+				color three
+			</div>
+		<% end -%>
+
+		<% if @user.global_setting.nil? %>
+			<%= link_to 'New', new_user_global_setting_path( @user ) %>
+		<% else %>
+			<%= link_to 'Edit Pallette', edit_user_global_setting_path( @user, @user.global_setting) %>
 		<% end -%>
 
 	</div>

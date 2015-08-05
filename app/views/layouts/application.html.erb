@@ -8,7 +8,39 @@
   <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 
   <%= csrf_meta_tags %>
+
 </head>
+
+  <% global_settings(current_user) %>
+
+  <% if( !@global_settings.nil? ) %>
+    <style type="text/css">
+
+      <% if( !@global_settings.color_one.nil? ) %>
+        .header-span {
+          background-color:<%= @global_settings.color_one %>
+        } 
+        .container table tr th {
+          background-color:<%= @global_settings.color_one %>
+        } 
+      <% end -%>
+
+      <% if( !@global_settings.color_three.nil? ) %>
+        body {
+          background-color:<%= @global_settings.color_three %>
+        } 
+      <% end -%>
+
+      <% if( !@global_settings.color_two.nil? ) %>
+        .container {
+          background-color:<%= @global_settings.color_two %>
+        } 
+      <% end -%>
+
+
+    </style>
+  <% end -%>
+
 <body>
 <div class="header-span">
   <div class="header">
@@ -73,13 +105,15 @@
 
 </div>
 <div class="container">
+  <div class="main_content">
   <p id="notice"><%= notice %></p>
     <%= yield %>
+  </div>
 </div>
 
 <div class="footer">
 
-  <div class="fixed-width">
+  <div class="fixed-width" >
     <%= link_to 'admin', admin_root_path %>
   </div>
 

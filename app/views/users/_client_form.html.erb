@@ -13,13 +13,6 @@
     <%= f.hidden_field :role_id, :value => @role %>
   </div>
 
-  <div class="field">
-    <%= f.fields_for :clients do |f| %>
-        <%= f.hidden_field :user_id, :value => current_user.id %>
-        <%= f.hidden_field :client_id, :value => current_user.id %>
-    <% end %>
-  </div>
-
   <div class="actions">
     <%= f.submit "Sign up client" %>
   </div>
