@@ -113,7 +113,7 @@ class ApplicationCaseMailer < ApplicationMailer
 		@user = user
 		@client = client
 
-		mail( :to => "ross@pixeldotcreative.com", :subject => "New user registration" )
+		mail( :to => "ross@pixeldotcreative.com", :subject => "Added as agent" )
 	end
 
 
