@@ -134,7 +134,7 @@ class User < ActiveRecord::Base
 
     def add_extra_details 
       if !self.is_client? 
-        @extra = ExtraDetail.create(:user_id => self.id, :branch => 'Branch', :logo => '')
+        @extra = ExtraDetail.create(:user_id => self.id, :branch => '', :logo => '')
       end
     end
 
