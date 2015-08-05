@@ -127,7 +127,7 @@
 
 		<h4><%= @agent.agent.contact.full_name if !@agent.nil? %></h4>
 
-		<% if @user != current_user || !@user.is_agent? || !user.is_client? %>
+		<% if @user != current_user || !@user.is_client? || current_user.is_broker_of?(@user) %>
 			<% if @agent.nil? %>
 				<%= link_to "Assign agent", new_user_client_agent_path(@user) %>
 			<% else %>
