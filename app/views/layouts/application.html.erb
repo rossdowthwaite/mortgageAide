@@ -10,7 +10,7 @@
   <%= csrf_meta_tags %>
 
 </head>
-
+  <% branch_settings(current_user)  %>
   <% global_settings(current_user) %>
 
   <% if( !@global_settings.nil? ) %>
@@ -57,7 +57,8 @@
     <div class="title">
 
     <% if user_signed_in? %>
-
+      <%= image_tag @extra.logo.url(:med) %>
+      <h2><%= @extra.branch %></h2>
     <% end -%>
 
       <%= link_to root_path do %>

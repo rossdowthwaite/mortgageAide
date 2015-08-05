@@ -8,6 +8,17 @@ module ApplicationHelper
   	current_user == model.user
   end
 
+  def branch_settings(user)
+  	if user_signed_in?
+  		if user.is_client?
+	  		@broker = user.get_broker
+	  		@extra = @broker.extra_detail
+	  	else 
+	  		@extra = user.extra_detail
+	  	end
+  	end
+  end
+
   def global_settings(user)
   	if user_signed_in?
 	  	if user.is_client?
