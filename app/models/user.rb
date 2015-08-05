@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   after_create :build_contact
   after_create :add_extra_details
   after_create :create_mail_setting
+  after_create :add_global_settings
 
   after_destroy :remove_as_client
 
@@ -135,6 +136,10 @@ class User < ActiveRecord::Base
       if !self.is_client? 
         @extra = ExtraDetail.create(:user_id => self.id, :branch => 'Branch', :logo => '')
       end
+    end
+
+    def add_global_settings 
+        GlobalSetting.create(:user_id => self.id, :color_one => '', :color_two => '', :color_three => '')
     end
 
     def create_mail_setting
