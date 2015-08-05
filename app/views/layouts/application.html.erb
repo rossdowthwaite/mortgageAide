@@ -57,7 +57,7 @@
     <div class="title">
 
     <% if user_signed_in? %>
-      <% if !branch.nil?  %>
+      <% if !@extra.nil?  %>
         <%= image_tag @extra.logo.url(:med) %>
         <h2><%= @extra.branch %></h2><br>
       <% end -%>
