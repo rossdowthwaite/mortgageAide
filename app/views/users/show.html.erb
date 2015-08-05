@@ -157,22 +157,24 @@
 
 		<h3>Color Pallete</h3>
 
-		<% if !@user.global_setting.color_one == '' %>
-			<div class="color-block" style="background-color:<%= @global_setting.color_one %>">
-				color one
-			</div>
-		<% end -%>
+		<% if @user.global_setting.nil? %>
+			<% if !@user.global_setting.color_one == '' %>
+				<div class="color-block" style="background-color:<%= @global_setting.color_one %>">
+					color one
+				</div>
+			<% end -%>
 
-		<% if !@user.global_setting.color_two == '' %>
-			<div class="color-block" style="background-color:<%= @global_setting.color_two %>">
-				color two
-			</div>
-		<% end -%>
+			<% if !@user.global_setting.color_two == '' %>
+				<div class="color-block" style="background-color:<%= @global_setting.color_two %>">
+					color two
+				</div>
+			<% end -%>
 
-		<% if !@user.global_setting.color_three == '' %>
-			<div class="color-block" style="background-color:<%= @global_setting.color_three %>">
-				color three
-			</div>
+			<% if !@user.global_setting.color_three == '' %>
+				<div class="color-block" style="background-color:<%= @global_setting.color_three %>">
+					color three
+				</div>
+			<% end -%>
 		<% end -%>
 
 		<% if @user.global_setting.nil? %>
