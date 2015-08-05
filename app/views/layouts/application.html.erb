@@ -57,8 +57,10 @@
     <div class="title">
 
     <% if user_signed_in? %>
-      <%= image_tag @extra.logo.url(:med) %>
-      <h2><%= @extra.branch %></h2><br>
+      <% if !branch.nil?  %>
+        <%= image_tag @extra.logo.url(:med) %>
+        <h2><%= @extra.branch %></h2><br>
+      <% end -%>
     <% end -%>
 
       <%= link_to root_path do %>
