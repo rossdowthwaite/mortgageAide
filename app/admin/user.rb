@@ -54,16 +54,17 @@ ActiveAdmin.register User do
       super
     end
 
-    # def create
+    def create
 
-    #   @email = params[:user][:email]
-    #   @role_id = params[:user][:role_id]
-    #   @password = Devise.friendly_token.first(8)
-    #   @user = User.create!(:email => @email, :password => @password, :role_id => @role_id)
+      @email = params[:user][:email]
+      @role_id = params[:user][:role_id]
+      @password = Devise.friendly_token.first(8)
+      @user = User.create!(:email => @email, :password => @password, :role_id => @role_id)
 
-    #   ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
-    #   super
-    # end
+      ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
+      
+      super
+    end
     
   end
   # See permitted parameters documentation:
