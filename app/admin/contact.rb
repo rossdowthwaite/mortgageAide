@@ -82,6 +82,7 @@ ActiveAdmin.register Contact do
       f.input :dob
       
       f.has_many :phone_numbers, new_record: 'Add number' do |b|
+        b.input :phone_type
         b.input :phone_number
       end
       
