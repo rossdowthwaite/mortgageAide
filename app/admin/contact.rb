@@ -48,7 +48,7 @@ ActiveAdmin.register Contact do
             address.address_two
           end
           column do |address|
-            aaddress.town
+            address.town
           end
           column do |address|
             address.post_code
