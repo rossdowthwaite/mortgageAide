@@ -63,8 +63,6 @@ ActiveAdmin.register User do
 
       ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
 
-      format.html { redirect_to user_path(@user) }
-
     end
     
   end
