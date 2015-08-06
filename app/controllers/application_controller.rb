@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   check_authorization :unless => :do_not_check_authorization?
+  
   private
   def do_not_check_authorization?
     respond_to?(:devise_controller?)

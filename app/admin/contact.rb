@@ -1,5 +1,4 @@
 ActiveAdmin.register Contact do
-
   permit_params :fname, :mname, :lname, :title, :dob, :user_id,
     phone_number_attributes: [:phone_number, :phone_type, :user_id, :primary],
     contact_address_attributes: [:address_one, :address_two, :town, :post_code, :primary, :user_id],
@@ -31,8 +30,8 @@ ActiveAdmin.register Contact do
       
       panel "Phone Numbers" do
         table_for contact.phone_numbers do
-          column do |number|
-            number.phone_type + ' ' + number.phone_number
+          column do |phone_number|
+            phone_number.phone_type + ': ' + phone_number.phone_number
           end
         end
       end
