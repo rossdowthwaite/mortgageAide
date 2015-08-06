@@ -85,12 +85,15 @@ class UsersController < ApplicationController
     @password = @user.password
     respond_to do |format|
       if @user.save
+
         if current_user.is_broker?
           current_user.clients << Client.create(:user_id => current_user.id, :client_id => @user.id )
           
           # send password to user 
           ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
+        else 
 
+          ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
         end  
         format.html { redirect_to @user, notice: 'user was successfully created.' }
         format.json { render :show, status: :created, location: @user }
