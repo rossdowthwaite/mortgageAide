@@ -35,8 +35,6 @@ ActiveAdmin.register User do
  form do |f|
     f.inputs "User Details" do
       f.input :email
-      # f.input :password
-      # f.input :password_confirmation
       f.input :role_id, :as => :select, :collection =>  Role.all.map{|r| [r.role, r.id]}
     end
     f.actions
@@ -64,6 +62,8 @@ ActiveAdmin.register User do
       @user = User.create!(:email => @email, :password => @password, :role_id => @role_id)
 
       ApplicationCaseMailer.new_user_and_password_notification(@user, current_user, @password).deliver
+
+      format.html { redirect_to user_path(@user) }
 
     end
     
