@@ -31,7 +31,7 @@ ActiveAdmin.register Contact do
       panel "Phone Numbers" do
         table_for contact.phone_numbers do
           column do |phone_number|
-            # phone_number.phone_type + ': ' + phone_number.phone_number
+            phone_number.phone_number
           end
         end
       end
@@ -39,7 +39,8 @@ ActiveAdmin.register Contact do
       panel "Addresses" do
         table_for contact.contact_addresses do
           column do |address|
-            # address.address_one + ', ' + address.address_two + ', ' + address.town + ', ' + address.post_code
+            address.address_one
+            
           end
         end
       end
